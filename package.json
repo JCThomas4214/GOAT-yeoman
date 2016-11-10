@@ -4,7 +4,13 @@
   "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
   "files": [
     "generators/app",
-    "generators/component"
+    "generators/component",
+    "generators/actions",
+    "generators/directive",
+    "generators/endpoint",
+    "generators/pipe",
+    "generators/service",
+    "generators/store-item"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
