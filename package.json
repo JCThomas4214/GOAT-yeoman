@@ -1,0 +1,28 @@
+{
+  "name": "generator-goat-stack",
+  "version": "1.0.0",
+  "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
+  "files": [
+    "generators/app",
+    "generators/component"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JCThomas4214/GOAT-yeoman.git"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "GOAT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JCThomas4214/GOAT-yeoman/issues"
+  },
+  "homepage": "https://github.com/JCThomas4214/GOAT-yeoman#readme",
+  "dependencies": {
+    "yeoman-generator": "^0.24.1"
+  }
+}
