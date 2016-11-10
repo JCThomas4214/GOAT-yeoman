@@ -1,0 +1,33 @@
+:host {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+whale{
+  position: absolute;
+}
+mountain-goat {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 46%;
+}
+
+mountain-range {
+    position: absolute;
+    bottom: -400px;
+    left: 0;
+    right: 0;
+}
+
+mountain-range img {
+    width: 100%;
+}
+
+the-sky {
+    display: block;
+    position: relative;
+    background-color: rgb(83,148,190);
+    height: 100vh;
+}
