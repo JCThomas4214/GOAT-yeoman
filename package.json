@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/JCThomas4214/GOAT-yeoman#readme",
   "dependencies": {
+    "graceful-fs": "^4.1.10",
+    "lodash": "^4.16.6",
     "yeoman-generator": "^0.24.1"
   }
 }
