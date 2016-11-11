@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/JCThomas4214/GOAT-yeoman#readme",
   "dependencies": {
+    "del": "^2.2.2",
     "graceful-fs": "^4.1.10",
     "lodash": "^4.16.6",
     "yeoman-generator": "^0.24.1"
