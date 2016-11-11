@@ -9,29 +9,40 @@ module.exports = generators.Base.extend({
   	base = '../../../';
 
     generators.Base.apply(this, arguments);
-    // This makes `appname` not a required argument.
-    this.argument('componentname', { type: String, required: true });
+    // // This makes `appname` not a required argument.
+    this.argument('componentname', { type: String, required: false });
+  },
+  prompting: function () {
+    return this.prompt([{
+      type    : 'input',
+      name    : 'componentname',
+      message : 'Your new component\'s name?',
+      default: this.componentname
+    }]).then(function (answers) {
 
-    var tmp = _.camelCase(this.componentname);
-    this.componentname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
-    this.namelower = _.camelCase(this.componentname);
+      // Delete the existing app.modules for retemplating
+      del(['app/app.module.ts']);
 
+      // Process to get naming convention camelcase and capitalized camelcase
+      var tmp = _.camelCase(answers.componentname);
+      this.componentname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
+      this.namelower = _.camelCase(this.componentname);
 
-    var config = this.config.getAll();
-    config.newComponents.push(this.componentname + 'Component');
-    config.newComponentImports.push(
-      "import { "+ this.componentname +"Component } from `./components/"+ this.namelower +"/"+ this.namelower +".component`;");
+      // update the yo config file with new component
+      var config = this.config.getAll();
+      config.newComponents.push(this.componentname + 'Component');
+      config.newComponentImports.push(
+        "import { "+ this.componentname +"Component } from `./components/"+ this.namelower +"/"+ this.namelower +".component`;");
 
-    this.config.set(config);
-    this.config.save();
+      this.config.set(config);
+      this.config.save();
+
+    }.bind(this));
   },
   editModule: function() { 
     // Get the new values for newComponents and newComponentImports
     this.newComponents = this.config.get('newComponents');
     this.newComponentImports = this.config.get('newComponentImports');
-
-    // Delete the existing app.modules for retemplating
-    del(['app/app.module.ts']);
 
     // Get the app.module template and inject newComponents and newComponentImports
     this.fs.copyTpl(

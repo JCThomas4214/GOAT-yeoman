@@ -7,10 +7,10 @@ These configuration settings get called no matter what Node's process.env.NODE_E
 export const defaultConfig = {
   // DEFAULT SEO configuration
   app: {
-    title: 'GOAT-stack',
+    title: '<%= appname %>',
     favicon: 'assets/dywlogo.png',
-    description: 'The Greatest of All Time Stack!',
-    keywords: 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor'
+    description: '<%= appdescription %>',
+    keywords: '<%= appkeywords %>'
   },
   // Change to use https
   https_secure: false,

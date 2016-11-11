@@ -11,11 +11,34 @@ module.exports = generators.Base.extend({
     // This makes `appname` not a required argument.
     this.argument('appname', { type: String, required: false, default: 'GOAT-stack' });
 
-    this.config.set({
-    	newComponents: [],
-    	newComponentImports: []
-    });
-    this.config.save();
+  },
+  prompting: function () {
+    return this.prompt([{
+      type    : 'input',
+      name    : 'appname',
+      message : 'Your new project\'s name?',
+      default: this.appname
+    }, {
+      type    : 'input',
+      name    : 'appdescription',
+      message : 'Your new project\'s description?'
+    }, {
+      type    : 'input',
+      name    : 'appkeywords',
+      message : 'Your new project\'s keywords (comma between each word)?'
+    }]).then(function (answers) {
+
+    	this.appname = answers.appname;
+    	this.appdescription = answers.appdescription;
+    	this.appkeywords = answers.appkeywords;
+
+	    this.config.set({
+	    	newComponents: [],
+	    	newComponentImports: []
+	    });
+	    this.config.save();
+
+    }.bind(this));
   },
   // Writes the application to the name of the project
   writing: function () {
@@ -24,7 +47,10 @@ module.exports = generators.Base.extend({
       this.destinationPath(),
       {
       	newComponentImports: [],
-      	newComponents: []
+      	newComponents: [],
+      	appname: this.appname,
+      	appdescription: this.appdescription,
+      	appkeywords: this.appkeywords
       }
     );
   },
