@@ -35,9 +35,17 @@ module.exports = generators.Base.extend({
 	    this.config.set({
 	    	newComponents: [],
 	    	newComponentImports: [],
+
         newStoreImports: [],
         newStoreAttrs: [],
-        newStoreReducers: []
+        newStoreReducers: [],
+
+        routerImports: [],
+        expressRouters: [],
+
+        appname: this.appname,
+        appdescription: this.appdescription,
+        appkeywords: this.appkeywords
 	    });
 	    this.config.save();
 
@@ -48,16 +56,7 @@ module.exports = generators.Base.extend({
     this.fs.copyTpl(
       this.templatePath(base + 'templates/app'),
       this.destinationPath(),
-      {
-      	newComponentImports: [],
-      	newComponents: [],
-        newStoreImports: [],
-        newStoreAttrs: [],
-        newStoreReducers: [],
-      	appname: this.appname,
-      	appdescription: this.appdescription,
-      	appkeywords: this.appkeywords
-      }
+      this.config.getAll()
     );
   },
   // Starts npm install

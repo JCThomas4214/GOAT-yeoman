@@ -6,7 +6,7 @@ import * as jwt from 'jsonwebtoken';
 
 // Handles status codes and error message json
 // specificity: validation
-function validationError(res, statusCode = null) {
+function validationError(res, statusCode?) {
   statusCode = statusCode || 422;
   return function(err) {
     res.status(statusCode).json(err);
@@ -16,7 +16,7 @@ function validationError(res, statusCode = null) {
 
 // Handles status codes and error message json
 // specificity: error
-function handleError(res, statusCode = null) {
+function handleError(res, statusCode?) {
   statusCode = statusCode || 500;
   return function(err) {
     res.status(statusCode).send(err);
