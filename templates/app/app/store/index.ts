@@ -6,30 +6,33 @@ import * as user from './user/index';
 import * as cloud from './cloud/index';
 import * as wonder from './wonder/index';
 import * as timeOfDay from './time-of-day/index';
+<%- newStoreImports.join('\n') %>
 
 // IAppState is the applications store where all persistant data
 // should be stored
 export class IAppState {
-  error?: error.IError;
-  user?: user.IUser;
-  userForm?: userForm.IUserForm;
-  wonder?: wonder.IWonder;
-  cloudStyle?: cloud.ICloudStyle;
-  animaArray?: cloud.IAnimaArray;
-  timeOfDay?: timeOfDay.ITimeOfDay;
+    error?: error.IError;
+    user?: user.IUser;
+    userForm?: userForm.IUserForm;
+    wonder?: wonder.IWonder;
+    cloudStyle?: cloud.ICloudStyle;
+    animaArray?: cloud.IAnimaArray;
+    timeOfDay?: timeOfDay.ITimeOfDay;
+    <%= newStoreAttrs.join('\n\t') %>
 };
 
 // Each reducer is connected to a coresponding store attribute
 // conbineReducers() creates a root reducer while maintaining
 // this one-2-one relationship
 export const rootReducer = combineReducers<IAppState>({
-  error: error.errorHandlerReducer,
-  user: user.userReducer,
-  userForm: userForm.userFormReducer,
-  wonder: wonder.wonderReducer,
-  cloudStyle: cloud.cloudReducer,
-  animaArray: cloud.animaReducer,
-  timeOfDay: timeOfDay.timeOfDayReducer,
+    error: error.errorHandlerReducer,
+    user: user.userReducer,
+    userForm: userForm.userFormReducer,
+    wonder: wonder.wonderReducer,
+    cloudStyle: cloud.cloudReducer,
+    animaArray: cloud.animaReducer,
+    timeOfDay: timeOfDay.timeOfDayReducer,
+    <%= newStoreReducers.join(',\n\t') %>
 });
 
 // Redux plugins/enhancers go here

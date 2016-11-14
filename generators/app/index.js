@@ -34,7 +34,10 @@ module.exports = generators.Base.extend({
 
 	    this.config.set({
 	    	newComponents: [],
-	    	newComponentImports: []
+	    	newComponentImports: [],
+        newStoreImports: [],
+        newStoreAttrs: [],
+        newStoreReducers: []
 	    });
 	    this.config.save();
 
@@ -48,6 +51,9 @@ module.exports = generators.Base.extend({
       {
       	newComponentImports: [],
       	newComponents: [],
+        newStoreImports: [],
+        newStoreAttrs: [],
+        newStoreReducers: [],
       	appname: this.appname,
       	appdescription: this.appdescription,
       	appkeywords: this.appkeywords

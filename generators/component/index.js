@@ -32,7 +32,7 @@ module.exports = generators.Base.extend({
       var config = this.config.getAll();
       config.newComponents.push(this.componentname + 'Component');
       config.newComponentImports.push(
-        "import { "+ this.componentname +"Component } from `./components/"+ this.namelower +"/"+ this.namelower +".component`;");
+        "import { "+ this.componentname +"Component } from './components/"+ this.namelower +"/"+ this.namelower +".component';");
 
       this.config.set(config);
       this.config.save();

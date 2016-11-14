@@ -63,7 +63,7 @@ import { WhaleComponent }             from './components/whale/whale.component';
 import { MountainRangeComponent }     from './components/mountain-range/mountain-range.component';
 import { MountainGoatComponent }      from './components/mountain-goat/mountain-goat.component';
 import { CloudGeneratorComponent }    from './components/cloud-generator/cloud-generator.component';
-<%= newComponentImports.join('\n') %>
+<%- newComponentImports.join('\n') %>
 
 //Angular and 3rd party components
 
