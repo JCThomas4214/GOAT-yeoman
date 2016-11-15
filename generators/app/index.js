@@ -42,6 +42,8 @@ module.exports = generators.Base.extend({
 
         routerImports: [],
         expressRouters: [],
+        socketImports: [],
+        socketRegisters: [],
 
         appname: this.appname,
         appdescription: this.appdescription,

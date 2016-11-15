@@ -8,7 +8,7 @@
  * DELETE  <%= namelower %>/:id          ->  destroy
  */
 
-import <%= modelname %> from '<%= namelower %>.model';
+import <%= modelname %> from './<%= namelower %>.model';
 import * as _ from 'lodash';
 
 // if the wonder object was not found
@@ -61,7 +61,7 @@ export function index(req, res) {
 
 // Gets a single <%= modelname %> from the DB
 export function show(req, res) {
-  return <%= model.node %>.findById(req.params.id).exec()
+  return <%= modelname %>.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -85,17 +85,17 @@ export function upsert(req, res) {
 }
 
 
-// Updates an existing <%= modelname %> in the DB
-export function patch(req, res) {
-  if(req.body._id) {
-    delete req.body._id;
-  }
-  return <%= modelname %>.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates(req.body))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
+// // Updates an existing <%= modelname %> in the DB
+// export function patch(req, res) {
+//   if(req.body._id) {
+//     delete req.body._id;
+//   }
+//   return <%= modelname %>.findById(req.params.id).exec()
+//     .then(handleEntityNotFound(res))
+//     .then(patchUpdates(req.body))
+//     .then(respondWithResult(res))
+//     .catch(handleError(res));
+// }
 
 // Deletes a <%= modelname %> from the DB
 export function destroy(req, res) {

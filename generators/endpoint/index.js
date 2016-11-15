@@ -15,23 +15,80 @@ module.exports = generators.Base.extend({
   prompting: function () {
     return this.prompt([{
       type    : 'input',
-      name    : 'storename',
+      name    : 'modelname',
       message : 'Your new model\'s name?',
       default : this.modelname
+    }, {
+      type    : 'checkbox',
+      name    : 'authselect',
+      message : 'Which api\'s need authentication?',
+      choices : [
+        'GET controller.index',
+        'GET controller.show',
+        'POST controller.create',
+        'PUT controller.upsert',
+        // 'PATCH controller.patch',
+        'DELETE controller.destroy'
+      ]
+    }, {
+      type    : 'confirm',
+      name    : 'socketchoice',
+      message : 'Would you like this endpoint to have socketio?'
     }]).then(function (answers) {
 
-      // Delete the existing store for retemplating
-      del(['app/server/routes.ts']);
+      // Delete the existing routes for retemplating
+      del(['server/routes.ts']);
 
       // Process to get naming convention camelcase and capitalized camelcase
       var tmp = _.camelCase(answers.modelname);
       this.modelname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.modelname);
 
+      this.authselect = answers.authselect;
+      this.socketchoice = answers.socketchoice;
+
+      // set auth variables
+      this.get_index = false;
+      this.get_show = false;
+      this.post_create = false;
+      this.put_upsert = false;
+      this.patch_patch = false;
+      this.delete_destroy = false;
+
+      for(let i = 0; i < answers.authselect.length; i++) {
+        switch(answers.authselect[i]) {
+          case 'GET controller.index':
+            this.get_index = true;
+            break;
+          case 'GET controller.show': 
+            this.get_show = true;
+            break;
+          case 'POST controller.create':
+            this.post_create = true;
+            break;
+          case 'PUT controller.upsert':
+            this.put_upsert = true;
+            break;
+          case 'PATCH controller.patch':
+            this.patch_patch = true;
+            break;
+          case 'DELETE controller.destroy':
+            this.delete_destroy = true;
+            break;
+        }
+      }
+
       // update the yo config file with new store attr, reducer, imports
       var config = this.config.getAll();
-      config.routerImports.push("import {" + this.namelower + "Routes} from './api/" + this.namelower + ".router';");
-      config.expressRouters.push("app.use('api/" + this.namelower + "', " + this.namelower + "Routes);");
+      config.routerImports.push("import {" + this.namelower + "Routes} from './api/" + this.namelower + "/" + this.namelower + ".router';");
+      config.expressRouters.push("app.use('/api/" + this.namelower + "s', " + this.namelower + "Routes);");
+
+      if (this.socketchoice) {
+        // Delete the existing socketio config for retemplating
+        del(['config/lib/socketio.ts']);
+        config.socketImports.push("import {" + this.namelower + "Register} from '../../server/api/" + this.namelower + "/" + this.namelower + ".socket';");
+        config.socketRegisters.push(this.namelower + "Register(socket);");        
+      }
 
       this.config.set(config);
       this.config.save();
@@ -45,24 +102,122 @@ module.exports = generators.Base.extend({
 
     // Get the app.module template and inject newComponents and newComponentImports
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/app/app/server/routes.ts'),
-      this.destinationPath('app/server/routes.ts'),
+      this.templatePath(base + 'templates/app/server/routes.ts'),
+      this.destinationPath('server/routes.ts'),
       { 
         routerImports: this.routerImports,
-        expressRouters: this.expressRouters,
+        expressRouters: this.expressRouters
       }
     );
   },
+  editSockets: function() { 
+    if (this.socketchoice) {
+      // Get the new values for newComponents and newComponentImports
+      this.socketImports = this.config.get('socketImports');
+      this.socketRegisters = this.config.get('socketRegisters');
+
+      // Get the app.module template and inject newComponents and newComponentImports
+      this.fs.copyTpl(
+        this.templatePath(base + 'templates/app/config/lib/socketio.ts'),
+        this.destinationPath('config/lib/socketio.ts'),
+        { 
+          socketImports: this.socketImports,
+          socketRegisters: this.socketRegisters
+        }
+      );
+    }
+  },
   // Writes the application to the name of the project
   writing: function () {
-    // // Clone the template store index.ts file
-    // this.fs.copyTpl(
-    //   this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.index.ts'),
-    //   this.destinationPath('app/store/' + this.namelower + '/index.ts'),
-    //   { 
-    //     namelower: this.namelower,
-    //     modelname: this.storename
-    //   }
-    // );
+    // Clone the template endpoint controller.ts file
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/endpoint/template.controller.ts'),
+      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.controller.ts'),
+      { 
+        namelower: this.namelower,
+        modelname: this.modelname
+      }
+    );
+    // Clone the template endpoint router.ts file
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/endpoint/template.router.ts'),
+      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.router.ts'),
+      { 
+        namelower: this.namelower,
+        modelname: this.modelname,
+
+        authselect: this.authselect,
+        get_index: this.get_index,
+        get_show: this.get_show,
+        post_create: this.post_create,
+        put_upsert: this.put_upsert,
+        patch_patch: this.patch_patch,
+        delete_destroy: this.delete_destroy
+      }
+    );
+    // Clone the template endpoint model.ts file
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/endpoint/template.model.ts'),
+      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.model.ts'),
+      { 
+        namelower: this.namelower,
+        modelname: this.modelname
+      }
+    );
+    // Clone the template endpoint integration.ts file
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/endpoint/template.integration.ts'),
+      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.integration.ts'),
+      { 
+        namelower: this.namelower,
+        modelname: this.modelname,
+
+        authselect: this.authselect,
+        get_index: this.get_index,
+        get_show: this.get_show,
+        post_create: this.post_create,
+        put_upsert: this.put_upsert,
+        patch_patch: this.patch_patch,
+        delete_destroy: this.delete_destroy
+      }
+    );
+    // Clone the template endpoint integration.ts file
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/endpoint/template.spec.ts'),
+      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.spec.ts'),
+      { 
+        namelower: this.namelower,
+        modelname: this.modelname,
+
+        authselect: this.authselect,
+        get_index: this.get_index,
+        get_show: this.get_show,
+        post_create: this.post_create,
+        put_upsert: this.put_upsert,
+        patch_patch: this.patch_patch,
+        delete_destroy: this.delete_destroy
+      }
+    );
+
+    if (this.socketchoice) {
+      // Clone the template endpoint events.ts file
+      this.fs.copyTpl(
+        this.templatePath(base + 'templates/endpoint/template.events.ts'),
+        this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.events.ts'),
+        { 
+          namelower: this.namelower,
+          modelname: this.modelname
+        }
+      );
+      // Clone the template endpoint socket.ts file
+      this.fs.copyTpl(
+        this.templatePath(base + 'templates/endpoint/template.socket.ts'),
+        this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.socket.ts'),
+        { 
+          namelower: this.namelower,
+          modelname: this.modelname
+        }
+      );
+    }
   }
 });

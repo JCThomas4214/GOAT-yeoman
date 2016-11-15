@@ -6,7 +6,6 @@ interface I<%= modelname %> extends mongoose.Document {
   created: Date;
   name: String;
   info: String;
-  active: Boolean;
 }
 
 // Mongoose schema like usual
@@ -16,8 +15,7 @@ let <%= modelname %>Schema: mongoose.Schema = new mongoose.Schema({
     default: Date.now
   },
   name: String,
-  info: String,
-  active: Boolean
+  info: String
 });
 
 // export default using es6 to import in other files
