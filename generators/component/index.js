@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `appname` not a required argument.
-    this.argument('componentname', { type: String, required: false });
+    this.argument('componentname', { type: String, required: true });
   },
   prompting: function () {
     return this.prompt([{

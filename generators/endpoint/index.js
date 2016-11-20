@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `storename` not a required argument.
-    this.argument('modelname', { type: String, required: false });
+    this.argument('modelname', { type: String, required: true });
   },
   prompting: function () {
     return this.prompt([{
