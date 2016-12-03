@@ -47,7 +47,7 @@ export class <%= servicename %>Service {
 
   // example funciton
   get<%= servicename %>(): Observable<any> {
-    return this.http.get(this.userUrl + '/')
+    return this.http.get(this.<%= namelower %>Url + '/')
       .map(res => res.json())
       .catch(this.handleError);
   }

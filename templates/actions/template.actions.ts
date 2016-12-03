@@ -27,12 +27,7 @@ export class <%= actionsname %>Actions {
 	// use this for dispatching to your reducer
 	// e.g. this.ngRedux.dispatch(this.action(<%= actionsname %>Actions.EXAMPLE_STATE))
 	private action(type: string, payload?: any): Object {
-		let obj = { type: type };
-		if(payload) {
-			obj.payload = payload;
-		}
-
-		return obj;
+		return paylaod ? { type: type, payload: payload } : { type: type };
 	}
 
 	// continue functionality below...
