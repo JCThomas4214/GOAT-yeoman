@@ -1,6 +1,6 @@
 {
   "name": "generator-goat-stack",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
   "files": [
     "generators/app",
@@ -10,10 +10,17 @@
     "generators/endpoint",
     "generators/pipe",
     "generators/service",
-    "generators/store-item"
+    "generators/store-item",
+	"templates/app",
+    "templates/component",
+    "templates/actions",
+    "templates/directive",
+    "templates/endpoint",
+    "templates/pipe",
+    "templates/service",
+    "templates/store-item"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
