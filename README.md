@@ -1,3 +1,7 @@
+
+[![npm version](https://img.shields.io/npm/v/generator-goat-stack.svg)](https://www.npmjs.com/package/generator-goat-stack)
+[![Dependency Status](https://img.shields.io/david/projectSHAI/GOAT-stack.svg)](https://david-dm.org/JCThomas4214/GOAT-yeoman.svg)
+
 # GOAT-yeoman
 yo generator for the [GOAT-stack](https://github.com/projectSHAI/GOAT-stack), a MEAN stack that puts SEO and scale-ability first
 
