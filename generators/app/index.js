@@ -56,7 +56,7 @@ module.exports = generators.Base.extend({
   // Writes the application to the name of the project
   writing: function () {
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/app'),
+      this.templatePath(base + 'templates/demo-app'),
       this.destinationPath(),
       this.config.getAll()
     );
