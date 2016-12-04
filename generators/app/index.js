@@ -63,6 +63,6 @@ module.exports = generators.Base.extend({
   },
   // Starts npm install
   installNpm: function() {
-    // this.npmInstall();
+    this.npmInstall();
   }
 });
