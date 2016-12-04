@@ -19,3 +19,5 @@ $ yo goat-stack [name?]
   + yo goat-stack:actions [?name]
   + yo goat-stack:store-item [?name]
   + yo goat-stack:endpoint [?name]
+  
+_**NOTE**: more information on the generator process click [here](https://github.com/projectSHAI/GOAT-stack/wiki/Yeoman-Generator-usage)_
