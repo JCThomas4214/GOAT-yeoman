@@ -56,8 +56,12 @@ module.exports = generators.Base.extend({
     this.newStoreImports = this.config.get('newStoreImports');
 
     // Get the app.module template and inject newComponents and newComponentImports
+    var templatePath = this.templatePath(base + 'templates/demo-app/app/store/index.ts');
+    if(this.config.apptype === 'starter-app') {
+      templatePath = this.templatePath(base + 'templates/starter-app/app/store/index.ts');
+    }
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/app/app/store/index.ts'),
+      templatePath,
       this.destinationPath('app/store/index.ts'),
       { 
         fname: this.fname,

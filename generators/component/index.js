@@ -1,6 +1,6 @@
 var generators = require('yeoman-generator'),
-	_ = require('lodash'),
-  del = require('del');
+	  _          = require('lodash'),
+    del        = require('del');
 
 module.exports = generators.Base.extend({
   // note: arguments and options should be defined in the constructor.
@@ -46,15 +46,19 @@ module.exports = generators.Base.extend({
     this.newComponentImports = this.config.get('newComponentImports');
 
     // Get the app.module template and inject newComponents and newComponentImports
-    this.fs.copyTpl(
-      this.templatePath(base + 'templates/app/app/app.module.ts'),
-      this.destinationPath('app/app.module.ts'),
-      { 
-        fname: this.fname,
-        newComponents: this.newComponents,
-        newComponentImports: this.newComponentImports
-      }
-    );
+    var templatePath = this.templatePath(base + 'templates/demo-app/app/app.module.ts');
+    if(this.config.apptype === 'starter-app') {
+      templatePath = this.templatePath(base + 'templates/starter-app/app/app.module.ts')
+    }
+      this.fs.copyTpl(
+        templatePath,
+        this.destinationPath('app/app.module.ts'),
+        { 
+          fname: this.fname,
+          newComponents: this.newComponents,
+          newComponentImports: this.newComponentImports
+        }
+      );
   },
   // Writes the application to the name of the project
   writing: function () {

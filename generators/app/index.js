@@ -14,10 +14,16 @@ module.exports = generators.Base.extend({
   },
   prompting: function () {
     return this.prompt([{
+      type    : 'list',
+      name    : 'apptype',
+      message : 'Which app would you like to start with?',
+      choices : ['demo-app', 'starter-app'],
+      default : 'demo-app'
+    }, {
       type    : 'input',
       name    : 'appname',
       message : 'Your new project\'s name?',
-      default: this.appname
+      default : this.appname
     }, {
       type    : 'input',
       name    : 'appdescription',
@@ -28,26 +34,28 @@ module.exports = generators.Base.extend({
       message : 'Your new project\'s keywords (comma between each word)?'
     }]).then(function (answers) {
 
-    	this.appname = answers.appname;
-    	this.appdescription = answers.appdescription;
-    	this.appkeywords = answers.appkeywords;
+      this.apptype          = answers.apptype;
+    	this.appname          = answers.appname;
+    	this.appdescription   = answers.appdescription;
+    	this.appkeywords      = answers.appkeywords;
 
 	    this.config.set({
-	    	newComponents: [],
-	    	newComponentImports: [],
+	    	newComponents       : [],
+	    	newComponentImports : [],
 
-        newStoreImports: [],
-        newStoreAttrs: [],
-        newStoreReducers: [],
+        newStoreImports     : [],
+        newStoreAttrs       : [],
+        newStoreReducers    : [],
 
-        routerImports: [],
-        expressRouters: [],
-        socketImports: [],
-        socketRegisters: [],
+        routerImports       : [],
+        expressRouters      : [],
+        socketImports       : [],
+        socketRegisters     : [],
 
-        appname: this.appname,
-        appdescription: this.appdescription,
-        appkeywords: this.appkeywords
+        apptype             : this.apptype,
+        appname             : this.appname,
+        appdescription      : this.appdescription,
+        appkeywords         : this.appkeywords
 	    });
 	    this.config.save();
 
@@ -55,8 +63,12 @@ module.exports = generators.Base.extend({
   },
   // Writes the application to the name of the project
   writing: function () {
+    var templatePath = this.templatePath(base + 'templates/demo-app');
+    if(this.apptype === 'starter-app') {
+      templatePath = this.templatePath(base + 'templates/starter-app');
+    }
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/demo-app'),
+      templatePath,
       this.destinationPath(),
       this.config.getAll()
     );

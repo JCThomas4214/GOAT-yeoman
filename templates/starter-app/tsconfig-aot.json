@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    /*Start of replacement fin*/ "experimentalDecorators": true, /*End of replacement fin*/
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "files": [
+    "app/app.module.ts",
+    "app/main.ts"
+  ],
+  "angularCompilerOptions": {
+    /*Start of replacement fin*/ "genDir": "ngc-aot","skipMetadataEmit" : true /*End of replacement fin*/
+  }
+}
