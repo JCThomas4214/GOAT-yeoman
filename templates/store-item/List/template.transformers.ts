@@ -1,5 +1,5 @@
 import { List, Map } from 'immutable';
-import { I<%= storename %>, I<%= storename %>Item, <%= storename %>Record } from './<%= namelower %>.types';
+import { I<%= storename %>, I<%= storename %>Item, <%= storename %>Record } from './<%= fname %>.types';
 
 // functions to change the state of the data
 // either immutable -> mutable or mutable -> immutable

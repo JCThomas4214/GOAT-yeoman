@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 
 import { NgRedux } from 'ng2-redux';
-import { ErrorHandlerActions } from '../error/errorHandler.actions';
+import { ErrorHandlerActions } from '../error/error-handler.actions';
 import { WonderActions } from './wonder.actions';
 import { WonderService } from '../../services/wonder/wonder.service';
 import { SocketService } from '../../services/socketio/socketio.service';

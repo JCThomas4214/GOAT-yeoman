@@ -2,32 +2,34 @@
     position: relative;
     display: block;
     width: 100%;
+    overflow: hidden;
+    height: 100vh;
 }
-whale{
-  position: absolute;
-}
-mountain-goat {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    top: 10%;
-    left: 46%;
-}
-
-mountain-range {
-    position: absolute;
-    bottom: -400px;
+the-sky{
+    position: fixed;
+    transition-duration: 2s;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
+    will-change: auto;
 }
-
-mountain-range img {
-    width: 100%;
-}
-
-the-sky {
-    display: block;
+the-ocean {
     position: relative;
-    background-color: rgb(83,148,190);
-    height: 100vh;
+    top: 0;
+    left: 0;
+    display: block;
+    width:100%;
+    transform-origin: top center;
+    transform: scale(5) translateX(5%);
+    will-change: auto;
+}
+@media screen and (max-aspect-ratio: 10/10) { 
+
+    the-ocean{
+        margin-top: -145vh;
+        transform: scale(13);
+        left: 145vw;
+    }
+
 }

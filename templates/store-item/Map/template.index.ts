@@ -1,6 +1,6 @@
-import { <%= namelower %>Reducer } from './<%= namelower %>.reducer';
-import { I<%= storename %> } from './<%= namelower %>.types';
-import { deimmutify<%= storename %>, reimmutify<%= storename %> } from './<%= namelower %>.transformers';
+import { <%= namelower %>Reducer } from './<%= fname %>.reducer';
+import { I<%= storename %> } from './<%= fname %>.types';
+import { deimmutify<%= storename %>, reimmutify<%= storename %> } from './<%= fname %>.transformers';
 
 // This file is for convienience so only one import is required
 export {

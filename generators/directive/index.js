@@ -23,6 +23,7 @@ module.exports = generators.Base.extend({
       const tmp = _.camelCase(answers.directivename);
       this.directivename = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.directivename);
+      this.fname = _.kebabCase(this.directivename);
 
     }.bind(this));
   },
@@ -31,8 +32,9 @@ module.exports = generators.Base.extend({
     // Clone the template service.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/directive/template.directive.ts'),
-      this.destinationPath('app/directives/' + this.namelower + '.directive.ts'),
+      this.destinationPath('app/directives/' + this.fname + '.directive.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         directivename: this.directivename
       }

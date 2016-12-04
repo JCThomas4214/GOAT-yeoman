@@ -4,7 +4,7 @@ import { NgRedux } from 'ng2-redux';
 import { IAppState } from '../../store/index';
 
 import { WonderService } from '../../services/wonder/wonder.service';
-import { ErrorHandlerActions } from '../error/errorHandler.actions';
+import { ErrorHandlerActions } from '../error/error-handler.actions';
 
 /////////////////////////////////////////////////////////////////////
 /* Wonder Actions: used to call dispatches to change the state of the

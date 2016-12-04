@@ -1,14 +1,14 @@
 /**
- * GET     /api/<%= namelower %>            ->  index
- * GET     /api/<%= namelower %>/:id        ->  show
- * POST    /api/<%= namelower %>            ->  create
- * PUT     /api/<%= namelower %>/:id        ->  update
- * PATCH   /api/<%= namelower %>/:id		->  upsert
- * DELETE  /api/<%= namelower %>/:id        ->  destroy
+ * GET     /api/<%= fname %>            ->  index
+ * GET     /api/<%= fname %>/:id        ->  show
+ * POST    /api/<%= fname %>            ->  create
+ * PUT     /api/<%= fname %>/:id        ->  update
+ * PATCH   /api/<%= fname %>/:id		->  upsert
+ * DELETE  /api/<%= fname %>/:id        ->  destroy
  */
 
 let express = require('express');
-import * as controller from './<%= namelower %>.controller';
+import * as controller from './<%= fname %>.controller';
 <% if(authselect.length) { %>import * as auth from '../../auth/auth.service';<% } %>
 
 let router = express.Router();

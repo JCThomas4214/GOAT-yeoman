@@ -1,7 +1,7 @@
 /**
  * <%= modelname %> model events
  */
-import <%= modelname %> from './<%= namelower %>.model';
+import <%= modelname %> from './<%= fname %>.model';
 
 let EventEmitter = require('events').EventEmitter;
 let <%= modelname %>Events = new EventEmitter();

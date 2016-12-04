@@ -35,13 +35,13 @@ let routerStub = {
 // require the index with our stubbed out modules
 // proxyquire simulates the request
 // initialize proxyquire
-let <%= namelower %>Index = pq('./<%= namelower %>.router.js', {
+let <%= namelower %>Index = pq('./<%= fname %>.router.js', {
   'express': {
     Router() {
       return routerStub;
     }
   },
-  './<%= namelower %>.controller': <%= namelower %>CtrlStub,
+  './<%= fname %>.controller': <%= namelower %>CtrlStub,
   <% if(authselect.length) { %>'../../auth/auth.service': authServiceStub<% } %>
 });
 
@@ -52,7 +52,7 @@ describe('<%= modelname %> API Router:', function() {
     expect(<%= namelower %>Index.<%= namelower %>Routes).toEqual(routerStub);
   });
 
-  describe('POST /api/<%= namelower %>s', function() {
+  describe('POST /api/<%= fname %>s', function() {
 
     // expect with each request the approapriate endpoint was called
     it('should route to <%= namelower %>.controller.create', function() {
@@ -62,7 +62,7 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('GET /api/<%= namelower %>s', function() {
+  describe('GET /api/<%= fname %>s', function() {
 
     // expect with each request the approapriate endpoint was called
     it('should route to <%= namelower %>.controller.index', function() {
@@ -72,7 +72,7 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('DELETE /api/<%= namelower %>s/:id', function() {
+  describe('DELETE /api/<%= fname %>s/:id', function() {
 
     it('should route to <%= namelower %>.controller.destroy', function() {
       expect(routerStub.delete.withArgs('/:id', <% if(delete_destroy) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.destroy').calledOnce)
@@ -81,7 +81,7 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('GET /api/<%= namelower %>s/:id', function() {
+  describe('GET /api/<%= fname %>s/:id', function() {
 
     it('should route to <%= namelower %>.controller.show', function() {
       expect(routerStub.get.withArgs('/:id', <% if(get_show) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.show').calledOnce)
@@ -90,7 +90,7 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('PUT /api/<%= namelower %>s/:id', function() {
+  describe('PUT /api/<%= fname %>s/:id', function() {
 
     it('should route to <%= namelower %>.controller.upsert', function() {
       expect(routerStub.put.withArgs('/:id', <% if(put_upsert) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.upsert').calledOnce)

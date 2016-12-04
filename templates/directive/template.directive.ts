@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { TemplateRef, ViewContainerRef } from '@angular/core';
 
-@Directive({ selector: '[<%= namelower %>]' })
+@Directive({ selector: '[<%= fname %>]' })
 export class <%= directivename %>Directive {
 
   /*

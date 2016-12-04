@@ -12,7 +12,7 @@ export const defaultAssets = {
         'dist/app/**/**/*.js'
       ],
       css: [
-        'dist/styles.css',
+        'dist/app/styles.css',
       ],
       assets: [
         'dist/app/assets/*jpg',
@@ -36,7 +36,8 @@ export const defaultAssets = {
       'app/pipes/**/*.ts',
       'app/services/**/*.ts',
       'app/store/**/*.ts',
-      'app/components/**/*.ts'
+      'app/components/**/*.ts',
+      'app/directives/**/*.ts'
     ],
     assets: [
       'app/assets/*jpg',
@@ -78,7 +79,7 @@ export const defaultAssets = {
       'dist/config/lib/*.js'
     ],
     tests: {
-      integration: 'dist/server/api/**/*.integration.js',
+      integration: ['dist/server/api/user/user.integration.js', 'dist/server/api/**/*.integration.js'],
       unit: 'dist/server/api/**/*.spec.js'
     }
   },

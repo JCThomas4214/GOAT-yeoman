@@ -1,8 +1,7 @@
 
-<div #wonderSky [style.filter]="(toda$ | async).cloudBrightness">
+<div #wonderSky >
     <li #wonderCloud *ngFor="let wonder of (wonder$ | async).get('wonder'); let i = index" class="wonder" [style.left.%]="wonder.xcoor" [style.top.%]="wonder.ycoor">
         <img src="assets/{{ (cloudStyle$ | async).get(i) }}.svg">
         <p id={{wonder.name}}>{{wonder.name | ngForHook:wonderCloud:wonder:i:this}}</p>
     </li>
 </div>
-<input id="testWonder" [(ngModel)]="dream" (keyup.enter)="wonderActions.saveWonder(dream)" placeholder="Do you wonder?" class="dreams-input" />

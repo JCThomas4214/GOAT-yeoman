@@ -20,13 +20,13 @@ Modules
 --------------------------------------------------
 //other necessary modules for this app
 */
-import { NgModule }                  from '@angular/core';
-import { FormsModule }               from '@angular/forms';
-import { BrowserModule }             from '@angular/platform-browser';
-import { HttpModule, JsonpModule }   from '@angular/http';
-import { MaterialModule }            from '@angular/material';
+import { NgModule }                                  from '@angular/core';
+import { FormsModule }                               from '@angular/forms';
+import { BrowserModule }                             from '@angular/platform-browser';
+import { HttpModule, JsonpModule }                   from '@angular/http';
+import { MaterialModule }                            from '@angular/material';
 import { NgReduxModule, NgRedux, DevToolsExtension } from 'ng2-redux';
-import { _NgRedux }                  from './actions/redux.sol';
+import { _NgRedux }                                  from './actions/redux.sol';
 
 /*
 --------------------------------------------------
@@ -43,13 +43,13 @@ HTTP Requests
 //imports to handle http events to send and receive data from api's
 */
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
-
 /*
 --------------------------------------------------
 Components
 --------------------------------------------------
 //Declare components here
 */
+//user created components
 import { HeaderComponent }            from './components/header/header.component';
 import { NavbarComponent }            from './components/navbar/navbar.component';
 import { SignInOutComponent }         from './components/signinout/signinout.component';
@@ -60,7 +60,7 @@ import { UserProfileComponent }       from './components/user-profile/user-profi
 import { SkyComponent }               from './components/sky/sky.component';
 import { OceanComponent }             from './components/ocean/ocean.component';
 import { WhaleComponent }             from './components/whale/whale.component';
-import { MountainRangeComponent }     from './components/mountain-range/mountain-range.component';
+import { IslandComponent }            from './components/island/island.component';
 import { MountainGoatComponent }      from './components/mountain-goat/mountain-goat.component';
 import { CloudGeneratorComponent }    from './components/cloud-generator/cloud-generator.component';
 <%- newComponentImports.join('\n') %>
@@ -74,7 +74,7 @@ Directives
 //Declare directives here
 */
 //user created directives
-
+import { ZoomDirective } from './directives/zoom.directive';
 //Angular and 3rd party directives
 
 /*
@@ -85,9 +85,9 @@ Services
 // import { SocketService }              from './services/socketio/socketio.service';
 */
 //user created services
-import { ErrorHandlerActions }        from './actions/error/errorHandler.actions';
+import { ErrorHandlerActions }        from './actions/error/error-handler.actions';
 import { SEOActions }                 from './actions/seo/seo.actions';
-import { TimeOfDayActions }            from './actions/time-of-day/time-of-day.actions';
+import { TimeOfDayActions }           from './actions/time-of-day/time-of-day.actions';
 import { SocketService }              from './services/socketio/socketio.service';
 import { HttpIntercept }              from './services/auth/auth.service';
 import { UserService }                from './services/user/user.service';
@@ -165,10 +165,11 @@ NgModule
     SkyComponent,
     OceanComponent,
     WhaleComponent,
-    MountainRangeComponent,
+    IslandComponent,
     MountainGoatComponent,
     CloudGeneratorComponent,
-    NgForHookPipe,    
+    NgForHookPipe,
+    ZoomDirective,
     <%= newComponents.join(',\n\t') %>
   ],
   //providers: this object imports all necessary services into the module
@@ -183,12 +184,12 @@ NgModule
     /////////////////////////////////////
     ErrorHandlerActions,
     SEOActions,
+    TimeOfDayActions,
     SocketService,
-    Cookie,
-    { provide: DevToolsExtension, useClass: DevToolsExtension },
     UserService,
     WonderService,
-    TimeOfDayActions
+    Cookie,
+    { provide: DevToolsExtension, useClass: DevToolsExtension }
   ],
   //bootstrap: identifies which component is supposed to be bootstrapped
   bootstrap: [AppComponent]

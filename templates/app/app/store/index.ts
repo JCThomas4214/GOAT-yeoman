@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 // import persistState from 'redux-localStorage';
-import * as error from './errorHandler/index';
-import * as userForm from './userForm/index';
+import * as error from './error-handler/index';
+import * as userForm from './user-form/index';
 import * as user from './user/index';
 import * as cloud from './cloud/index';
 import * as wonder from './wonder/index';
 import * as timeOfDay from './time-of-day/index';
+import * as zoom from './zoom/index';
 <%- newStoreImports.join('\n') %>
 
 // IAppState is the applications store where all persistant data
@@ -18,11 +19,12 @@ export class IAppState {
     cloudStyle?: cloud.ICloudStyle;
     animaArray?: cloud.IAnimaArray;
     timeOfDay?: timeOfDay.ITimeOfDay;
+    zoom?: zoom.IZoom;
     <%= newStoreAttrs.join('\n\t') %>
 };
 
 // Each reducer is connected to a coresponding store attribute
-// conbineReducers() creates a root reducer while maintaining
+// combineReducers() creates a root reducer while maintaining
 // this one-2-one relationship
 export const rootReducer = combineReducers<IAppState>({
     error: error.errorHandlerReducer,
@@ -32,6 +34,7 @@ export const rootReducer = combineReducers<IAppState>({
     cloudStyle: cloud.cloudReducer,
     animaArray: cloud.animaReducer,
     timeOfDay: timeOfDay.timeOfDayReducer,
+    zoom: zoom.zoomReducer,
     <%= newStoreReducers.join(',\n\t') %>
 });
 

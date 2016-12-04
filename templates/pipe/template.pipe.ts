@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-	name: '<%= namelower %>'
+	name: '<%= fname %>'
 })
 export class <%= pipename %>Pipe implements PipeTransform {
 

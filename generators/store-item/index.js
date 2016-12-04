@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `storename` not a required argument.
-    this.argument('storename', { type: String, required: true });
+    this.argument('storename', { type: String, required: false });
   },
   prompting: function () {
     return this.prompt([{
@@ -36,12 +36,13 @@ module.exports = generators.Base.extend({
       var tmp = _.camelCase(answers.storename);
       this.storename = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.storename);
+      this.fname = _.kebabCase(this.storename);
 
       // update the yo config file with new store attr, reducer, imports
       var config = this.config.getAll();
       config.newStoreAttrs.push(this.namelower + '?: ' + this.namelower + '.I' + this.storename + ';');
       config.newStoreReducers.push(this.namelower + ': ' + this.namelower + '.' + this.namelower + 'Reducer');
-      config.newStoreImports.push("import * as "+ this.namelower +" from './"+ this.namelower +"/index';");
+      config.newStoreImports.push("import * as "+ this.namelower +" from './"+ this.fname +"/index';");
 
       this.config.set(config);
       this.config.save();
@@ -59,6 +60,7 @@ module.exports = generators.Base.extend({
       this.templatePath(base + 'templates/app/app/store/index.ts'),
       this.destinationPath('app/store/index.ts'),
       { 
+        fname: this.fname,
         newStoreAttrs: this.newStoreAttrs,
         newStoreReducers: this.newStoreReducers,
         newStoreImports: this.newStoreImports
@@ -70,8 +72,9 @@ module.exports = generators.Base.extend({
     // Clone the template store index.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.index.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/index.ts'),
+      this.destinationPath('app/store/' + this.fname + '/index.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -79,8 +82,9 @@ module.exports = generators.Base.extend({
     // Clone the template store types file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.types.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/' + this.namelower + '.types.ts'),
+      this.destinationPath('app/store/' + this.fname + '/' + this.fname + '.types.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -88,8 +92,9 @@ module.exports = generators.Base.extend({
     // Clone the template store transformer file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.transformers.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/' + this.namelower + '.transformers.ts'),
+      this.destinationPath('app/store/' + this.fname + '/' + this.fname + '.transformers.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -97,8 +102,9 @@ module.exports = generators.Base.extend({
     // Clone the template store reducer file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.reducer.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/' + this.namelower + '.reducer.ts'),
+      this.destinationPath('app/store/' + this.fname + '/' + this.fname + '.reducer.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -106,8 +112,9 @@ module.exports = generators.Base.extend({
     // Clone the template store reducer spec file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.reducer.spec.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/' + this.namelower + '.reducer.spec.ts'),
+      this.destinationPath('app/store/' + this.fname + '/' + this.fname + '.reducer.spec.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -115,8 +122,9 @@ module.exports = generators.Base.extend({
     // Clone the template store initial-state file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.initial-state.ts'),
-      this.destinationPath('app/store/' + this.namelower + '/' + this.namelower + '.initial-state.ts'),
+      this.destinationPath('app/store/' + this.fname + '/' + this.fname + '.initial-state.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename
       }
@@ -126,8 +134,9 @@ module.exports = generators.Base.extend({
     // Clone the template store actions file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.actions.ts'),
-      this.destinationPath('app/actions/' + this.namelower + '/' + this.namelower + '.actions.ts'),
+      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename,
         actionsname: this.storename
@@ -136,8 +145,9 @@ module.exports = generators.Base.extend({
     // Clone the template store actions spec file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/store-item/' + this.storetype + '/template.actions.spec.ts'),
-      this.destinationPath('app/actions/' + this.namelower + '/' + this.namelower + '.actions.spec.ts'),
+      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.spec.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         storename: this.storename,
         actionsname: this.storename

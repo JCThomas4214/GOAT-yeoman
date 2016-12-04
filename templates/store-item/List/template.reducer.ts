@@ -1,7 +1,7 @@
-import { <%= storename %>Actions } from '../../actions/<%= namelower %>/<%= namelower %>.actions';
-import { reimmutify<%= storename %> } from './<%= namelower %>.transformers';
-import { I<%= storename %>, I<%= storename %>Item } from './<%= namelower %>.types';
-import { INITIAL_STATE } from './<%= namelower %>.initial-state';
+import { <%= storename %>Actions } from '../../actions/<%= fname %>/<%= fname %>.actions';
+import { reimmutify<%= storename %> } from './<%= fname %>.transformers';
+import { I<%= storename %>, I<%= storename %>Item } from './<%= fname %>.types';
+import { INITIAL_STATE } from './<%= fname %>.initial-state';
 
 // Define the reducer that will initiate state changes for <%= namelower %>
 export function <%= namelower %>Reducer(state: I<%= storename %> = INITIAL_STATE, action: any) {

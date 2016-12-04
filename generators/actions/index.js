@@ -9,7 +9,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `appname` not a required argument.
-    this.argument('actionsname', { type: String, required: true });
+    this.argument('actionsname', { type: String, required: false });
   },
   prompting: function () {
     return this.prompt([{
@@ -23,6 +23,7 @@ module.exports = generators.Base.extend({
       var tmp = _.camelCase(answers.actionsname);
       this.actionsname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.actionsname);
+      this.fname = _.kebabCase(this.actionsname);
 
     }.bind(this));
   },
@@ -31,8 +32,9 @@ module.exports = generators.Base.extend({
     // Clone the template actions.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/actions/template.actions.ts'),
-      this.destinationPath('app/actions/' + this.namelower + '/' + this.namelower + '.actions.ts'),
+      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         actionsname: this.actionsname
       }
@@ -40,8 +42,9 @@ module.exports = generators.Base.extend({
     // Clone the template actions.spec.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/actions/template.actions.spec.ts'),
-      this.destinationPath('app/actions/' + this.namelower + '/' + this.namelower + '.actions.spec.ts'),
+      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.spec.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         actionsname: this.actionsname
       }

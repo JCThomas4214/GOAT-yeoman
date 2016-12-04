@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `appname` not a required argument.
-    this.argument('componentname', { type: String, required: true });
+    this.argument('componentname', { type: String, required: false });
   },
   prompting: function () {
     return this.prompt([{
@@ -27,12 +27,13 @@ module.exports = generators.Base.extend({
       var tmp = _.camelCase(answers.componentname);
       this.componentname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.componentname);
+      this.fname = _.kebabCase(this.componentname);
 
       // update the yo config file with new component
       var config = this.config.getAll();
       config.newComponents.push(this.componentname + 'Component');
       config.newComponentImports.push(
-        "import { "+ this.componentname +"Component } from './components/"+ this.namelower +"/"+ this.namelower +".component';");
+        "import { "+ this.componentname +"Component } from './components/"+ this.fname +"/"+ this.fname +".component';");
 
       this.config.set(config);
       this.config.save();
@@ -49,6 +50,7 @@ module.exports = generators.Base.extend({
       this.templatePath(base + 'templates/app/app/app.module.ts'),
       this.destinationPath('app/app.module.ts'),
       { 
+        fname: this.fname,
         newComponents: this.newComponents,
         newComponentImports: this.newComponentImports
       }
@@ -59,8 +61,9 @@ module.exports = generators.Base.extend({
     // Clone the template component.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.ts'),
-      this.destinationPath('app/components/' + this.namelower + '/' + this.namelower + '.component.ts'),
+      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         componentname: this.componentname
       }
@@ -68,8 +71,9 @@ module.exports = generators.Base.extend({
     // Clone the template component.html file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.html'),
-      this.destinationPath('app/components/' + this.namelower + '/' + this.namelower + '.component.html'),
+      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.html'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         componentname: this.componentname
       }
@@ -77,8 +81,9 @@ module.exports = generators.Base.extend({
     // Clone the template component.scss file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.scss'),
-      this.destinationPath('app/components/' + this.namelower + '/' + this.namelower + '.component.scss'),
+      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.scss'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         componentname: this.componentname
       }

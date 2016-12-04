@@ -267,7 +267,8 @@ export class Gulpfile {
 
   // Transpile single TS file
   buildFile(file: any) {
-    let relativePath = file.relative.concat(''); // make copy of relative path
+    let relativePath = file.path.replace(file.cwd + '\\', ''); // copy of relative path
+
     const tsProject = ts.createProject('tsconfig.json');
 
     const ht = relativePath.includes('html');
@@ -277,7 +278,7 @@ export class Gulpfile {
 
     let fName = relativePath.substring(relativePath.lastIndexOf('\\') + 1, relativePath.length);
 
-    if (fName !== 'index.html') {
+    if (fName !== 'index.html' && fName !== 'styles.scss') {
       relativePath = ht ? relativePath.replace('html', 'ts') : sc ? relativePath.replace('scss', 'ts') : relativePath;
       fName = ht ? fName.replace('html', 'ts') : sc ? fName.replace('scss', 'ts') : fName;
 
@@ -295,12 +296,18 @@ export class Gulpfile {
 
       return fName !== 'app.module.ts' ? tsResult.js.pipe(gulp.dest(relativePath)) :
         tsResult.js.pipe(replace('process.env.NODE_ENV', "'development'"))
-          .pipe(replace('redux_logger_1.default', 'redux_logger_1'))
+          .pipe(replace('redux_logger_1.default', 'redux_logger_1')) // workaround
           .pipe(gulp.dest(relativePath));
-    } else {
+    } else if (fName === 'index.html') {
       // if file was the index.html
       console.log('\n Moving ----> ' + chalk.green.bold(fName + '\n'));
       return gulp.src('config/env/development/index.html').pipe(gulp.dest('dist/app'));
+    } else {
+      // if file was the styles.scss
+      console.log('\n Compiling ----> ' + chalk.green.bold(fName + '\n'));
+      return gulp.src('app/styles.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./dist/app'));
     }
   }
 
@@ -532,6 +539,7 @@ export class Gulpfile {
     watch(defaultAssets.client.ts, { events: ['change'] }, file => this.buildFile(file));
     // Watch all scss files to build css is change
     watch(defaultAssets.client.scss, { events: ['change'] }, file => this.buildFile(file));
+    watch(defaultAssets.client.dist.css, plugins.livereload.changed);
     // Watch all html files to build them in dist
     watch(defaultAssets.client.views, { events: ['change'] }, file => this.buildFile(file));
     watch(defaultAssets.client.dist.js, plugins.livereload.changed);

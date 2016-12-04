@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { select } from 'ng2-redux';
 
 import { UserActions }  from '../../actions/user/user.actions';
-import { UserFormActions } from '../../actions/userForm/userForm.actions';
-import { ErrorHandlerActions } from '../../actions/error/errorHandler.actions';
+import { UserFormActions } from '../../actions/user-form/user-form.actions';
+import { ErrorHandlerActions } from '../../actions/error/error-handler.actions';
 
 @Component({
   selector: 'signinout',

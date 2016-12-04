@@ -2,7 +2,7 @@ import app from '../../server';
 import request = require('supertest');
 
 <% if(authselect.length) { %>import User from '../user/user.model';<% } %>
-import <%= modelname %> from './<%= namelower %>.model';
+import <%= modelname %> from './<%= fname %>.model';
 
 let addr = app.get('address');
 
@@ -38,10 +38,10 @@ describe('<%= modelname %> API:', function() {
 
 
 
-	describe('POST /api/<%= namelower %>s', () => {
+	describe('POST /api/<%= fname %>s', () => {
 		beforeAll((done) => {
 			request(addr)
-				.post('/api/<%= namelower %>s')
+				.post('/api/<%= fname %>s')
 				<% if(post_create) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %>',
@@ -64,12 +64,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('GET /api/<%= namelower %>s', () => {
+	describe('GET /api/<%= fname %>s', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(addr)
-				.get('/api/<%= namelower %>s')
+				.get('/api/<%= fname %>s')
 				<% if(get_index) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -93,12 +93,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('GET /api/<%= namelower %>s/:id', () => {
+	describe('GET /api/<%= fname %>s/:id', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(addr)
-				.get('/api/<%= namelower %>s/' + new<%= modelname %>s._id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -117,12 +117,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('PUT /api/<%= namelower %>s/:id', () => {
+	describe('PUT /api/<%= fname %>s/:id', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(addr)
-				.put('/api/<%= namelower %>s/' + new<%= modelname %>s._id)
+				.put('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(put_upsert) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %> updated',
@@ -145,12 +145,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('DELETE /api/<%= namelower %>s/:id', () => {
+	describe('DELETE /api/<%= fname %>s/:id', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(addr)
-				.delete('/api/<%= namelower %>s/' + new<%= modelname %>s._id)
+				.delete('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(delete_destroy) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(204)
 				.end((err, res) => {
@@ -163,7 +163,7 @@ describe('<%= modelname %> API:', function() {
 
 		it('should respond with 404 not found', (done) => {
 			request(addr)
-				.get('/api/<%= namelower %>s/' + new<%= modelname %>s._id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(get_index) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(404)
 				.end((err, res) => {

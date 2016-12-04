@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
 
     generators.Base.apply(this, arguments);
     // // This makes `storename` not a required argument.
-    this.argument('modelname', { type: String, required: true });
+    this.argument('modelname', { type: String, required: false });
   },
   prompting: function () {
     return this.prompt([{
@@ -43,6 +43,7 @@ module.exports = generators.Base.extend({
       var tmp = _.camelCase(answers.modelname);
       this.modelname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.modelname);
+      this.fname = _.kebabCase(this.modelname);
 
       this.authselect = answers.authselect;
       this.socketchoice = answers.socketchoice;
@@ -80,13 +81,13 @@ module.exports = generators.Base.extend({
 
       // update the yo config file with new store attr, reducer, imports
       var config = this.config.getAll();
-      config.routerImports.push("import {" + this.namelower + "Routes} from './api/" + this.namelower + "/" + this.namelower + ".router';");
-      config.expressRouters.push("app.use('/api/" + this.namelower + "s', " + this.namelower + "Routes);");
+      config.routerImports.push("import {" + this.namelower + "Routes} from './api/" + this.fname + "/" + this.fname + ".router';");
+      config.expressRouters.push("app.use('/api/" + this.fname + "s', " + this.namelower + "Routes);");
 
       if (this.socketchoice) {
         // Delete the existing socketio config for retemplating
         del(['config/lib/socketio.ts']);
-        config.socketImports.push("import {" + this.namelower + "Register} from '../../server/api/" + this.namelower + "/" + this.namelower + ".socket';");
+        config.socketImports.push("import {" + this.namelower + "Register} from '../../server/api/" + this.fname + "/" + this.fname + ".socket';");
         config.socketRegisters.push(this.namelower + "Register(socket);");        
       }
 
@@ -105,6 +106,7 @@ module.exports = generators.Base.extend({
       this.templatePath(base + 'templates/app/server/routes.ts'),
       this.destinationPath('server/routes.ts'),
       { 
+        fname: this.fname,
         routerImports: this.routerImports,
         expressRouters: this.expressRouters
       }
@@ -121,6 +123,7 @@ module.exports = generators.Base.extend({
         this.templatePath(base + 'templates/app/config/lib/socketio.ts'),
         this.destinationPath('config/lib/socketio.ts'),
         { 
+          fname: this.fname,
           socketImports: this.socketImports,
           socketRegisters: this.socketRegisters
         }
@@ -132,8 +135,9 @@ module.exports = generators.Base.extend({
     // Clone the template endpoint controller.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/endpoint/template.controller.ts'),
-      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.controller.ts'),
+      this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.controller.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         modelname: this.modelname
       }
@@ -141,8 +145,9 @@ module.exports = generators.Base.extend({
     // Clone the template endpoint router.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/endpoint/template.router.ts'),
-      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.router.ts'),
+      this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.router.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         modelname: this.modelname,
 
@@ -158,8 +163,9 @@ module.exports = generators.Base.extend({
     // Clone the template endpoint model.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/endpoint/template.model.ts'),
-      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.model.ts'),
+      this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.model.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         modelname: this.modelname
       }
@@ -167,8 +173,9 @@ module.exports = generators.Base.extend({
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/endpoint/template.integration.ts'),
-      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.integration.ts'),
+      this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.integration.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         modelname: this.modelname,
 
@@ -184,8 +191,9 @@ module.exports = generators.Base.extend({
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/endpoint/template.spec.ts'),
-      this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.spec.ts'),
+      this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.spec.ts'),
       { 
+        fname: this.fname,
         namelower: this.namelower,
         modelname: this.modelname,
 
@@ -203,8 +211,9 @@ module.exports = generators.Base.extend({
       // Clone the template endpoint events.ts file
       this.fs.copyTpl(
         this.templatePath(base + 'templates/endpoint/template.events.ts'),
-        this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.events.ts'),
+        this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.events.ts'),
         { 
+          fname: this.fname,
           namelower: this.namelower,
           modelname: this.modelname
         }
@@ -212,8 +221,9 @@ module.exports = generators.Base.extend({
       // Clone the template endpoint socket.ts file
       this.fs.copyTpl(
         this.templatePath(base + 'templates/endpoint/template.socket.ts'),
-        this.destinationPath('server/api/' + this.namelower + '/' + this.namelower + '.socket.ts'),
+        this.destinationPath('server/api/' + this.fname + '/' + this.fname + '.socket.ts'),
         { 
+          fname: this.fname,
           namelower: this.namelower,
           modelname: this.modelname
         }

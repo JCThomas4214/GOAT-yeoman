@@ -1,14 +1,14 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     <%= namelower %>              ->  index
- * POST    <%= namelower %>              ->  create
- * GET     <%= namelower %>/:id          ->  show
- * PUT     <%= namelower %>/:id          ->  upsert
- * PATCH   <%= namelower %>/:id          ->  patch
- * DELETE  <%= namelower %>/:id          ->  destroy
+ * GET     <%= fname %>              ->  index
+ * POST    <%= fname %>              ->  create
+ * GET     <%= fname %>/:id          ->  show
+ * PUT     <%= fname %>/:id          ->  upsert
+ * PATCH   <%= fname %>/:id          ->  patch
+ * DELETE  <%= fname %>/:id          ->  destroy
  */
 
-import <%= modelname %> from './<%= namelower %>.model';
+import <%= modelname %> from './<%= fname %>.model';
 import * as _ from 'lodash';
 
 // if the wonder object was not found

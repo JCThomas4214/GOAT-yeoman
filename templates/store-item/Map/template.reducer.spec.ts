@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
-import { <%= namelower %>Reducer } from './<%= namelower %>.reducer';
-import { INITIAL_STATE } from './<%= namelower %>.initial-state';
-import { <%= storename %>Actions } from '../../actions/<%= namelower %>/<%= namelower %>.actions';
+import { <%= namelower %>Reducer } from './<%= fname %>.reducer';
+import { INITIAL_STATE } from './<%= fname %>.initial-state';
+import { <%= storename %>Actions } from '../../actions/<%= fname %>/<%= fname %>.actions';
 
 describe('<%= storename %> Reducer', () => {
   let initialState = INITIAL_STATE;

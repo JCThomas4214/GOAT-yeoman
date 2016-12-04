@@ -13,7 +13,7 @@ function handleEntityNotFound(res) {
 }
 
 // if there was an error of any kind return approapriate status code
-function handleError(res, statusCode?) {
+function handleError(res, statusCode = null) {
   statusCode = statusCode || 500;
   return function(err) {
     res.status(statusCode).send(err);
@@ -48,7 +48,7 @@ function updateWonder(res, wonder) {
 }
 
 // IF the response needs the wonder abject as well
-function respondWithResult(res, statusCode?) {
+function respondWithResult(res, statusCode = null) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {

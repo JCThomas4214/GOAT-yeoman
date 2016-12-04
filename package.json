@@ -1,5 +1,5 @@
 {
-  "name": "generator-goat-stack",
+  "name": "generator-goat",
   "version": "1.0.0",
   "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
   "files": [

@@ -23,6 +23,7 @@ module.exports = generators.Base.extend({
       var tmp = _.camelCase(answers.servicename);
       this.servicename = tmp.charAt(0).toUpperCase() + tmp.slice(1);
       this.namelower = _.camelCase(this.servicename);
+      this.fname = _.kebabCase(this.servicename);
 
     }.bind(this));
   },
@@ -31,7 +32,7 @@ module.exports = generators.Base.extend({
     // Clone the template service.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/service/template.service.ts'),
-      this.destinationPath('app/services/' + this.namelower + '/' + this.namelower + '.service.ts'),
+      this.destinationPath('app/services/' + this.fname + '/' + this.fname + '.service.ts'),
       { 
         namelower: this.namelower,
         servicename: this.servicename

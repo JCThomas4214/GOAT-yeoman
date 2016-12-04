@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { I<%= storename %>, I<%= storename %>Item } from './<%= namelower %>.types';
+import { I<%= storename %>, I<%= storename %>Item } from './<%= fname %>.types';
 
 // functions to change the state of the data
 // either immutable -> mutable or mutable -> immutable

@@ -26,7 +26,6 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
   @select('timeOfDay') toda$: Observable<any>;
   private animaArray: any;
   private width: number;
-  dream;
 
   @ViewChild('wonderSky') wonderSky;
 
@@ -35,14 +34,14 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
     private wonderService: WonderService,
     private cloudActions: CloudActions,
     private socket: SocketService) { }
-
+  
   ngOnInit() {
     this.width = window.innerWidth;
     this.animaArray$.subscribe(anima => this.animaArray = anima);
+    this.toda$.subscribe(x => this.wonderSky.nativeElement.style.filter = x.get('cloudBrightness')); 
     // Change the state to indicate wonders are being fetched
     this.wonderActions.fetchWonders();
-    this.wonderService.getWonders()
-      .subscribe(wonders => {
+    this.wonderService.getWonders().subscribe(wonders => {
         // initialize store wonders
         this.wonderActions.initWonders(wonders);
         // initialize store cloudStyle
@@ -62,7 +61,7 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
           });
 
         }, 1250); // Give a little more time to render the new cloud style
-      });
+      });     
   }
 
   ngOnDestroy() {

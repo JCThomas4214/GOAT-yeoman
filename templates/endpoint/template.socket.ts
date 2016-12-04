@@ -2,7 +2,7 @@
  * Broadcast updates to client when the model changes
  */
 
-import <%= modelname %>Events from './<%= namelower %>.events';
+import <%= modelname %>Events from './<%= fname %>.events';
 
 // Model events to emit
 let events = ['save', 'remove'];

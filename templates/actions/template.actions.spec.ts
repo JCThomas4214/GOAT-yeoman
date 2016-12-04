@@ -1,5 +1,5 @@
 import { NgRedux } from 'ng2-redux';
-import { <%= actionsname %>Actions } from './<%= namelower %>.actions';
+import { <%= actionsname %>Actions } from './<%= fname %>.actions';
 
 class MockRedux extends NgRedux<any> {
   constructor() {
