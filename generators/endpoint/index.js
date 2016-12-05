@@ -102,8 +102,9 @@ module.exports = generators.Base.extend({
     this.expressRouters = this.config.get('expressRouters');
 
     // Get the app.module template and inject newComponents and newComponentImports
-    var templatePath = this.templatePath(base + 'templates/demo-app/server/routes.ts');
-    if(this.config.apptype === 'starter-app') {
+    var templatePath = this.templatePath(base + 'templates/demo-app/server/routes.ts'),
+        config = this.config.getAll();
+    if(config.apptype === 'starter-app') {
       templatePath = this.templatePath(base + 'templates/starter-app/server/routes.ts');
     }
     this.fs.copyTpl(
@@ -123,8 +124,9 @@ module.exports = generators.Base.extend({
       this.socketRegisters = this.config.get('socketRegisters');
 
       // Get the app.module template and inject newComponents and newComponentImports
-      var templatePath = this.templatePath(base + 'templates/demo-app/config/lib/socketio.ts');
-      if(this.config.apptype === 'starter-app') {
+      var templatePath = this.templatePath(base + 'templates/demo-app/config/lib/socketio.ts'),
+        config = this.config.getAll();
+      if(config.apptype === 'starter-app') {
         templatePath = this.templatePath(base + 'templates/starter-app/config/lib/socketio.ts');
       }
       this.fs.copyTpl(
