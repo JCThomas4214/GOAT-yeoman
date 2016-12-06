@@ -10,6 +10,6 @@ export function routes(app) {
 	// Insert routes below
 	app.use('/api/wonders', wonderRoutes);
 	app.use('/api/users', userRoutes);
-    <%- expressRouters.join('\n\t') %>
+	<%- expressRouters.join('\n\t') %>
 	app.use('/auth', authRoutes);
 };
