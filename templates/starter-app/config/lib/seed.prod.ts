@@ -5,7 +5,8 @@
 import User from '../../server/api/user/user.model';
 
 function seed() {
-
+  //Insert seeds here
+  
 }
 
 export {seed as seedProd};

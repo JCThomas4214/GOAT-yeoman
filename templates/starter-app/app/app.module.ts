@@ -153,7 +153,7 @@ NgModule
     HomeComponent,
     AppComponent,
     NavbarComponent,
-    <%= newComponents.join(',\n\t') %>    
+    <%= newComponents.join(',\n\t') %>
   ],
   //providers: this object imports all necessary services into the module
   providers: [

@@ -6,8 +6,8 @@ import {userRoutes} from './api/user/user.router';
 import {authRoutes} from './auth/auth.router';
 
 export function routes(app) {
-    // Insert routes below
-    app.use('/api/users', userRoutes);
+	// Insert routes below
+	app.use('/api/users', userRoutes);
     <%- expressRouters.join('\n\t') %>
-    app.use('/auth', authRoutes);
+	app.use('/auth', authRoutes);
 };
