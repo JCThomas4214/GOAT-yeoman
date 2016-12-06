@@ -1,8 +1,8 @@
-import { ErrorHandlerActions } from '../../actions/error/error-handler.actions';
-import { reimmutifyError } from './error-handler.transformers';
-import { IError } from './error-handler.types';
+import { ErrorHandlerActions } from '../../actions/error/errorHandler.actions';
+import { reimmutifyError } from './errorHandler.transformers';
+import { IError } from './errorHandler.types';
 
-import { INITIAL_STATE } from './error-handler.initial-state';
+import { INITIAL_STATE } from './errorHandler.initial-state';
 
 // define the reducer for error attribute in store 
 export function errorHandlerReducer(state: IError = INITIAL_STATE, action: any) {

@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { IUserForm, IUserFormItem } from './user-form.types';
+import { IUserForm, IUserFormItem } from './userForm.types';
 
 // functions to change the state of the data
 // either immutable -> mutable or mutable -> immutable

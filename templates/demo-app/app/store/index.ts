@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 // import persistState from 'redux-localStorage';
-import * as error from './error-handler/index';
-import * as userForm from './user-form/index';
+import * as error from './errorHandler/index';
+import * as userForm from './userForm/index';
 import * as user from './user/index';
 import * as cloud from './cloud/index';
 import * as wonder from './wonder/index';

@@ -1,5 +1,5 @@
 import { NgRedux } from 'ng2-redux';
-import { UserFormActions } from './user-form.actions';
+import { UserFormActions } from './userForm.actions';
 
 class MockRedux extends NgRedux<any> {
   constructor() {

@@ -1,7 +1,7 @@
-import { UserFormActions } from '../../actions/user-form/user-form.actions';
-import { reimmutifyUserForm } from './user-form.transformers';
-import { IUserForm } from './user-form.types';
-import { INITIAL_STATE } from './user-form.initial-state';
+import { UserFormActions } from '../../actions/userForm/userForm.actions';
+import { reimmutifyUserForm } from './userForm.transformers';
+import { IUserForm } from './userForm.types';
+import { INITIAL_STATE } from './userForm.initial-state';
 
 // Define the reducer that will initiate state changes for userForm
 export function userFormReducer(state: IUserForm = INITIAL_STATE, action: any) {

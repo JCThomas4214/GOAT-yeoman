@@ -11,15 +11,8 @@
     "generators/pipe",
     "generators/service",
     "generators/store-item",
-    "templates/demo-app",
-    "templates/starter-app",
-    "templates/component",
-    "templates/actions",
-    "templates/directive",
-    "templates/endpoint",
-    "templates/pipe",
-    "templates/service",
-    "templates/store-item"
+    "templates",
+    "assets"
   ],
   "scripts": {},
   "repository": {

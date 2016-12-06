@@ -1,13 +1,13 @@
 {
-  "name": "GOAT-stack",
-  "version": "0.0.1",
+  "name": "goat-stack",
+  "version": "1.0.2",
   "description": "A MEAN stack boilerplate using Angular 2",
   "engines": {
     "node": "6.9.1"
   },
   "scripts": {
     "start": "node dist/index",
-    "test": "./node_modules/.bin/jasmine --reporter spec",
+    "test": "gulp test",
     "karma": "karma start config/sys/karma.conf.js",
     "pree2e": "npm run webdriver:update",
     "e2e": "concurrently \"node dist/server/server.js -s\" \"protractor config/env/test/protractor.config.js\" --kill-others --success first",

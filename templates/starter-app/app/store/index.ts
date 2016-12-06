@@ -20,7 +20,7 @@ export class IAppState {
 export const rootReducer = combineReducers<IAppState>({
     error: error.errorHandlerReducer,
     user: user.userReducer,
-    userForm: userForm.userFormReducer
+    userForm: userForm.userFormReducer,
     <%= newStoreReducers.join(',\n\t') %>
 });
 

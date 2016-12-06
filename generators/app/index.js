@@ -63,14 +63,17 @@ module.exports = generators.Base.extend({
   },
   // Writes the application to the name of the project
   writing: function () {
-    var templatePath = this.templatePath(base + 'templates/demo-app');
-    if(this.apptype === 'starter-app') {
-      templatePath = this.templatePath(base + 'templates/starter-app');
-    }
+    // Write the application template
     this.fs.copyTpl(
-      templatePath,
+      this.templatePath(base + 'templates/' + this.apptype),
       this.destinationPath(),
       this.config.getAll()
+    );
+
+    // Copy over the application assets
+    this.fs.copy(
+      this.templatePath(base + 'assets/' + this.apptype),
+      this.destinationPath('app/assets')
     );
   },
   // Starts npm install

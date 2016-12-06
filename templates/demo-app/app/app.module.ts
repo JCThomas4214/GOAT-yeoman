@@ -85,7 +85,7 @@ Services
 // import { SocketService }              from './services/socketio/socketio.service';
 */
 //user created services
-import { ErrorHandlerActions }        from './actions/error/error-handler.actions';
+import { ErrorHandlerActions }        from './actions/error/errorHandler.actions';
 import { SEOActions }                 from './actions/seo/seo.actions';
 import { TimeOfDayActions }           from './actions/time-of-day/time-of-day.actions';
 import { SocketService }              from './services/socketio/socketio.service';

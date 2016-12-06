@@ -1,5 +1,5 @@
 import { Map, Record } from 'immutable';
-import { IError, IErrorItem } from './error-handler.types';
+import { IError, IErrorItem } from './errorHandler.types';
 
 // functions to change the state of the data
 // either immutable -> mutable or mutable -> immutable

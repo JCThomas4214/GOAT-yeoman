@@ -12,7 +12,7 @@ Bootstrapping component
 //main imports
 import { Component, ViewChild, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { NgRedux, select } from 'ng2-redux';
-import { ErrorHandlerActions } from '../../actions/error/error-handler.actions';
+import { ErrorHandlerActions } from '../../actions/error/errorHandler.actions';
 import { SEOActions } from '../../actions/seo/seo.actions';
 import { Observable } from 'rxjs/Observable';
 

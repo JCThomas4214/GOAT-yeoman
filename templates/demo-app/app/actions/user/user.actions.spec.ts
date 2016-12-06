@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgRedux } from 'ng2-redux';
 import { UserActions } from './user.actions';
 import { UserService } from '../../services/user/user.service';
-import { ErrorHandlerActions } from '../error/error-handler.actions';
+import { ErrorHandlerActions } from '../error/errorHandler.actions';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 const testUser = {
