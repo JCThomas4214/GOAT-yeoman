@@ -1,6 +1,6 @@
 {
   "name": "generator-goat-stack",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
   "files": [
     "generators/app",
@@ -29,9 +29,16 @@
   },
   "homepage": "https://github.com/JCThomas4214/GOAT-yeoman#readme",
   "dependencies": {
-    "del": "^2.2.2",
-    "graceful-fs": "^4.1.10",
-    "lodash": "^4.16.6",
-    "yeoman-generator": "^0.24.1"
+    "del": "2.2.2",
+    "graceful-fs": "4.1.10",
+    "lodash": "4.16.6",
+    "yeoman-generator": "0.24.1"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-cli": "1.2.2",
+    "gulp-replace": "0.5.4",
+    "gulp-shell": "0.5.2",
+    "run-sequence": "1.2.2"
   }
 }
