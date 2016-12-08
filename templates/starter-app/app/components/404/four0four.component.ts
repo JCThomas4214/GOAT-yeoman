@@ -6,9 +6,6 @@ import { Component } from '@angular/core';
 	styles: [`
 		p {
 		    font-size: 24px;
-		    display: block;
-		    position: relative;
-		    width: 100%;
 		    text-align: center;
 		    margin-top: 100px;
 		}
