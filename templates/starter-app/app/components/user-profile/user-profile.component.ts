@@ -10,7 +10,7 @@ import { UserActions }  from '../../actions/user/user.actions';
   selector: 'user-profile',
   providers: [UserActions],
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.css']
 })
 
 export class UserProfileComponent {

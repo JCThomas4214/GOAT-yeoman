@@ -8,7 +8,7 @@ export const defaultConfig = {
   // DEFAULT SEO configuration
   app: {
     title: '<%= appname %>',
-    favicon: 'assets/dywlogo.png',
+    favicon: 'assets/favicon.png',
     description: '<%= appdescription %>',
     keywords: '<%= appkeywords %>'
   },
