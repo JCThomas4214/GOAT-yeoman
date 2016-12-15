@@ -1,9 +1,9 @@
 # Check out the [Demo App](https://goat-stack.herokuapp.com/)!
 
-![build](https://circleci.com/gh/JCThomas4214/GOAT-stack/tree/helloGOAT.svg?style=shield)
-[![npm version](https://img.shields.io/npm/v/goat-stack.svg)](https://www.npmjs.com/package/goat-stack)
-[![Dependency Status](https://img.shields.io/david/projectSHAI/GOAT-stack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/helloGOAT.svg)
-[![Dev-Dependency Status](https://img.shields.io/david/dev/projectSHAI/GOAT-stack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/helloGOAT.svg#info=devDependencies)
+![build](https://circleci.com/gh/JCThomas4214/GOAT-stack/tree/master.svg?style=shield)
+[![npm version](https://img.shields.io/npm/v/generator-goat-stack.svg)](https://www.npmjs.com/package/generator-goat-stack)
+[![Dependency Status](https://img.shields.io/david/projectSHAI/GOAT-stack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/master.svg)
+[![Dev-Dependency Status](https://img.shields.io/david/dev/projectSHAI/GOAT-stack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/master.svg#info=devDependencies)
 
 ![Main Banner](https://github.com/JCThomas4214/Documentation/blob/master/GOAT/assets/GOAT-banner.jpg?raw=true)
 
@@ -32,6 +32,17 @@ New Deploy:Heroku task!
     * angular issues [#12966](https://github.com/angular/angular/issues/12966) [#13204](https://github.com/angular/angular/issues/13204) [#13294](https://github.com/angular/angular/pull/13294) explain the current situation
   * GOAT-stack will use angular 2.2.4 until further notice 
 
+# Coming soon, v1.3.0
+
+* new yo generator: goat-stack:segment
+  * because of the redux mentality, modules conflict with the single store concept
+  * will create a new segment folder to organize application sections
+  * prior generators conditional prompt to ask what segment you'll like the generator to genorate to
+    * on the condition that there is more segments than the main-segment in the project
+* structural changes
+  * environment compilation changes for new structural implimentation (for segments)
+  * new public folder in project root that will be exposed to the client for assests and external js libraries
+    
 
 # Documentation Wiki
 

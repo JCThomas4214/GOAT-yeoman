@@ -40,8 +40,10 @@ module.exports = generators.Base.extend({
     	this.appkeywords      = answers.appkeywords;
 
 	    this.config.set({
-	    	newComponents       : [],
-	    	newComponentImports : [],
+        Segments            : [],
+
+        newComponents       : [],
+        newComponentImports : [],
 
         newStoreImports     : [],
         newStoreAttrs       : [],
@@ -73,7 +75,7 @@ module.exports = generators.Base.extend({
     // Copy over the application assets
     this.fs.copy(
       this.templatePath(base + 'assets/' + this.apptype),
-      this.destinationPath('app/assets')
+      this.destinationPath('public/assets')
     );
   },
   // Starts npm install

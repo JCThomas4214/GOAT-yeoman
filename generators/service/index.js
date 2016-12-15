@@ -13,10 +13,16 @@ module.exports = generators.Base.extend({
   },
   prompting: function () {
     return this.prompt([{
+      type    : 'list',
+      name    : 'segmentname',
+      message : 'What segment would you like to generate to?',
+      choices : ['main-segment'].concat(this.config.get('Segments')),
+      when    : this.config.get('Segments').length > 0
+    }, {
       type    : 'input',
       name    : 'servicename',
       message : 'What\'s the name for the new service?',
-      default: this.servicename
+      default : this.servicename
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase
@@ -25,6 +31,8 @@ module.exports = generators.Base.extend({
       this.namelower = _.camelCase(this.servicename);
       this.fname = _.kebabCase(this.servicename);
 
+      this.segmentname = answers.segmentname ? answers.segmentname : 'main-segment';
+
     }.bind(this));
   },
   // Writes the application to the name of the project
@@ -32,7 +40,7 @@ module.exports = generators.Base.extend({
     // Clone the template service.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/service/template.service.ts'),
-      this.destinationPath('app/services/' + this.fname + '/' + this.fname + '.service.ts'),
+      this.destinationPath('client/' + this.segmentname + '/services/' + this.fname + '/' + this.fname + '.service.ts'),
       { 
         namelower: this.namelower,
         servicename: this.servicename

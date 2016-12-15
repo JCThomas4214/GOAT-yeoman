@@ -40,9 +40,9 @@ gulp.task('clone_starter', shell.task([
 gulp.task('clean_clones', function(done) {
 	return del([
 		'templates/demo-app/.git',
-		'templates/demo-app/app/assets',
+		'templates/demo-app/public/assets',
 		'templates/starter-app/.git',
-		'templates/starter-app/app/assets',
+		'templates/starter-app/public/assets',
 	], done);
 });
 
@@ -56,11 +56,11 @@ gulp.task('move_assets', function(done) {
 	);
 });
 gulp.task('move_assets_demo', function() {
-	return gulp.src('templates/demo-app/app/assets/**')
+	return gulp.src('templates/demo-app/public/assets/**')
 		.pipe(gulp.dest('./assets/demo-app'));
 });
 gulp.task('move_assets_starter', function() {
-	return gulp.src('templates/starter-app/app/assets/**')
+	return gulp.src('templates/starter-app/public/assets/**')
 		.pipe(gulp.dest('./assets/starter-app'));
 });
 
@@ -83,17 +83,17 @@ gulp.task('ejs_replace', function(done) {
 
 // Replace tasks for demo-app
 gulp.task('demo_replace_module', function() {
-	return gulp.src('templates/demo-app/app/app.module.ts')
-		.pipe(replace("// DO NOT REMOVE: template app.module imports", "<%- newComponentImports.join('\\n') %>"))
+	return gulp.src('templates/demo-app/client/main.module.ts')
+		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/app'));
+		.pipe(gulp.dest('templates/demo-app/client'));
 });
 gulp.task('demo_replace_store', function() {
-	return gulp.src('templates/demo-app/app/store/index.ts')
+	return gulp.src('templates/demo-app/client/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/app/store'));
+		.pipe(gulp.dest('templates/demo-app/client/store'));
 });
 gulp.task('demo_replace_routes', function() {
 	return gulp.src('templates/demo-app/server/routes.ts')
@@ -118,17 +118,17 @@ gulp.task('demo_replace_socketio', function() {
 
 // Replace tasks for starter-app
 gulp.task('starter_replace_module', function() {
-	return gulp.src('templates/starter-app/app/app.module.ts')
-		.pipe(replace("// DO NOT REMOVE: template app.module imports", "<%- newComponentImports.join('\\n') %>"))
+	return gulp.src('templates/starter-app/client/main.module.ts')
+		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/app'));
+		.pipe(gulp.dest('templates/starter-app/client'));
 });
 gulp.task('starter_replace_store', function() {
-	return gulp.src('templates/starter-app/app/store/index.ts')
+	return gulp.src('templates/starter-app/client/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/app/store'));
+		.pipe(gulp.dest('templates/starter-app/client/store'));
 });
 gulp.task('starter_replace_routes', function() {
 	return gulp.src('templates/starter-app/server/routes.ts')

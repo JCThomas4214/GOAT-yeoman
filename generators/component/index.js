@@ -14,26 +14,33 @@ module.exports = generators.Base.extend({
   },
   prompting: function () {
     return this.prompt([{
+      type    : 'list',
+      name    : 'segmentname',
+      message : 'What segment would you like to generate to?',
+      choices : ['main-segment'].concat(this.config.get('Segments')),
+      when    : this.config.get('Segments').length > 0
+    }, {
       type    : 'input',
       name    : 'componentname',
       message : 'Your new component\'s name?',
-      default: this.componentname
+      default : this.componentname
     }]).then(function (answers) {
 
-      // Delete the existing app.modules for retemplating
-      del(['app/app.module.ts']);
-
       // Process to get naming convention camelcase and capitalized camelcase
-      var tmp = _.camelCase(answers.componentname);
-      this.componentname = tmp.charAt(0).toUpperCase() + tmp.slice(1);
-      this.namelower = _.camelCase(this.componentname);
+      this.namelower = _.camelCase(answers.componentname);
+      this.componentname = this.namelower.charAt(0).toUpperCase() + this.namelower.slice(1);
       this.fname = _.kebabCase(this.componentname);
+
+      this.segmentname = answers.segmentname ? answers.segmentname : 'main-segment';
+
+      // Delete the existing module for retemplating
+      del(['client/main.module.ts']);
 
       // update the yo config file with new component
       var config = this.config.getAll();
       config.newComponents.push(this.componentname + 'Component');
       config.newComponentImports.push(
-        "import { "+ this.componentname +"Component } from './components/"+ this.fname +"/"+ this.fname +".component';");
+        "import { "+ this.componentname +"Component } from './"+ this.segmentname +"/components/"+ this.fname +"/"+ this.fname +".component';");
 
       this.config.set(config);
       this.config.save();
@@ -42,31 +49,23 @@ module.exports = generators.Base.extend({
   },
   editModule: function() { 
     // Get the new values for newComponents and newComponentImports
-    this.newComponents = this.config.get('newComponents');
-    this.newComponentImports = this.config.get('newComponentImports');
+    this.module = this.config.get('modules');
 
-    // Get the app.module template and inject newComponents and newComponentImports
-    var templatePath = this.templatePath(base + 'templates/demo-app/app/app.module.ts'),
-        config = this.config.getAll();
-    if(config.apptype === 'starter-app') {
-      templatePath = this.templatePath(base + 'templates/starter-app/app/app.module.ts')
-    }
-      this.fs.copyTpl(
-        templatePath,
-        this.destinationPath('app/app.module.ts'),
-        { 
-          fname: this.fname,
-          newComponents: this.newComponents,
-          newComponentImports: this.newComponentImports
-        }
-      );
+    this.fs.copyTpl(
+      this.templatePath(base + 'templates/' + this.config.get('apptype') + '/client/main.module.ts'),
+      this.destinationPath('client/main.module.ts'),
+      { 
+        newComponents: this.config.get('newComponents'),
+        newComponentImports: this.config.get('newComponentImports')
+      }
+    );
   },
   // Writes the application to the name of the project
   writing: function () {
     // Clone the template component.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.ts'),
-      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.ts'),
+      this.destinationPath('client/' + this.segmentname + '/components/' + this.fname + '/' + this.fname + '.component.ts'),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -76,7 +75,7 @@ module.exports = generators.Base.extend({
     // Clone the template component.html file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.html'),
-      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.html'),
+      this.destinationPath('client/' + this.segmentname + '/components/' + this.fname + '/' + this.fname + '.component.html'),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -86,7 +85,7 @@ module.exports = generators.Base.extend({
     // Clone the template component.scss file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/component/template.component.scss'),
-      this.destinationPath('app/components/' + this.fname + '/' + this.fname + '.component.scss'),
+      this.destinationPath('client/' + this.segmentname + '/components/' + this.fname + '/' + this.fname + '.component.scss'),
       { 
         fname: this.fname,
         namelower: this.namelower,

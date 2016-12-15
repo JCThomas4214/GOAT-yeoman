@@ -13,10 +13,16 @@ module.exports = generators.Base.extend({
   },
   prompting: function () {
     return this.prompt([{
+      type    : 'list',
+      name    : 'segmentname',
+      message : 'What segment would you like to generate to?',
+      choices : ['main-segment'].concat(this.config.get('Segments')),
+      when    : this.config.get('Segments').length > 0
+    }, {
       type    : 'input',
       name    : 'actionsname',
       message : 'The name for these new actions?',
-      default: this.actionsname
+      default : this.actionsname
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase
@@ -25,6 +31,8 @@ module.exports = generators.Base.extend({
       this.namelower = _.camelCase(this.actionsname);
       this.fname = _.kebabCase(this.actionsname);
 
+      this.segmentname = answers.segmentname ? answers.segmentname : 'main-segment';
+
     }.bind(this));
   },
   // Writes the application to the name of the project
@@ -32,7 +40,7 @@ module.exports = generators.Base.extend({
     // Clone the template actions.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/actions/template.actions.ts'),
-      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.ts'),
+      this.destinationPath('client/' + this.segmentname + '/actions/' + this.fname + '/' + this.fname + '.actions.ts'),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -42,7 +50,7 @@ module.exports = generators.Base.extend({
     // Clone the template actions.spec.ts file
     this.fs.copyTpl(
       this.templatePath(base + 'templates/actions/template.actions.spec.ts'),
-      this.destinationPath('app/actions/' + this.fname + '/' + this.fname + '.actions.spec.ts'),
+      this.destinationPath('client/' + this.segmentname + '/actions/' + this.fname + '/' + this.fname + '.actions.spec.ts'),
       { 
         fname: this.fname,
         namelower: this.namelower,
