@@ -12,7 +12,7 @@ export const defaultAssets = {
         'dist/client/**/**/**/*.js'
       ],
       css: [
-        'dist/client/styles.css',
+        'dist/client/**/**/**/*.css'
       ],
       assets: [
         'dist/public/assets/*jpg',
@@ -21,6 +21,7 @@ export const defaultAssets = {
       ],
       views: [
         'dist/client/index.html',
+        'dist/client/**/**/**/*.html'
       ]
     },
     scss: [
@@ -32,12 +33,7 @@ export const defaultAssets = {
     ],
     ts: [
       'client/**/*.ts',
-      'client/**/actions/**/*.ts',
-      'client/**/pipes/**/*.ts',
-      'client/**/services/**/*.ts',
-      'client/**/store/**/*.ts',
-      'client/**/components/**/*.ts',
-      'client/**/directives/**/*.ts'
+      'client/**/**/**/*.ts'
     ],
     assets: [
       'public/assets/*jpg',

@@ -40,7 +40,17 @@ module.exports = generators.Base.extend({
     	this.appkeywords      = answers.appkeywords;
 
 	    this.config.set({
-        Segments            : [],
+        Segments            : this.apptype === 'demo-app' ? [
+          'footer-segment',
+          'header-segment',
+          'island-segment',
+          'ocean-segment',
+          'sky-segment'
+        ] : [
+          'footer-segment',
+          'header-segment',
+          'profile-segment'
+        ],
 
         newComponents       : [],
         newComponentImports : [],

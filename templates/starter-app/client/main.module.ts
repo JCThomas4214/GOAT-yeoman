@@ -50,13 +50,13 @@ Components
 //Declare components here
 */
 //user created components
-import { HeaderComponent }                           from './main-segment/components/header/header.component';
-import { NavbarComponent }                           from './main-segment/components/navbar/navbar.component';
-import { SignInOutComponent }                        from './main-segment/components/signinout/signinout.component';
+import { HeaderComponent }                           from './header-segment/components/header/header.component';
+import { NavBarComponent }                           from './header-segment/components/nav-bar/nav-bar.component';
+import { SignInOutComponent }                        from './header-segment/components/sign-in-out/sign-in-out.component';
 import { HomeComponent }                             from './main-segment/components/home/home.component';
-import { FooterComponent }                           from './main-segment/components/footer/footer.component';
 import { Four0FourComponent }                        from './main-segment/components/404/four0four.component';
-import { UserProfileComponent }                      from './main-segment/components/user-profile/user-profile.component';
+import { UserProfileComponent }                      from './profile-segment/components/user-profile/user-profile.component';
+import { FooterComponent }                           from './footer-segment/components/footer/footer.component';
 <%- newComponentImports.join('\n') %>
 
 //Angular and 3rd party components
@@ -82,7 +82,7 @@ import { ErrorHandlerActions }                       from './main-segment/action
 import { SEOActions }                                from './main-segment/actions/seo/seo.actions';
 import { SocketService }                             from './main-segment/services/socketio/socketio.service';
 import { HttpIntercept }                             from './main-segment/services/auth/auth.service';
-import { UserService }                               from './main-segment/services/user/user.service';
+import { UserService }                               from './header-segment/services/user/user.service';
 
 //Angular and 3rd party serices
 import { Cookie }                                    from 'ng2-cookies/ng2-cookies';
@@ -151,7 +151,7 @@ NgModule
     HeaderComponent,
     HomeComponent,
     AppComponent,
-    NavbarComponent,
+    NavBarComponent,
     <%= newComponents.join(',\n\t') %>
   ],
   //providers: this object imports all necessary services into the module
