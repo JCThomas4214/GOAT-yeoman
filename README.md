@@ -8,7 +8,7 @@ yo generator for the [GOAT-stack](https://github.com/projectSHAI/GOAT-stack), a 
 ## Quick-Start
 
 ```sh
-$ npm install -g yo generator-goat-stack
+$ npm install -g yo generator-goat-stack gulp-cli
 $ mkdir [dirName] $$ cd [dirName]
 $ yo goat-stack [name?]
 ```
@@ -16,6 +16,7 @@ $ yo goat-stack [name?]
 ### Possible generators
 
   + yo goat-stack [?name]
+  + yo goat-stack:segment [?name]
   + yo goat-stack:component [?name]
   + yo goat-stack:service [?name]
   + yo goat-stack:directive [?name]
