@@ -120,6 +120,8 @@ export class Gulpfile {
       .pipe(replace('<!-- <link rel="icon"> -->', '<link id="favicon" rel="icon" href="'+ defaultConfig.app.favicon +'">'))
       .pipe(replace('<!-- <meta name="description"> -->', '<meta name="description" content="'+ defaultConfig.app.description +'">'))
       .pipe(replace('<!-- <meta name="keywords"> -->', '<meta name="keywords" content="'+ defaultConfig.app.keywords +'">'))
+      .pipe(defaultConfig.app.g_analytics !== '' ? replace('<!-- <script>Google Analytics</script> -->', defaultConfig.app.g_analytics) :
+        replace('<!-- <script>Google Analytics</script> -->', ''))
       .pipe(gulp.dest('./dist/client'));
   }
   @Task()
@@ -129,6 +131,8 @@ export class Gulpfile {
       .pipe(replace('<!-- <link rel="icon"> -->', '<link id="favicon" rel="icon" href="'+ defaultConfig.app.favicon +'">'))
       .pipe(replace('<!-- <meta name="description"> -->', '<meta name="description" content="'+ defaultConfig.app.description +'">'))
       .pipe(replace('<!-- <meta name="keywords"> -->', '<meta name="keywords" content="'+ defaultConfig.app.keywords +'">'))
+      .pipe(defaultConfig.app.g_analytics !== '' ? replace('<!-- <script>Google Analytics</script> -->', defaultConfig.app.g_analytics) :
+        replace('<!-- <script>Google Analytics</script> -->', ''))
       .pipe(gulp.dest('./dist/client'));
   }
 
@@ -632,6 +636,12 @@ export class Gulpfile {
 
   @Task()
   heroku_prompt() {
+
+    if (defaultConfig.https_secure)
+      console.log('\n\n' + chalk.red.bold('\tWARNING:\n\n\tYou are about to deploy to Heroku with GOAT configured for HTTPS!!\n\n' +
+        '\tThe deployed applicaiton WILL FAIL unless you configure the\n\tcertificates in Heroku correctly!!\n\n') +
+        chalk.green.bold('\tWe suggest setting https_secure: false in "config/env/default"\n\tuntil your heroku repo is prepped for custom certificates.\n\n'));
+
     return gulp.src('')
       .pipe(prompt.prompt([{
         type:     'list',

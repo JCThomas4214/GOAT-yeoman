@@ -107,6 +107,8 @@ gulp.task('demo_replace_default_env', function() {
 		.pipe(replace("description: 'The Greatest of All Time Stack!'", "description: '<%= appdescription %>'"))
 		.pipe(replace("keywords: 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor'", 
 			"keywords: '<%= appkeywords %>'"))
+		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
+		.pipe(replace("g_analytics: ''", "g_analytics: <%- analytics %>"))
 		.pipe(gulp.dest('templates/demo-app/config/env/default'));
 });
 gulp.task('demo_replace_socketio', function() {
@@ -142,6 +144,8 @@ gulp.task('starter_replace_default_env', function() {
 		.pipe(replace("description: 'The Greatest of All Time Stack!'", "description: '<%= appdescription %>'"))
 		.pipe(replace("keywords: 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor'", 
 			"keywords: '<%= appkeywords %>'"))
+		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
+		.pipe(replace("g_analytics: ''", "g_analytics: <%- analytics %>"))
 		.pipe(gulp.dest('templates/starter-app/config/env/default'));
 });
 gulp.task('starter_replace_socketio', function() {
