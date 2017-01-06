@@ -12,56 +12,40 @@ var fs = require('graceful-fs'),
 // clean the project of cloned apps and tmp folders
 gulp.task('clean', function(done) {
 	return del([
-		'demo-app',
-		'starter-app',
+		'generators/app/templates/demo-app/**',
+		'generators/app/templates/starter-app/**',
 		'test'
 	], done);
 });
-gulp.task('clean_assets', function(done) {
-	return del(['assets'], done);
-});
+
 gulp.task('remove_template_old', function(done) {
 	return del([
-		'templates/demo-app', 
-		'templates/starter-app'
+		'generators/app/templates/demo-app/**', 
+		'generators/app/templates/starter-app/**',
+		'generators/app/templates/dbless-app/**',		
 	], done);
 });
 
 // Git clone the template repos and put them inside
 gulp.task('clone_demo', shell.task([
-	'cd templates && git clone https://github.com/projectSHAI/GOAT-stack demo-app'
+	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOAT-stack demo-app'
 ]));
 gulp.task('clone_starter', shell.task([
-	'cd templates && git clone https://github.com/projectSHAI/GOAT-stack starter-app',
-	'cd templates/starter-app && git checkout helloGOAT'
+	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOAT-stack starter-app',
+	'cd generators/app/templates/starter-app && git checkout helloGOAT'
+]));
+gulp.task('clone_dbless', shell.task([
+	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOAT-stack dbless-app',
+	'cd generators/app/templates/dbless-app && git checkout DBlessGOAT'
 ]));
 
 // Delete the .git folder inside clones and delete existing templates
 gulp.task('clean_clones', function(done) {
 	return del([
-		'templates/demo-app/.git',
-		'templates/demo-app/public/assets',
-		'templates/starter-app/.git',
-		'templates/starter-app/public/assets',
+		'generators/app/templates/demo-app/.git',
+		'generators/app/templates/starter-app/.git',
+		'generators/app/templates/dbless-app/.git',
 	], done);
-});
-
-// Move assets to corresponding folders
-gulp.task('move_assets', function(done) {
-	return runSequence(
-		'clean_assets',
-		'move_assets_demo',
-		'move_assets_starter',
-		done
-	);
-});
-gulp.task('move_assets_demo', function() {
-	return gulp.src('templates/demo-app/public/assets/**')
-		.pipe(gulp.dest('./assets/demo-app'));
-});
-gulp.task('move_assets_starter', function() {
-	return gulp.src('templates/starter-app/public/assets/**')
-		.pipe(gulp.dest('./assets/starter-app'));
 });
 
 // Replace specific lines for ejs templating
@@ -70,89 +54,126 @@ gulp.task('ejs_replace', function(done) {
 		'demo_replace_module', 
 		'demo_replace_store',
 		'demo_replace_routes',
+		'demo_replace_html',
 		'demo_replace_default_env',
 		'demo_replace_socketio',
 		'starter_replace_module', 
 		'starter_replace_store',
 		'starter_replace_routes',
+		'starter_replace_html',
 		'starter_replace_default_env',
 		'starter_replace_socketio',
+		'dbless_replace_module',
+		'dbless_replace_store',
+		'dbless_replace_html',
 		done
 	);
 });
 
 // Replace tasks for demo-app
 gulp.task('demo_replace_module', function() {
-	return gulp.src('templates/demo-app/client/main.module.ts')
+	return gulp.src('generators/app/templates/demo-app/client/main.module.ts')
 		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/client'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/client'));
 });
 gulp.task('demo_replace_store', function() {
-	return gulp.src('templates/demo-app/client/store/index.ts')
+	return gulp.src('generators/app/templates/demo-app/client/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/client/store'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/client/store'));
 });
 gulp.task('demo_replace_routes', function() {
-	return gulp.src('templates/demo-app/server/routes.ts')
+	return gulp.src('generators/app/templates/demo-app/server/routes.ts')
 		.pipe(replace("// DO NOT REMOVE: template route imports", "<%- routerImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template routes", "<%- expressRouters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/server'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/server'));
+});
+gulp.task('demo_replace_html', function() {
+	return gulp.src('generators/app/templates/demo-app/client/index.html')
+		.pipe(replace("GOAT-stack", "<%= appname %>"))
+		.pipe(replace("The Greatest of All Time Stack!", "<%= appdescription %>"))
+		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
+			"<%= appkeywords %>"))
+		.pipe(replace("<!-- <script></script> -->", "<%- analytics %>"))
+		.pipe(gulp.dest('generators/app/templates/demo-app/client'));
 });
 gulp.task('demo_replace_default_env', function() {
-	return gulp.src('templates/demo-app/config/env/default/default.ts')
-		.pipe(replace("title: 'GOAT-stack'", "title: '<%= appname %>'"))
-		.pipe(replace("description: 'The Greatest of All Time Stack!'", "description: '<%= appdescription %>'"))
-		.pipe(replace("keywords: 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor'", 
-			"keywords: '<%= appkeywords %>'"))
+	return gulp.src('generators/app/templates/demo-app/config/env/default.ts')
 		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(replace("g_analytics: ''", "g_analytics: <%- analytics %>"))
-		.pipe(gulp.dest('templates/demo-app/config/env/default'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/config/env'));
 });
 gulp.task('demo_replace_socketio', function() {
-	return gulp.src('templates/demo-app/config/lib/socketio.ts')
+	return gulp.src('generators/app/templates/demo-app/server/socketio.ts')
 		.pipe(replace("// DO NOT REMOVE: template socket imports", "<%- socketImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template sockets", "<%= socketRegisters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('templates/demo-app/config/lib'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/server'));
 });
 
 // Replace tasks for starter-app
 gulp.task('starter_replace_module', function() {
-	return gulp.src('templates/starter-app/client/main.module.ts')
+	return gulp.src('generators/app/templates/starter-app/client/main.module.ts')
 		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/client'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/client'));
 });
 gulp.task('starter_replace_store', function() {
-	return gulp.src('templates/starter-app/client/store/index.ts')
+	return gulp.src('generators/app/templates/starter-app/client/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/client/store'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/client/store'));
 });
 gulp.task('starter_replace_routes', function() {
-	return gulp.src('templates/starter-app/server/routes.ts')
+	return gulp.src('generators/app/templates/starter-app/server/routes.ts')
 		.pipe(replace("// DO NOT REMOVE: template route imports", "<%- routerImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template routes", "<%- expressRouters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/server'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/server'));
+});
+gulp.task('starter_replace_html', function() {
+	return gulp.src('generators/app/templates/starter-app/client/index.html')
+		.pipe(replace("GOAT-stack", "<%= appname %>"))
+		.pipe(replace("The Greatest of All Time Stack!", "<%= appdescription %>"))
+		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
+			"<%= appkeywords %>"))
+		.pipe(replace("<!-- <script></script> -->", "<%- analytics %>"))
+		.pipe(gulp.dest('generators/app/templates/starter-app/client'));
 });
 gulp.task('starter_replace_default_env', function() {
-	return gulp.src('templates/starter-app/config/env/default/default.ts')
-		.pipe(replace("title: 'GOAT-stack'", "title: '<%= appname %>'"))
-		.pipe(replace("description: 'The Greatest of All Time Stack!'", "description: '<%= appdescription %>'"))
-		.pipe(replace("keywords: 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor'", 
-			"keywords: '<%= appkeywords %>'"))
+	return gulp.src('generators/app/templates/starter-app/config/env/default.ts')
 		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(replace("g_analytics: ''", "g_analytics: <%- analytics %>"))
-		.pipe(gulp.dest('templates/starter-app/config/env/default'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/config/env'));
 });
 gulp.task('starter_replace_socketio', function() {
-	return gulp.src('templates/starter-app/config/lib/socketio.ts')
+	return gulp.src('generators/app/templates/starter-app/server/socketio.ts')
 		.pipe(replace("// DO NOT REMOVE: template socket imports", "<%- socketImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template sockets", "<%= socketRegisters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('templates/starter-app/config/lib'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/server'));
+});
+
+// Replace tasks for dbless-app
+gulp.task('dbless_replace_module', function() {
+	return gulp.src('generators/app/templates/dbless-app/client/main.module.ts')
+		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
+		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
+		.pipe(gulp.dest('generators/app/templates/dbless-app/client'));
+});
+gulp.task('dbless_replace_store', function() {
+	return gulp.src('generators/app/templates/dbless-app/client/store/index.ts')
+		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
+		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
+		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
+		.pipe(gulp.dest('generators/app/templates/dbless-app/client/store'));
+});
+gulp.task('dbless_replace_html', function() {
+	return gulp.src('generators/app/templates/dbless-app/client/index.html')
+		.pipe(replace("GOAT-stack", "<%= appname %>"))
+		.pipe(replace("The Greatest of All Time Stack!", "<%= appdescription %>"))
+		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
+			"<%= appkeywords %>"))
+		.pipe(replace("<!-- <script></script> -->", "<%- analytics %>"))
+		.pipe(gulp.dest('generators/app/templates/dbless-app/client'));
 });
 
 gulp.task('update', function(done) {
@@ -160,7 +181,7 @@ gulp.task('update', function(done) {
 		'remove_template_old',
 		'clone_demo',
 		'clone_starter',
-		'move_assets',
+		'clone_dbless',
 		'clean_clones',
 		'ejs_replace',
 		done

@@ -1,12 +1,12 @@
 var generators = require('yeoman-generator'),
 	_ = require('lodash'),
-  exec = require('child_process').exec;
+  exec = require('child_process').exec,
+  glob = require('glob'),
+  chalk = require('chalk');
 
 module.exports = generators.Base.extend({
   // note: arguments and options should be defined in the constructor.
   constructor: function () {
-  	// The root of the yeoman project
-  	base = '../../../';
 
     generators.Base.apply(this, arguments);
     // This makes `appname` not a required argument.
@@ -18,8 +18,12 @@ module.exports = generators.Base.extend({
       type    : 'list',
       name    : 'apptype',
       message : 'Which app would you like to start with?',
-      choices : ['demo-app', 'starter-app'],
-      default : 'demo-app'
+      choices : [
+        ` Demo Stack ${chalk.bold.yellow('(demo application found at www.goat-stack.herokuapp.com)')}`,
+        ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
+        ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`
+      ],
+      default : 0
     }, {
       type    : 'input',
       name    : 'appname',
@@ -39,7 +43,8 @@ module.exports = generators.Base.extend({
       type    : 'list',
       name    : 'protocol',
       message : 'What type of URL protocol would you like to use?',
-      choices : ['http', 'https']
+      choices : ['http', 'https'],
+      when    : (res) => !/^ DBlessGOAT/.test(res.apptype)
     }, {
       type    : 'confirm',
       name    : 'analyticschoice',
@@ -47,11 +52,12 @@ module.exports = generators.Base.extend({
     }, {
       type    : 'editor',
       name    : 'analytics',
-      message : 'Paste the Google Analytics script (including script tags) then exit!',
+      message : 'Paste the Google Analytics script (including script tags) then save => exit!',
       when    : (res) => res.analyticschoice
     }, ]).then(function (answers) {
 
-      this.apptype          = answers.apptype;
+      this.apptype          = /^ Demo/.test(answers.apptype) ? 'demo-app' : 
+                              /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 'dbless-app';
     	this.appname          = answers.appname;
     	this.appdescription   = answers.appdescription;
     	this.appkeywords      = answers.appkeywords;
@@ -89,7 +95,7 @@ module.exports = generators.Base.extend({
         appdescription      : this.appdescription,
         appkeywords         : this.appkeywords,
         protocol            : this.protocol === 'https',
-        analytics           : this.analytics ? '`\n' + this.analytics + '\n`' : ''
+        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r|\s+)/gm, '') : ''
 	    });
 	    this.config.save();
 
@@ -99,16 +105,16 @@ module.exports = generators.Base.extend({
   writing: function () {
     // Write the application template
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/' + this.apptype),
+      glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png)`),
       this.destinationPath(),
       this.config.getAll()
     );
 
     // Copy over the application assets
     this.fs.copy(
-      this.templatePath(base + 'assets/' + this.apptype),
+      glob.sync(`${this.templatePath()}/${this.apptype}/public/assets/*`),
       this.destinationPath('public/assets')
-    );
+    );    
   },
   // Starts npm install
   installNpm: function() {

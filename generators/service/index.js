@@ -4,9 +4,6 @@ var generators = require('yeoman-generator'),
 module.exports = generators.Base.extend({
   // note: arguments and options should be defined in the constructor.
   constructor: function () {
-  	// The root of the yeoman project
-  	base = '../../../';
-
     generators.Base.apply(this, arguments);
     // // This makes `appname` not a required argument.
     this.argument('servicename', { type: String, required: false });
@@ -39,8 +36,8 @@ module.exports = generators.Base.extend({
   writing: function () {
     // Clone the template service.ts file
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/service/template.service.ts'),
-      this.destinationPath('client/' + this.segmentname + '/services/' + this.fname + '/' + this.fname + '.service.ts'),
+      this.templatePath('template.service.ts'),
+      this.destinationPath(`client/${this.segmentname}/services/${this.fname}/${this.fname}.service.ts`),
       { 
         namelower: this.namelower,
         servicename: this.servicename
