@@ -6,7 +6,7 @@ module.exports = generators.Base.extend({
   // note: arguments and options should be defined in the constructor.
   constructor: function () {
   	// The root of the yeoman project
-  	base = '../../../';
+  	base = '../../..';
 
     generators.Base.apply(this, arguments);
     // // This makes `appname` not a required argument.
@@ -33,7 +33,7 @@ module.exports = generators.Base.extend({
       config.Segments.push(this.fname + '-segment');
       config.newComponents.push(this.segmentname + 'Component');
       config.newComponentImports.push(
-        "import { "+ this.segmentname +"Component } from './"+ this.fname +"-segment/components/"+ this.fname +"/"+ this.fname +".component';");
+        `import { ${this.segmentname}Component } from './${this.fname}-segment/components/${this.fname}/${this.fname}.component';`);
 
       this.config.set(config);
       this.config.save();
@@ -42,7 +42,7 @@ module.exports = generators.Base.extend({
   },
   editModule: function() { 
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/' + this.config.get('apptype') + '/client/main.module.ts'),
+      this.templatePath(`${base}/generators/app/templates/${this.config.get('apptype')}/client/main.module.ts`),
       this.destinationPath('client/main.module.ts'),
       { 
         newComponents: this.config.get('newComponents'),
@@ -54,8 +54,8 @@ module.exports = generators.Base.extend({
   writing: function () {
      // Clone the template component.ts file
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/component/template.component.ts'),
-      this.destinationPath('client/' + this.fname + '-segment/components/' + this.fname + '/' + this.fname + '.component.ts'),
+      this.templatePath(`${base}/generators/component/templates/template.component.ts`),
+      this.destinationPath(`client/${this.fname}-segment/components/${this.fname}/${this.fname}.component.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -64,8 +64,8 @@ module.exports = generators.Base.extend({
     );
     // Clone the template component.html file
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/component/template.component.html'),
-      this.destinationPath('client/' + this.fname + '-segment/components/' + this.fname + '/' + this.fname + '.component.html'),
+      this.templatePath(`${base}/generators/component/templates/template.component.html`),
+      this.destinationPath(`client/${this.fname}-segment/components/${this.fname}/${this.fname}.component.html`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -74,8 +74,8 @@ module.exports = generators.Base.extend({
     );
     // Clone the template component.scss file
     this.fs.copyTpl(
-      this.templatePath(base + 'templates/component/template.component.scss'),
-      this.destinationPath('client/' + this.fname + '-segment/components/' + this.fname + '/' + this.fname + '.component.scss'),
+      this.templatePath(`${base}/generators/component/templates/template.component.scss`),
+      this.destinationPath(`client/${this.fname}-segment/components/${this.fname}/${this.fname}.component.scss`),
       { 
         fname: this.fname,
         namelower: this.namelower,

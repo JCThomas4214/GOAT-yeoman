@@ -72,10 +72,13 @@ module.exports = generators.Base.extend({
           'island-segment',
           'ocean-segment',
           'sky-segment'
-        ] : [
+        ] : this.apptype === 'starter-app' ? [
           'footer-segment',
           'header-segment',
           'profile-segment'
+        ] : [
+          'footer-segment',
+          'header-segment'
         ],
 
         newComponents       : [],
