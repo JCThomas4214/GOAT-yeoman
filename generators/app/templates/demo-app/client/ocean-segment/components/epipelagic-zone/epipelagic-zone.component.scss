@@ -1,0 +1,81 @@
+blue-whale {
+    position: absolute;
+    top: 0vh;
+    left: 20%;
+    width: 60%;
+}
+
+#problem-solution {
+    position: absolute;
+    margin: 0 auto;
+    top: 100vh;
+    left: 0;
+    right: 0;
+}
+
+#problem {
+	margin-bottom: 100px;
+}
+
+object {
+	position: absolute;
+}
+
+.school1 .fish1:nth-of-type(1) {
+	left: 10%;
+	width: 10%;
+	top: 45vh;
+}
+
+.school1 .fish1:nth-of-type(2) {
+	left: 17%;
+	width: 5%;
+	top: 46vh;
+}
+
+.school1 .fish1:nth-of-type(3) {
+	left: 20%;
+	width: 3%;
+	top: 40vh;
+}
+
+.school1 .fish1:nth-of-type(4) {
+	left: 17%;
+	width: 4%;
+	top: 55vh;
+}
+
+.school2 .fish2:nth-of-type(1) {
+	right: 5%;
+	width: 3%;
+	top: 80vh;
+}
+
+.school2 .fish2:nth-of-type(2) {
+	right: 10%;
+	width: 6%;
+	top: 79vh;
+}
+
+.school2 .fish2:nth-of-type(3) {
+	right: 20%;
+	width: 2%;
+	top: 83vh;
+}
+
+.school2 .fish2:nth-of-type(4) {
+	right: 17%;
+	width: 4%;
+	top: 85vh;
+}
+
+.turtle {
+	left: 10%;
+	width: 10%;
+	top: 125vh;
+}
+.shark {
+	right: 10%;
+	width: 10%;
+	top: 175vh;
+}

@@ -4,8 +4,8 @@ import { select } from 'ng2-redux';
 import { Observable } from 'rxjs/Observable';
 
 import { WonderActions } from '../../../sky-segment/actions/wonder/wonder.actions';
-import { ZoomActions } from '../../actions/zoom/zoom.actions';
-import { ZoomDirective } from '../../directives/zoom.directive';
+import { ZoomActions } from '../../../main-segment/actions/zoom/zoom.actions';
+import { ZoomDirective } from '../../../main-segment/directives/zoom.directive';
 
 @Component({
   selector: 'the-island',
@@ -44,4 +44,8 @@ export class IslandComponent implements OnInit {
     });
   }
 
+  submitWonder(dream: string) {
+    this.wonderActions.saveWonder(dream);
+    return this.dream = '';
+  }
 }

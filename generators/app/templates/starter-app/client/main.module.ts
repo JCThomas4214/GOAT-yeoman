@@ -14,6 +14,7 @@ Main component which gets bootstrapped
 //Named AppComponent in compliance with Angular best practices
 */
 import { AppComponent }                              from './main-segment/components/app/app.component';
+require('./styles');
 
 /*
 --------------------------------------------------
@@ -27,7 +28,6 @@ import { BrowserModule }                             from '@angular/platform-bro
 import { HttpModule, JsonpModule }                   from '@angular/http';
 import { MaterialModule }                            from '@angular/material';
 import { NgReduxModule, NgRedux, DevToolsExtension } from 'ng2-redux';
-import { _NgRedux }                                  from './main-segment/actions/redux.sol';
 
 /*
 --------------------------------------------------
@@ -162,9 +162,6 @@ NgModule
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions]
     },
-    // ng2-rdux AoT workaround solution
-    // { provide: NgRedux, useClass: _NgRedux },
-    /////////////////////////////////////
     ErrorHandlerActions,
     SEOActions,
     SocketService,

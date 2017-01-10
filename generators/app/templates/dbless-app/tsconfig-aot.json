@@ -8,14 +8,13 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "noImplicitAny": false,
-    "outDir": "./",
-    "rootDir": "./",
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "mapRoot": "",
-    "typeRoots": [
-      "node_modules/@types"
+    "types": [
+      "graceful-fs",
+      "immutable",
+      "lodash",
+      "core-js"
     ]
   },
   "files": [
@@ -23,8 +22,12 @@
     "client/main.ts",
     "client/main-aot.ts"
   ],
+  "exclude": [
+    "node_modules/@types/mongoose"
+  ],
   "angularCompilerOptions": {
-    "genDir": "ngc-aot",    
-    "skipMetadataEmit" : true
+    "genDir": "ngc-aot",
+    "skipMetadataEmit" : true,
+    "entryModule": "client/main.module#MainModule"
   }
 }

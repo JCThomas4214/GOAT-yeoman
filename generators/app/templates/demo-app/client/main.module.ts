@@ -13,6 +13,7 @@ Main component which gets bootstrapped
 //Named AppComponent in compliance with Angular best practices
 */
 import { AppComponent }                              from './main-segment/components/app/app.component';
+require('./styles');
 
 /*
 --------------------------------------------------
@@ -56,10 +57,16 @@ import { HomeComponent }                             from './main-segment/compon
 import { Four0FourComponent }                        from './main-segment/components/404/four0four.component';
 import { UserProfileComponent }                      from './main-segment/components/user-profile/user-profile.component';
 import { OceanComponent }                            from './ocean-segment/components/ocean/ocean.component';
-import { WhaleComponent }                            from './island-segment/components/whale/whale.component';
-import { IslandComponent }                           from './island-segment/components/island/island.component';
-import { MountainGoatComponent }                     from './island-segment/components/mountain-goat/mountain-goat.component';
+import { AbyssopelagicZoneComponent }                from './ocean-segment/components/abyssopelagic-zone/abyssopelagic-zone.component';
+import { BathypelagicZoneComponent }                 from './ocean-segment/components/bathypelagic-zone/bathypelagic-zone.component';
+import { EpipelagicZoneComponent }                   from './ocean-segment/components/epipelagic-zone/epipelagic-zone.component';
+import { MesopelagicZoneComponent }                  from './ocean-segment/components/mesopelagic-zone/mesopelagic-zone.component';
+import { OceanFloorComponent }                       from './ocean-segment/components/ocean-floor/ocean-floor.component';
+import { WhaleComponent }                            from './whale-segment/components/whale/whale.component';
+import { IslandComponent }                           from './whale-segment/components/island/island.component';
+import { MountainGoatComponent }                     from './whale-segment/components/mountain-goat/mountain-goat.component';
 import { SkyComponent }                              from './sky-segment/components/sky/sky.component';
+import { StratosphereComponent }                     from './sky-segment/components/stratosphere/stratosphere.component';
 import { CloudGeneratorComponent }                   from './sky-segment/components/cloud-generator/cloud-generator.component';
 import { FooterComponent }                           from './footer-segment/components/footer/footer.component';
 <%- newComponentImports.join('\n') %>
@@ -73,7 +80,7 @@ Directives
 //Declare directives here
 */
 //user created directives
-import { ZoomDirective }                             from './island-segment/directives/zoom.directive';
+import { ZoomDirective }                             from './main-segment/directives/zoom.directive';
 //Angular and 3rd party directives
 
 /*
@@ -161,7 +168,13 @@ NgModule
     AppComponent,
     NavBarComponent,
     SkyComponent,
+    StratosphereComponent, 
     OceanComponent,
+    AbyssopelagicZoneComponent,
+    BathypelagicZoneComponent,
+    EpipelagicZoneComponent,
+    MesopelagicZoneComponent,
+    OceanFloorComponent,  
     WhaleComponent,
     IslandComponent,
     MountainGoatComponent,

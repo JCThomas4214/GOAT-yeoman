@@ -10,12 +10,11 @@
 # Quick Start 
 
 ```sh
-$ npm install -g yo generator-goat-stack gulp-cli typescript
+$ [sudo] npm install -g yo generator-goat-stack
 $ mkdir [dirName] && cd [dirName]
-$ yo goat-stack [name?]
-$ npm install
-$ # mongod in another terminal!
-$ gulp
+$ [sudo] yo goat-stack [name?]
+$ # [sudo] mongod in another terminal!
+$ [sudo] npm start
 ```
 
 # What's new? v2.0
@@ -28,20 +27,12 @@ $ gulp
   * explore the depths of the ocean and the vastness of space to learn more about the stack
 
 
-## CURRENT ISSUES!
-
-* Production AoT compilation
-  * angular compiler-cli 2.4.x not resolving metadata from .d.ts file (mongodb)
-  * GOAT-stack will use angular 2.3.1 until further notice 
-
-    
-
 # Documentation Wiki
 
   * [Home](https://github.com/projectSHAI/GOAT-stack/wiki)
   * [FAQ](https://github.com/projectSHAI/GOAT-stack/wiki/FAQ)
   * [Dev-Tools](https://github.com/projectSHAI/GOAT-stack/wiki/Dev-Tools)
-  * [Gulp Tasks](https://github.com/projectSHAI/GOAT-stack/wiki/Gulp-Tasks)
+  * [NPM Scripts](https://github.com/projectSHAI/GOAT-stack/wiki/NPM-Scripts)
   * [Client Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Client-Side-Docs)
   * [Server Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Docs)
   * [End to End Testing](https://github.com/projectSHAI/GOAT-stack/wiki/End-to-End-Testing)
@@ -107,7 +98,6 @@ If you end up not liking the GOAT Stack, that's ok too! Please drop by our [Redd
 <a name="reqs"></a>
 # Required Technologies for your Development Environment
 
-  * [gulp](http://gulpjs.com/) (standard privileges required)
   * [typescript](https://www.typescriptlang.org/)
   * [nodejs](https://nodejs.org/en/)
   * [mongodb](https://docs.mongodb.com/)
@@ -135,12 +125,11 @@ If you end up not liking the GOAT Stack, that's ok too! Please drop by our [Redd
 ### 5) Clone and Run
 
 ```sh
-$ npm install -g yo generator-goat-stack gulp-cli typescript
+$ npm install -g yo generator-goat-stack
 $ mkdir GOAT-stack && cd GOAT-stack
 $ yo goat-stack [name?]
-$ npm install
 $ # mongod in another terminal!
-$ gulp
+$ npm start
 ```
 
 ## Linux
@@ -170,14 +159,13 @@ $ sudo apt-get install -y nodejs
 ### 4) Clone and Run
 
 ```sh
-$ npm install -g yo generator-goat-stack gulp-cli typescript
+$ sudo npm install -g yo generator-goat-stack
 $ mkdir GOAT-stack && cd GOAT-stack 
-$ yo goat-stack [name?]
-$ npm install
-$ # mongod in another terminal!
-$ sudo gulp
+$ sudo yo goat-stack [name?]
+$ # sudo mongod in another terminal!
+$ sudo npm start
 ```
-> Note: gulp needs to be elevated with `sudo`, otherwise the mongod process which is executed in the gulp task runner will throw an error stating the port is already in use, even if it is free. This happens even when running mongod in its own terminal.
+> Note: npm needs to be elevated with `sudo`, otherwise child_process will throw errors and/or webpack-dev-server will not serve.
 
 # Deploying to Heroku
 ![Deployment Banner](https://github.com/JCThomas4214/Documentation/blob/master/GOAT/assets/goat-deploy-banner.png)
@@ -193,7 +181,7 @@ $ heroku login
 ### 2) Run the gulp task
 
 ```sh
-$ gulp deploy:heroku
+$ [sudo] npm run deploy:heroku
 ```
 
 ## Yo Generator Project [here](https://github.com/JCThomas4214/GOAT-yeoman)

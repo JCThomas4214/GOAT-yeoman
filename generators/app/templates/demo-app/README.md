@@ -15,6 +15,7 @@ $ mkdir [dirName] && cd [dirName]
 $ [sudo] yo goat-stack [name?]
 $ # [sudo] mongod in another terminal!
 $ [sudo] npm start
+$ # dev environment served to http://localhost:1701
 ```
 
 # What's new? v2.0
@@ -27,20 +28,12 @@ $ [sudo] npm start
   * explore the depths of the ocean and the vastness of space to learn more about the stack
 
 
-## CURRENT ISSUES!
-
-* Production AoT compilation
-  * angular compiler-cli 2.4.x not resolving metadata from .d.ts file (mongodb)
-  * GOAT-stack will use angular 2.3.1 until further notice
-
-    
-
 # Documentation Wiki
 
   * [Home](https://github.com/projectSHAI/GOAT-stack/wiki)
   * [FAQ](https://github.com/projectSHAI/GOAT-stack/wiki/FAQ)
   * [Dev-Tools](https://github.com/projectSHAI/GOAT-stack/wiki/Dev-Tools)
-  * [NPM Scripts](https://github.com/projectSHAI/GOAT-stack/wiki/Gulp-Tasks)
+  * [NPM Scripts](https://github.com/projectSHAI/GOAT-stack/wiki/NPM-Scripts)
   * [Client Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Client-Side-Docs)
   * [Server Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Docs)
   * [End to End Testing](https://github.com/projectSHAI/GOAT-stack/wiki/End-to-End-Testing)
@@ -81,7 +74,7 @@ ___
  * The GOAT stack capitilizes on Angular2's [Ahead-of-Time](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) server side rendering. Having the server do the heavy lifting at build time allows us to serve pre-rendered views to the client. This dramatically decreases initial load time.
  
 ### 2. Scaleable resources
- * MongoDB fits the developer paradigm very well. with proper [indexing](https://docs.mongodb.com/manual/indexes/) and [schema design](https://docs.mongodb.com/v3.2/core/data-model-design/) daabase response times will be linear, or consant. Also, the capability of [sharding](https://docs.mongodb.com/manual/sharding/) removes the bottle-neck of datasize. 
+ * MongoDB fits the developer paradigm very well. with proper [indexing](https://docs.mongodb.com/manual/indexes/) and [schema design](https://docs.mongodb.com/v3.2/core/data-model-design/) database response times will be linear, or consant. Also, the capability of [sharding](https://docs.mongodb.com/manual/sharding/) removes the bottle-neck of datasize. 
 
 ### 3. Scaleable Architecture
  * [Immmutable](https://en.wikipedia.org/wiki/Immutable_object) makes app data predictable at any scale, and [redux](http://redux.js.org/docs/introduction/) makes dataflow manageble by eliminating many-to-many relationships, this completely removes tangled nests of components, making them more modular. Redux places the entire app's [state tree](http://redux.js.org/docs/Glossary.html#state) in one focal area which is the [store](http://redux.js.org/docs/api/Store.html). 
@@ -138,6 +131,7 @@ $ mkdir GOAT-stack && cd GOAT-stack
 $ yo goat-stack [name?]
 $ # mongod in another terminal!
 $ npm start
+$ # dev environment served to http://localhost:1701
 ```
 
 ## Linux
@@ -172,6 +166,7 @@ $ mkdir GOAT-stack && cd GOAT-stack
 $ sudo yo goat-stack [name?]
 $ # sudo mongod in another terminal!
 $ sudo npm start
+$ # dev environment served to http://localhost:1701
 ```
 > Note: npm needs to be elevated with `sudo`, otherwise child_process will throw errors and/or webpack-dev-server will not serve.
 

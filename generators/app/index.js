@@ -125,7 +125,7 @@ module.exports = generators.Base.extend({
   },
   end: function() {
     if (this.protocol === 'https')
-      exec('cd config/scripts && generate-ssl-certs.sh', (error, stdout, stderr) => {
+      exec('cd config/other && generate-ssl-certs.sh', (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;

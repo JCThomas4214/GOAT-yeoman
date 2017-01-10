@@ -15,7 +15,7 @@ const testList = [{
 
 class MockRedux extends NgRedux<any> {
   constructor() {
-    super();
+    super(null);
   }
   dispatch: () => {};
 }

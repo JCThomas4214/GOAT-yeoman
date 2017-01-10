@@ -66,7 +66,7 @@ module.exports = function(options) {
         mangle: {
           keep_fnames: true
         }
-      })
+      }),
     ] : [
       new webpack.optimize.UglifyJsPlugin({
         mangle: {
