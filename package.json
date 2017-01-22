@@ -1,7 +1,7 @@
 {
-  "name": "generator-goat-stack",
-  "version": "2.1.0",
-  "description": "yo generator for the GOAT-stack, a MEAN stack that puts SEO and scale-ability first",
+  "name": "generator-goatstack",
+  "version": "2.0.2",
+  "description": "yo generator for the GOAT-stack, a MEAN stack with Angular2/Angular4 that puts SEO and scale-ability first",
   "files": [
     "generators/app",
     "generators/segment",
