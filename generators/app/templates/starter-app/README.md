@@ -1,4 +1,4 @@
-# Check out the [Demo App](https://goat-stack.herokuapp.com/)!
+# Check out the [Demo App](http://www.goatstack.com/)!
 
 ![build](https://circleci.com/gh/JCThomas4214/GOAT-stack/tree/master.svg?style=shield)
 [![npm version](https://img.shields.io/npm/v/generator-goat-stack.svg)](https://www.npmjs.com/package/generator-goat-stack)
@@ -10,21 +10,27 @@
 # Quick Start 
 
 ```sh
-$ [sudo] npm install -g yo generator-goat-stack
+$ [sudo] npm install -g yo generator-goatstack
 $ mkdir [dirName] && cd [dirName]
-$ [sudo] yo goat-stack [name?]
+$ [sudo] yo goatstack [name?]
 $ # [sudo] mongod in another terminal!
 $ [sudo] npm start
+$ # dev environment served to http://localhost:1701
 ```
 
-# What's new? v2.0
+# What's new? v2.x
 
 * ~~SystemJS~~ => Webpack
   * client-side and server-side bundling with Webpack
   * removal of gulp task runner / moved to npm scripts
   * simplified config folder structure
 * Expanded the GOAT universe (client-side demo)
-  * explore the depths of the ocean and the vastness of space to learn more about the stack
+  * explore the depths of the ocean to learn more about the stack
+  * mobile compatable
+
+# Future updates
+
+* Server-side render with Angular2 Universal
 
 
 # Documentation Wiki
@@ -37,7 +43,7 @@ $ [sudo] npm start
   * [Server Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Docs)
   * [End to End Testing](https://github.com/projectSHAI/GOAT-stack/wiki/End-to-End-Testing)
   * [Client Side Testing](https://github.com/projectSHAI/GOAT-stack/wiki/Client-Side-Testing)
-  * [Server Side Testin](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Testing)
+  * [Server Side Testing](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Testing)
  
 ### **For more information about the stack click [here](https://github.com/projectSHAI/GOAT-stack/wiki)**
 ___
@@ -70,10 +76,10 @@ ___
 <img src="https://github.com/JCThomas4214/Documentation/blob/master/GOAT/assets/optimized-space-ship.png?raw=true" align="right">
 
 ### 1. Initial page load speed 
- * The GOAT stack capitilizes on Angular2's [Ahead-of-Time](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) server side rendering. Having the server do the heavy lifting at build time allows us to serve pre-rendered views to the client. This dramatically decreases initial load time.
+ * The GOAT stack capitilizes on Angular2's [Ahead-of-Time](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) server-side compilation. Having the server do the heavy lifting at build time allows us to serve pre-compiled views for the client to load. This dramatically decreases initial load time.
  
 ### 2. Scaleable resources
- * MongoDB fits the developer paradigm very well. with proper [indexing](https://docs.mongodb.com/manual/indexes/) and [schema design](https://docs.mongodb.com/v3.2/core/data-model-design/) daabase response times will be linear, or consant. Also, the capability of [sharding](https://docs.mongodb.com/manual/sharding/) removes the bottle-neck of datasize. 
+ * MongoDB fits the developer paradigm very well. with proper [indexing](https://docs.mongodb.com/manual/indexes/) and [schema design](https://docs.mongodb.com/v3.2/core/data-model-design/) database response times will be linear, or consant. Also, the capability of [sharding](https://docs.mongodb.com/manual/sharding/) removes the bottle-neck of datasize. 
 
 ### 3. Scaleable Architecture
  * [Immmutable](https://en.wikipedia.org/wiki/Immutable_object) makes app data predictable at any scale, and [redux](http://redux.js.org/docs/introduction/) makes dataflow manageble by eliminating many-to-many relationships, this completely removes tangled nests of components, making them more modular. Redux places the entire app's [state tree](http://redux.js.org/docs/Glossary.html#state) in one focal area which is the [store](http://redux.js.org/docs/api/Store.html). 
@@ -125,11 +131,12 @@ If you end up not liking the GOAT Stack, that's ok too! Please drop by our [Redd
 ### 5) Clone and Run
 
 ```sh
-$ npm install -g yo generator-goat-stack
-$ mkdir GOAT-stack && cd GOAT-stack
-$ yo goat-stack [name?]
+$ npm install -g yo generator-goatstack
+$ mkdir GOATstack && cd GOATstack
+$ yo goatstack [name?]
 $ # mongod in another terminal!
 $ npm start
+$ # dev environment served to http://localhost:1701
 ```
 
 ## Linux
@@ -159,11 +166,12 @@ $ sudo apt-get install -y nodejs
 ### 4) Clone and Run
 
 ```sh
-$ sudo npm install -g yo generator-goat-stack
-$ mkdir GOAT-stack && cd GOAT-stack 
-$ sudo yo goat-stack [name?]
+$ sudo npm install -g yo generator-goatstack
+$ mkdir GOATstack && cd GOATstack 
+$ sudo yo goatstack [name?]
 $ # sudo mongod in another terminal!
 $ sudo npm start
+$ # dev environment served to http://localhost:1701
 ```
 > Note: npm needs to be elevated with `sudo`, otherwise child_process will throw errors and/or webpack-dev-server will not serve.
 

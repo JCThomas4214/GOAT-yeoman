@@ -1,26 +1,64 @@
 
 .wonder {
+    will-change: transform;
     position: absolute;
     list-style: none;
     opacity: 0;
+    width: 15vw;
+    text-align: center;
+}
+.wonder img {    
+    width: 100%;
+    opacity: 0.8;
 }
 
 .wonder p {
     position: absolute;
     top: 40%;
-    left: 45%;
+    width: 100%;
     color: black;
+    font-size: 100%;
 }
-
 .dreams-input {
     position: absolute;
-    left: 45%;
-    top: 55%;
-    text-align: center;
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 245px;
     display: block;
-    z-index: 1000;
+    z-index: 0;
+    font-size: 32px;
+    color: white;
 }
 
-img {
-  opacity: 0.8;
+
+@media (max-width: 1950px) {
+    .dreams-input {
+        font-size: 32px;
+    }
+}
+@media (max-width: 1450px) {
+    .dreams-input {
+        font-size: 32px;
+    }
+}
+@media (max-width: 1050px) {
+    .dreams-input {
+        font-size: 32px;
+    }
+}
+@media (max-width: 800px) {
+    .wonder {
+        width: 20vw;
+    }
+    .dreams-input {
+        font-size: 32px;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .wonder {
+        width: 20vh;
+    }
 }

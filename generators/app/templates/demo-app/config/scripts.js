@@ -13,8 +13,7 @@ var fs = require('graceful-fs'),
 	      .readFileSync('./config/env/default.ts')
 	      .toString())),
 
-	helpers = require('./helpers'),
-	loader;
+	helpers = require('./helpers');
 
 function windowsCheck(command) {
 	return /^win/.test(process.platform) ? command.replace(/\//g, '\\') : command;
@@ -40,38 +39,8 @@ var ngc = `${cmd.ngc} -p tsconfig-aot.json --exclude client/**/**/**/*.spec.ts`;
 var nodeSass = `${cmd.node_sass} -q client -o client`;
 var server_test = `node config/test-libs/server.test && ${cmd.karma} start config/test-libs/karma.config.js`;
 var protractor = `${cmd.concurrently} --raw \"node dist -s\" \"${cmd.protractor} config/test-libs/protractor.config.js\" --kill-others --success first`;
-var e2e = `${cmd.webdriverManager} update && ${cmd.webpack} --hide-modules true --env test && ${cmd.webpack} --hide-modules true --env server:test && ${protractor}`;
-var prod_e2e = `${cmd.webdriverManager} update && ${ngc} && ${cmd.webpack} --hide-modules true --env prod:e2e && ${protractor}`;
-
-// Helpers
-function startLoader(str = 'compiling => tree-shaking => bundling...') {
-	return loader = stevedore({
-		message: chalk.cyan.bold(str),
-		interval: 100,
-		frames: [
-			'\t[          ]',
-			'\t['+chalk.magenta.bold('>        <')+']',
-			'\t['+chalk.cyan.bold(' >      < ')+']',
-			'\t['+chalk.yellow.bold('  >    <  ')+']',
-			'\t['+chalk.green.bold('   >  <   ')+']',
-			'\t['+chalk.red.bold('    ><    ')+']',
-			'\t['+chalk.green.bold('   <  >   ')+']',
-			'\t['+chalk.yellow.bold('  <    >  ')+']',
-			'\t['+chalk.cyan.bold(' <      > ')+']',
-			'\t['+chalk.magenta.bold('<        >')+']'
-		]
-	});
-};
-function loaderMessage(str = 'compiling => tree-shaking => bundling...') {
-	process.stdout.clearLine();
-	return loader.message(chalk.cyan.bold(str));
-};
-function stopLoader() {
-	loader.stop();
-	process.stdout.clearLine();
-	process.stdout.moveCursor(0, -3);
-	process.stdout.clearLine();
-};
+var e2e = `${cmd.webdriverManager} update && ${cmd.webpack} --progress --hide-modules true --env test && ${cmd.webpack} --hide-modules true --env server:test && ${protractor}`;
+var prod_e2e = `${cmd.webdriverManager} update && ${ngc} && ${cmd.webpack} --progress --hide-modules true --env prod:e2e && node -e "require('./config/helpers').cleanup('client')" && ${protractor}`;
 
 // Script Functions
 function prepare(dev) {
@@ -85,7 +54,6 @@ function prepare(dev) {
 exports.startTest = function startTest() {
 	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
 	prepare(true);
-	// startLoader('building Dev => running server/client tests...');
 
 	return spawn(server_test, {stdio: 'inherit', shell: true});
 };
@@ -96,15 +64,8 @@ exports.startTest = function startTest() {
 exports.startE2E = function startE2E() {
 	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
 	prepare(true);
-	startLoader('update webdriver => building Dev => running E2E tests...');
 
-	return exec(e2e, (err, stdout, stderr) => {
-		stopLoader();
-		process.stdout.clearLine();
-		helpers.cleanup();
-		if (stdout) console.log(stdout);
-		if (err) console.log(err);
-	});
+	return spawn(e2e, {shell: true, stdio: 'inherit'});
 };
 
 /*
@@ -113,16 +74,8 @@ exports.startE2E = function startE2E() {
 exports.startProdE2E = function startProdE2E() {	
 	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
 	prepare();
-	process.stdout.clearLine();
-	startLoader('update webdriver => building Prod => running E2E tests...');
 
-	return exec(prod_e2e, (err, stdout, stderr) => {
-		stopLoader();
-		process.stdout.clearLine();
-		helpers.cleanup();
-		if (stdout) console.log(stdout);
-		if (err) console.log(err);
-	});
+	return spawn(prod_e2e, {shell: true, stdio: 'inherit'});
 }
 
 /*
@@ -131,75 +84,8 @@ exports.startProdE2E = function startProdE2E() {
 exports.startDev = function startDev() {
 	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
 	prepare(true);
-	startLoader();
 
-	var waiting = false;
-
-	// spawn a new process to start building
-	const serv = spawn(`${cmd.webpackDevServer} --inline --env dev`, {shell: true});
-
-	serv.stdout.on('data', (data) => {
-		if (!config.show_console_detail) {
-			// Indicate that the app is finished building hook
-			if (data.includes('Server Address:')) {
-				stopLoader();
-				if (!waiting) {
-					// Remember when the server is waiting or changes
-					waiting = true;
-					console.log(chalk.green.bold('\tDevelopment server serving on') + chalk.yellow.bold('\thttp://localhost:1701'));
-					console.log(chalk.magenta.bold('\tProxying to Express Server on') + chalk.yellow.bold('\thttp://localhost:5000\n\n'));
-				} else {
-					// Reposition the cursor so the next print will be aligned
-					process.stdout.moveCursor(0, 2);
-				}
-				return;
-			}
-			// Print RESTFUL responces in the console
-			else if (/GET|POST|PUT|DELETE/.test(data.toString())) {
-				process.stdout.moveCursor(0, -1);
-				console.log(`${data}`);
-				return;
-			}
-			// After the server is started indicate if changes are made
-			else if (waiting && data.includes('webpack: bundle is now INVALID.')) {
-				startLoader('building new additions...');
-				return;
-			}
-			// If nodemon does not restart the server secondary hook to turn off loader
-			else if (waiting && data.includes('webpack: bundle is now VALID.')) {
-				loader.stop();
-				process.stdout.clearLine();
-				return;
-			}
-			else if (/Could not connect to MongoDB!/.test(data.toString())) {
-				stopLoader();
-				console.log(chalk.red.bold('\tCould not connect to MongoDB!'));
-			}
-		} else {
-			process.stdout.clearLine();
-			process.stdout.moveCursor(0,-1);				
-			console.log(`${data}`);
-			if (data.includes('Server Address:')) {
-				loader.stop();
-				process.stdout.clearLine();
-			}
-		}
-		
-	});
-	serv.stderr.on('data', (data) => {
-		if (/!keywords/.test(data.toString())) {
-			process.stdout.clearLine();
-			console.log(`${data}`);
-		}
-	});
-	serv.on('close', (code) => {
-	  console.log(`child process exited with code ${code}`);
-	});
-	serv.on('error', (err) => {
-	  stopLoader();
-	  console.log('Failed to start child process.');
-	  console.log(`${err}`);
-	});
+	return spawn(`${cmd.webpackDevServer} --progress --inline --env dev`, {shell: true, stdio: 'inherit'});
 };
 
 /*
@@ -208,65 +94,8 @@ exports.startDev = function startDev() {
 exports.startProd = function startProd() {
 	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
 	prepare();
-	startLoader('compiling client with ngc...');
 
-	// Start the angular compiler
-	exec(ngc, {cwd:process.cwd()}, (err, stdout, stderr) => {
-		loaderMessage('tree-shaking => bundling...');
-
-		// spawn a new process to start building
-		const serv = spawn(`${cmd.webpack} --env prod && node dist`, {cwd: process.cwd(), shell: true});
-
-		serv.stdout.on('data', (data) => {
-			if (!config.show_console_detail) {
-				if (data.includes('Server Address:')) {
-					stopLoader();
-					helpers.cleanup('client');
-					console.log(chalk.green.bold('\tProduction serving on') + chalk.yellow.bold(' http://localhost:8443\n\n'));			
-					return;
-				}
-				// Print RESTFUL responces in the console
-				else if (/GET|POST|PUT|DELETE/.test(data.toString())) {
-					process.stdout.moveCursor(0, -1);
-					console.log(`${data}`);
-					return;
-				}
-				else if (/Could not connect to MongoDB!/.test(data.toString())) {
-					stopLoader();
-					console.log(chalk.red.bold('\tCould not connect to MongoDB!'));
-				}
-			} else {
-				process.stdout.clearLine();
-				process.stdout.moveCursor(0,-1);				
-				console.log(`${data}`);
-				if (data.includes('Server Address:')) {
-					loader.stop();
-					helpers.cleanup('client');
-					process.stdout.clearLine();
-				}
-			}
-		});
-		serv.stderr.on('data', (data) => {
-			if (/!keywords/.test(data.toString())) {
-				process.stdout.clearLine();
-				console.log(`${data}`);
-			}
-		});
-		serv.on('close', (code) => {
-		  if (code !== 0)
-		  	console.log(`Make sure you have mongod running!`);
-		});
-		serv.on('error', (err) => {
-		  stopLoader();
-		  console.log('Failed to start child process.');
-		  console.log(`${err}`);
-		});
-
-		if (err) {
-			console.log(stdout);
-			console.log(err);
-		}
-	});
+	return spawn(`${ngc} && ${cmd.webpack} --progress --hide-modules true --env prod && node -e "require('./config/helpers').cleanup('client')" && node dist`, {shell: true, stdio: 'inherit'});
 };
 
 /*
@@ -288,71 +117,31 @@ exports.herokuPrompt = function herokuPrompt() {
 	}]).then(function(answers) {
 		switch (answers.heroku_choice) {
 			case '1) Push to existing repo':
-				inquirer.prompt([{
+				return inquirer.prompt([{
 	              type:     'input',
 	              name:     'appname',
 	              message:  'The name of the heroku application?'
 	            }]).then(function(answers) {
 	            	console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
-	            	prepare();
-	            	startLoader('compiling with ngc...');
+	            	prepare();	            		
 
-	            	return exec(ngc, (err, stdout, stderr) => {
-	            		if (err) {
-	            			console.log(stdout);
-	            			console.log(err);
-	            		}
-	            		loaderMessage('tree-shaking => bundling => deploying to heroku...');
+            		const command = [
+		            	`${cmd.webpack} --progress --hide-modules true --env prod`,
+		            	`node -e "require('./config/helpers').cleanup('client')"`,
+		            	'cd dist',
+		            	'git init',
+		            	'git add .',
+		            	'git commit -m "goat-stack:deploy"',
+		            	`git remote add heroku https://git.heroku.com/${answers.appname}.git`,
+		            	'git push --force heroku master',
+		            	`heroku open --app ${answers.appname}`
+            		];
 
-	            		const command = [
-			            	`${cmd.webpack} --env prod`,
-			            	'cd dist',
-			            	'git init',
-			            	'git add .',
-			            	'git commit -m "goat-stack:deploy"',
-			            	`git remote add heroku https://git.heroku.com/${answers.appname}.git`,
-			            	'git push --force heroku master',
-			            	`heroku open --app ${answers.appname}`
-	            		];
+            		return spawn(`${ngc} && ` + command.join(' && '), {shell: true, stdio: 'inherit'});
 
-	            		const serv = spawn(command.join(' && '), {shell: true});
-
-
-	            		if (config.show_console_detail) {
-		            		serv.stdout.on('data', (data) => {
-	            				process.stdout.clearLine();
-	            				process.stdout.moveCursor(0,-1);
-	            				process.stdout.clearLine();				
-	            				console.log(`${data}`);		 
-		            		});
-		            		serv.stderr.on('data', (data) => {
-	            				process.stdout.clearLine();
-	            				process.stdout.moveCursor(0,-1);
-	            				process.stdout.clearLine();				
-	            				console.log(`${data}`);
-		            		});
-	            		}
-
-	            		serv.on('close', (code) => {
-	            			stopLoader();
-	            			helpers.cleanup('client');
-	            			if (code === 0) {
-	            				console.log(chalk.bold.green('\n\n\tYour application has been deployed to Heroku!\n'));
-	            			} else {	            				
-	            				console.log(`child process exited with code ${code}`);
-	            			}
-	            		});
-	            		serv.on('error', (err) => {
-	            		  	stopLoader();	            		  
-	            			helpers.clenup('client');
-	            		  	console.log('Failed to start child process.');
-	            		  	console.log(`${err}`);
-	            		});
-	            	});
 				});
-				break;
 			default:
-				inquirer.prompt([{
+				return inquirer.prompt([{
 	              type:      'input',
 	              name:      'appname',
 	              message:   'What name would like the app to have?'
@@ -369,70 +158,28 @@ exports.herokuPrompt = function herokuPrompt() {
 	              name:      'db_pw',
 	              message:   'What is the password for this user?'
 	            }]).then(function(answers) {
-	            		console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
-	            		prepare();
-	            		startLoader('compiling with ngc...');
+            		console.log(chalk.bold.magenta('\n\tPlease Wait ... This will take some time\n\n'));
+            		prepare();
 
-	            		const command = [
-	            			'cd dist',
-	            			'git init',
-	            			`heroku create ${answers.appname}`,
-	            			`heroku config:set --app ${answers.appname} DB_URI=${answers.db_uri} DB_USER=${answers.db_user} DB_PW=${answers.db_pw}`,
-	            			'cd ..',
-	            			`${ngc}`
-	            		];
+        			const command = [
+            			'cd dist',
+            			'git init',
+            			`heroku create ${answers.appname}`,
+            			`heroku config:set --app ${answers.appname} DB_URI=${answers.db_uri} DB_USER=${answers.db_user} DB_PW=${answers.db_pw}`,
+            			'cd ..',
+            			`${ngc}`,
+        				`${cmd.webpack} --progress --hide-modules true --env prod`,
+        				`node -e "require('./config/helpers').cleanup('client')"`,
+        				'cd dist',
+        				'git add .',
+        				'git commit -m "goat-stack:deploy"',
+        				'git push --force heroku master',
+        				`heroku open --app ${answers.appname}`
+        			];
 
-	            		return exec(command.join(' && '), (err, stdout, stderr) => {
-	            			if (err) {
-	            				console.log(stdout);
-	            				console.log(err);
-	            			}
-	            			loaderMessage('tree-shaking => bundling => deploying to heroku...');
+        			return spawn(command.join(' && '), {shell: true, stdio: 'inherit'});
 
-	            			const command = [
-	            				`${cmd.webpack} --env prod`,
-	            				'cd dist',
-	            				'git add .',
-	            				'git commit -m "goat-stack:deploy"',
-	            				'git push --force heroku master',
-	            				`heroku open --app ${answers.appname}`
-	            			];
-
-	            			const serv = spawn(command.join(' && '), {shell: true});
-
-		            		if (config.show_console_detail) {
-			            		serv.stdout.on('data', (data) => {
-		            				process.stdout.clearLine();
-		            				process.stdout.moveCursor(0,-1);
-		            				process.stdout.clearLine();				
-		            				console.log(`${data}`);			 
-			            		});
-			            		serv.stderr.on('data', (data) => {
-		            				process.stdout.clearLine();
-		            				process.stdout.moveCursor(0,-1);
-		            				process.stdout.clearLine();				
-		            				console.log(`${data}`);
-			            		});
-		            		}
-
-	            			serv.on('close', (code) => {
-	            				stopLoader();
-	            				helpers.cleanup('client');
-	            				if (code === 0) {
-	            					console.log(chalk.bold.green('\n\n\tYour application has been deployed to Heroku!\n'));
-	            				} else {	            				
-	            					console.log(`child process exited with code ${code}`);
-	            				}
-	            			});
-	            			serv.on('error', (err) => {
-	            			  	stopLoader();	            		  
-	            				helpers.clenup('client');
-	            			  	console.log('Failed to start child process.');
-	            			  	console.log(`${err}`);
-	            			});
-	            		});
 				});
-				break;
 		}
 	});
 };

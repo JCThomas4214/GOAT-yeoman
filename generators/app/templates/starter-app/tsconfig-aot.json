@@ -23,6 +23,9 @@
     "client/main.ts",
     "client/main-aot.ts"
   ],
+  "exclude": [
+    "node_modules/@types/mongoose"
+  ],
   "angularCompilerOptions": {
     "genDir": "ngc-aot",
     "skipMetadataEmit" : true,

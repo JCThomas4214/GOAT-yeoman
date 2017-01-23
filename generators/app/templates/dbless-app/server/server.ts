@@ -1,7 +1,5 @@
-let express = require('express');
-
+import * as express from 'express';
 import * as chalk from 'chalk';
-import * as fs from 'graceful-fs';
 import * as http from 'http';
 import config from '../config';
 
@@ -25,17 +23,16 @@ function init(): any {
       let port = server.address().port;
 
       if (process.env.NODE_ENV !== 'test') {
-        // Logging initialization\
         console.log(chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }`));
-
-        console.log(chalk.bold.magenta(`\n\thttp Server`));
-        console.log(chalk.bold.gray(`\tServer Address:\t\t\t http://localhost:${ port }`));
-
+      
+        if (!process.env.NODE_ENV)
+          console.log(
+            chalk.bold.magenta(`\tHTTP Server`) +
+            chalk.bold.gray(`\n\tServer Address:\t\t\t http://localhost:${ port }\n`));
       }
     });
 
     return app;
-
 };
 
 init();

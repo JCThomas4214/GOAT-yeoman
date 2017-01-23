@@ -1,5 +1,5 @@
 
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectionStrategy, Renderer } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { select } from 'ng2-redux';
 
@@ -16,29 +16,42 @@ declare let Power0: any;
   selector: 'cloud-generator',
   providers: [WonderActions, CloudActions],
   templateUrl: './cloud-generator.component.html',
-  styleUrls: ['./cloud-generator.component.css']
+  styleUrls: ['./cloud-generator.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CloudGeneratorComponent implements OnInit, OnDestroy {
+  //defining all the immutable objects from the redux store in component variables
   @select('cloudStyle') cloudStyle$: Observable<any>;
   @select('animaArray') animaArray$: Observable<any>;
   @select('wonder') wonder$: Observable<any>;
   @select('timeOfDay') toda$: Observable<any>;
+  //defining all class specific variables
   private animaArray: any;
+  private cloudStyle: any;
   private width: number;
+  private pause: boolean = false;
+  private scrollTop: number;
+  //public variable
+  dream: string;
 
+  //defining the elements we need to access from the HTML template
   @ViewChild('wonderSky') wonderSky;
+  @ViewChild('test') el;
 
+  //defining our DI
   constructor(
-    public wonderActions: WonderActions,
+    public  wonderActions: WonderActions,
     private wonderService: WonderService,
-    private cloudActions: CloudActions,
-    private socket: SocketService) { }
+    private cloudActions:  CloudActions,
+    private socket:        SocketService,
+    private renderer:      Renderer
+    ) { }
   
   ngOnInit() {
     this.width = window.innerWidth;
-    this.animaArray$.subscribe(anima => this.animaArray = anima);
-    this.toda$.subscribe(x => this.wonderSky.nativeElement.style.filter = x.get('cloudBrightness')); 
+    this.animaArray$.subscribe((anima) => this.animaArray = anima);
+    this.toda$.subscribe((x) => this.renderer.setElementStyle(this.wonderSky.nativeElement, 'filter', x.get('cloudBrightness'))); 
     // Change the state to indicate wonders are being fetched
     this.wonderActions.fetchWonders();
     this.wonderService.getWonders().subscribe(wonders => {
@@ -96,6 +109,7 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
     // the travel finds the amount of pixels left the cloud
     // must travel to get to the end of the screen from the % xcoor
     const travel = this.width - (this.width * (object.xcoor/100));
+    const start = (this.width * (object.xcoor/100));
     // Since we want all the cloud to move accross the screen at the
     // same speed we need a constant factor to divide the delta
     const factor = 2.5;
@@ -114,8 +128,9 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
     anima.to(el, this.rndInt(1,3), { opacity: 1 })
       .to(el, this.speed(object.xcoor,rfMin,rfMax,factor), { ease: Power0.easeNone, x: travel, y: this.rndInt(-100, 100) }, 0)
       .addLabel('loop', '+=0')
-      .to(el, 0, { ease: Power0.easeNone, left: '-350px', x: '0', y: '0' })
-      .to(el, this.speed(-10,rfMin,rfMax,factor), { ease: Power0.easeNone, x: this.width + 350, y: this.rndInt(-100, 100) });
+      .to(el, 0, { ease: Power0.easeNone, x: -start-350, y: '0' })
+      .to(el, this.speed(-10,rfMin,rfMax,factor), { ease: Power0.easeNone, x: travel, y: this.rndInt(-100, 100) });
+      // .to(el, this.speed(object.xcoor,rfMin,rfMax,factor), { ease: Power0.easeNone, x: travel, y: this.rndInt(-100, 100) }, 0)
 
     // Push new gsap timeline to animaArray List
     this.cloudActions.changeAnima(anima, index);
@@ -167,5 +182,4 @@ export class CloudGeneratorComponent implements OnInit, OnDestroy {
     }
 
   }
-
 }

@@ -43,10 +43,10 @@ const generalConfig = {
     dev: {
       port: 1701,
       historyApiFallback: {
-        index: 'http://localhost:1701/index.html'
+        index: 'http://localhost:1701/index.html/'
       },
       proxy: {
-        '*': 'http://localhost:5000'
+        '*': 'http://localhost:5000/'
       },
       stats: {
         warnings: false,
@@ -80,7 +80,8 @@ module.exports = function(options) {
     plugins: options.env === 'dev' ? [
       new ExtractTextPlugin('styles.css'),
       new WebpackShellPlugin({
-        onBuildEnd:[`${cmd.webpack} --env server:dev --watch`]
+        onBuildStart:[`${cmd.webpack} --hide-modules true --env server:dev --watch`],
+        onBuildEnd:[`${cmd.nodemon} dist --watch dist`]
       })
     ] : options.env === 'test' ? [
       new ExtractTextPlugin('styles.css')
@@ -93,7 +94,7 @@ module.exports = function(options) {
       }),
       new ExtractTextPlugin('styles.css'),
       new WebpackShellPlugin({
-        onBuildEnd:[`${cmd.webpack} --hide-modules true --env server:prod${ options.e2e ? ':e2e' : '' }`]
+        onBuildStart:[`${cmd.webpack} --hide-modules true --env server:prod${ options.e2e ? ':e2e' : '' }`]
       }),
       new CopyWebpackPlugin([
         { 

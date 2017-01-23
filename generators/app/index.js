@@ -69,9 +69,9 @@ module.exports = generators.Base.extend({
         Segments            : this.apptype === 'demo-app' ? [
           'footer-segment',
           'header-segment',
-          'island-segment',
           'ocean-segment',
-          'sky-segment'
+          'sky-segment',
+          'whale-segment',
         ] : this.apptype === 'starter-app' ? [
           'footer-segment',
           'header-segment',
@@ -108,15 +108,15 @@ module.exports = generators.Base.extend({
   writing: function () {
     // Write the application template
     this.fs.copyTpl(
-      glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png)`),
+      glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png|woff|woff2)`),
       this.destinationPath(),
       this.config.getAll()
     );
 
     // Copy over the application assets
     this.fs.copy(
-      glob.sync(`${this.templatePath()}/${this.apptype}/public/assets/*`),
-      this.destinationPath('public/assets')
+      glob.sync(`${this.templatePath()}/${this.apptype}/public/*`),
+      this.destinationPath('public')
     );    
   },
   // Starts npm install

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { select } from 'ng2-redux';
 import { Observable } from 'rxjs/Observable';
@@ -6,21 +6,12 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'the-ocean',
   templateUrl: './ocean.component.html',
-  styleUrls: ['./ocean.component.css']
+  styleUrls: ['./ocean.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class OceanComponent implements OnInit{ 
-
+export class OceanComponent{ 
+	//this ng2-redux store item is used in the html template with the async pipe
 	@select('timeOfDay') toda$: Observable<any>;
-
-	oceanOverlaySvg: string;
-
-	constructor(private el:ElementRef) {}
-
-	ngOnInit() {
-
-		this.toda$.subscribe(x => this.oceanOverlaySvg = x.get('oceanOverlaySvg'));
-
-	}
 
 }

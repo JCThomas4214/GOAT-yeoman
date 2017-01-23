@@ -36,7 +36,7 @@ gulp.task('clone_starter', shell.task([
 ]));
 gulp.task('clone_dbless', shell.task([
 	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOAT-stack dbless-app',
-	'cd generators/app/templates/dbless-app && git checkout DBlessGOAT'
+	'cd generators/app/templates/dbless-app && git checkout dblessGOAT'
 ]));
 
 // Delete the .git folder inside clones and delete existing templates
@@ -68,7 +68,6 @@ gulp.task('ejs_replace', function(done) {
 		'dbless_replace_module',
 		'dbless_replace_store',
 		'dbless_replace_html',
-		'dbless_replace_default_env',
 		'dbless_replace_appE2e',
 		done
 	);
@@ -114,7 +113,6 @@ gulp.task('demo_replace_appE2e', function() {
 gulp.task('demo_replace_default_env', function() {
 	return gulp.src('generators/app/templates/demo-app/config/env/default.ts')
 		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(replace("show_console_detail: true", "show_console_detail: false"))
 		.pipe(gulp.dest('generators/app/templates/demo-app/config/env'));
 });
 gulp.task('demo_replace_socketio', function() {
@@ -164,7 +162,6 @@ gulp.task('starter_replace_appE2e', function() {
 gulp.task('starter_replace_default_env', function() {
 	return gulp.src('generators/app/templates/starter-app/config/env/default.ts')
 		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(replace("show_console_detail: true", "show_console_detail: false"))
 		.pipe(gulp.dest('generators/app/templates/starter-app/config/env'));
 });
 gulp.task('starter_replace_socketio', function() {
@@ -196,11 +193,6 @@ gulp.task('dbless_replace_html', function() {
 			"<%= appkeywords %>"))
 		.pipe(replace("<!-- <script></script> -->", "<%- analytics %>"))
 		.pipe(gulp.dest('generators/app/templates/dbless-app/client'));
-});
-gulp.task('dbless_replace_default_env', function() {
-	return gulp.src('generators/app/templates/dbless-app/config/env/default.ts')
-		.pipe(replace("show_console_detail: true", "show_console_detail: false"))
-		.pipe(gulp.dest('generators/app/templates/dbless-app/config/env'));
 });
 gulp.task('dbless_replace_appE2e', function() {
 	return gulp.src('generators/app/templates/dbless-app/e2e/app.e2e-spec.js')

@@ -1,46 +1,46 @@
-import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { CloudActions } from '../../../sky-segment/actions/cloud/cloud.actions';
 
 import { select } from 'ng2-redux';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'home-section',
+  providers: [CloudActions],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HomeComponent { 
 
-	@ViewChild('oceanCapOverlay') oceanCapOverlay: ElementRef;
-	@select('timeOfDay') toda$: Observable<any>;
-	@select('zoom') zoom$: Observable<any>;
+  @select('timeOfDay') toda$: Observable<any>;
 
-	overlayMargin: string;
-	epipelagicCapOverlaySvg: string;
-	nightTime: boolean = true;
+  scrollTop: number;
+  winHeight: number  = window.innerHeight; 
+  past:      boolean = false;
 
-	ngOnInit() {
-		this.toda$.subscribe((x) => {
-			if(x.get('nightTime') === true) {
-				this.epipelagicCapOverlaySvg = '/public/assets/epipelagic-cap-overlay-night2.svg';
-				this.nightTime               = true;
-			} else {
-				this.epipelagicCapOverlaySvg = '/public/assets/epipelagic-cap-overlay-day.svg';
-				this.nightTime               = false;
-			}
-			
-		});
+  constructor(
+    private cloudActions: CloudActions,
+    private ref:          ChangeDetectorRef
+    ) { }
 
-		this.zoom$.subscribe((x) => {
-			if(x.get('showHide') === false) {
-				this.overlayMargin = this.oceanCapOverlay.nativeElement.offsetHeight + 'px';
-			}
-		});
-	}
+  @HostListener('window:scroll', ['$event'])
+  scroll(event) {
+      this.scrollTop = document.body.scrollTop;
 
-	@HostListener('window:resize', ['$event'])
-	onResize(event) {
-		this.overlayMargin = this.oceanCapOverlay.nativeElement.offsetHeight + 'px';
-	}
+      if(this.scrollTop <= (this.winHeight * 1.5) && this.past === true) {
+      	  this.cloudActions.resumeAnima();
+          this.past = false;
+
+          this.ref.markForCheck();
+      }
+      if(this.scrollTop >= (this.winHeight * 1.5) && this.past === false) {
+      	  this.cloudActions.pauseAnima();
+          this.past = true;
+
+          this.ref.markForCheck();
+      }
+  }
 
 }

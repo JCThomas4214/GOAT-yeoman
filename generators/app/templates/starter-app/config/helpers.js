@@ -8,9 +8,6 @@ var client = [
 	'client/**/**/**/*.ngfactory.ts',
 	'client/**/**/**/*.ngstyle.ts',
 	'client/**/**/**/*.ngsummary.json',
-	'!client/**/**/*e2e-spec.js',
-	'client/client',
-	'client/node_modules',
 	'ngc-aot/**',
 	'.com*/**',
 	'.org*/**'
@@ -18,7 +15,6 @@ var client = [
 
 var all = client.concat([
 	'dist/**',
-	'!dist',
 	'dist/.git/**'
 ]);
 

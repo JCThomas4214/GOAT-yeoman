@@ -3,7 +3,7 @@ import { Routes, RouterModule }   from '@angular/router';
 import { ModuleWithProviders }   from '@angular/core';
 
 //import all components which will be useed as views
-import { UserProfileComponent } from './profile-segment/components/user-profile/user-profile.component';
+import { UserProfileComponent } from './main-segment/components/user-profile/user-profile.component';
 import { Four0FourComponent } from './main-segment/components/404/four0four.component';
 import { HomeComponent } from './main-segment/components/home/home.component';
 

@@ -17,26 +17,21 @@ let express = require('express'),
   session = require('express-session'),
   MongoStore = require('connect-mongo')(session);
 
-// Using morgan to monatore express request traffic
-// token method intercepts logs before they happen
-// you can use this to augment the log
-morgan.token('method', function(req, res) {
-  let method = req.method;
-  switch (method) {
-    case 'GET':
-      return '[' + chalk.cyan(method) + ']';
-    default:
-      return '[' + chalk.bold.green(method) + ']';
-  }
-});
-
-// Used to customize the look of the log
-morgan.token('url', function(req, res) {
-  return chalk.magenta(req.originalUrl);
-});
+// let webpack = require('webpack');
+// let webpackConfig = require('../webpack.config')('dev');
+// let compiler = webpack(webpackConfig);
 
 // function to initialize the express app
 function expressInit(app) {
+
+  // if (process.env.NODE_ENV === 'development') {
+  //   app.use(require('webpack-dev-middleware')(compiler, {
+  //     noInfo: true,
+  //     publicPath: webpackConfig.output.publicPath
+  //   }));
+  
+  //   app.use(require('webpack-hot-middleware')(compiler));
+  // }
 
   //aditional app Initializations
   app.use(bodyParser.urlencoded({
@@ -52,16 +47,7 @@ function expressInit(app) {
   // NOTE: all node and custom module requests
   if (process.env.NODE_ENV !== 'test') {
     app.use(morgan('dev', {
-      skip: function(req, res) {
-        let url = req.originalUrl;
-
-        if (url.indexOf('node') !== -1)
-          return true;
-        if (url.indexOf('custom') !== -1)
-          return true;
-        if (url.length === 1)
-          return true;
-      }
+      skip: function (req, res) { return res.statusCode < 400 }
     }));
   }
 
@@ -96,7 +82,7 @@ function expressInit(app) {
   // sends back the index.html as a response. Angular then does the proper routing on client side
   if (process.env.NODE_ENV !== 'development')
     app.get('*', function(req, res) {
-      res.sendFile(path.resolve(process.cwd(), `/${ dist ? 'dist/client' : 'client' }/index.html`));
+      res.sendFile(path.join(process.cwd(), `/${ dist ? 'dist/client' : 'client' }/index.html`));
     });
 
   return app;

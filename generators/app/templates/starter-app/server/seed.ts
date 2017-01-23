@@ -4,12 +4,14 @@
  */
 import User from './api/user/user.model';
 
-function seed(env?: string): void {
+export default function seed(env?: string): void {
+
   // Insert seeds below
   switch (env) {
     case "prod":
       // code...
-      break;    
+      break;
+    
     default:
       User.find({}).remove().then(() => {
         User.create({
@@ -28,6 +30,5 @@ function seed(env?: string): void {
       });
       break;
   }
-}
 
-export default seed;
+}

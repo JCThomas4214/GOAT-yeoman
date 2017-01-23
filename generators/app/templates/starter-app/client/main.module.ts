@@ -1,4 +1,3 @@
-
 /*
 ==============================================================
 * Root Module
@@ -15,6 +14,7 @@ Main component which gets bootstrapped
 */
 import { AppComponent }                              from './main-segment/components/app/app.component';
 require('./styles');
+require('./loader');
 
 /*
 --------------------------------------------------
@@ -28,6 +28,8 @@ import { BrowserModule }                             from '@angular/platform-bro
 import { HttpModule, JsonpModule }                   from '@angular/http';
 import { MaterialModule }                            from '@angular/material';
 import { NgReduxModule, NgRedux, DevToolsExtension } from 'ng2-redux';
+import { LazyLoadImageModule }                       from 'ng2-lazyload-image';
+
 
 /*
 --------------------------------------------------
@@ -50,13 +52,11 @@ Components
 --------------------------------------------------
 //Declare components here
 */
-//user created components
+//user created components                
 import { HeaderComponent }                           from './header-segment/components/header/header.component';
-import { NavBarComponent }                           from './header-segment/components/nav-bar/nav-bar.component';
-import { SignInOutComponent }                        from './header-segment/components/sign-in-out/sign-in-out.component';
 import { HomeComponent }                             from './main-segment/components/home/home.component';
 import { Four0FourComponent }                        from './main-segment/components/404/four0four.component';
-import { UserProfileComponent }                      from './profile-segment/components/user-profile/user-profile.component';
+import { UserProfileComponent }                      from './main-segment/components/user-profile/user-profile.component';
 import { FooterComponent }                           from './footer-segment/components/footer/footer.component';
 <%- newComponentImports.join('\n') %>
 
@@ -69,7 +69,6 @@ Directives
 //Declare directives here
 */
 //user created directives
-
 //Angular and 3rd party directives
 
 /*
@@ -83,7 +82,7 @@ import { ErrorHandlerActions }                       from './main-segment/action
 import { SEOActions }                                from './main-segment/actions/seo/seo.actions';
 import { SocketService }                             from './main-segment/services/socketio/socketio.service';
 import { HttpIntercept }                             from './main-segment/services/auth/auth.service';
-import { UserService }                               from './header-segment/services/user/user.service';
+import { UserService }                               from './main-segment/services/user/user.service';
 
 //Angular and 3rd party serices
 import { Cookie }                                    from 'ng2-cookies/ng2-cookies';
@@ -95,6 +94,7 @@ Pipes
 //Declare pipes here
 */
 //User created pipes
+
 
 //Angular and 3rd party pipes
 
@@ -136,23 +136,22 @@ NgModule
   //imports: this object imports helper modules which are children in the module tree
   imports: [
     BrowserModule,
+    LazyLoadImageModule,
     HttpModule,
     FormsModule,
     JsonpModule,
-    MaterialModule.forRoot(),
     NgReduxModule,
+    MaterialModule.forRoot(),
     routing
   ],
   //declarations: this object imports all child components which are used in this module
   declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
     Four0FourComponent,
     UserProfileComponent,
-    FooterComponent,
-    SignInOutComponent,
-    HeaderComponent,
-    HomeComponent,
-    AppComponent,
-    NavBarComponent,
     <%= newComponents.join(',\n\t') %>
   ],
   //providers: this object imports all necessary services into the module

@@ -6,6 +6,4 @@ Used when process.env.NODE_ENV = 'development'
 //process.env.NODE_ENV is utilized in config/config.ts
 */
 
-export const devEnv = {
-
-};
+export const devEnv = {};

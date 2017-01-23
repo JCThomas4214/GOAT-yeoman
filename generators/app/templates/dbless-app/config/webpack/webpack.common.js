@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var nodeExternals = require('webpack-node-externals');
 
 var helpers = require('../helpers');
 
@@ -30,15 +31,18 @@ module.exports = function(options) {
         },
         {
           test: /\.html$/,
-          loader: 'html-loader'
+          loader: 'html-loader?-attrs'
         },
         {
-          test: /\.(png|jpg|gif|svg|woff|woff2|ttf|eot|ico)$/,
-          loader: 'file-loader?name=assets/[name].[ext]'
+          test: /\.(png|svg|jpg)$/,
+          loader: 'file-loader',
+          query: {
+            'name': 'public/assets/[name].[ext]'
+          }
         },
         {
           test: /\.scss/,
-          include: helpers.root('client/styles.scss'),
+          include: [helpers.root('client/styles.scss'), helpers.root('client/loader.scss')],
           loader: ExtractTextPlugin.extract({ 
             fallbackLoader: 'style-loader', 
             loader: 'css-loader?sourceMap!sass-loader?sourceMap'
@@ -46,7 +50,7 @@ module.exports = function(options) {
         },
         {
           test: /\.scss/,
-          exclude: helpers.root('client/styles.scss'),
+          exclude: [helpers.root('client/styles.scss'), helpers.root('client/loader.scss')],
           loader: 'to-string-loader!css-loader?sourceMap!sass-loader?sourceMap'
         },
       ]
@@ -68,11 +72,11 @@ module.exports = function(options) {
   };
 
   if (prod) {
-    config.entry.main = './client/main-aot.ts'; 
+    config.entry.main = './client/main-aot.ts';
 
     config.module.rules[5] = {
       test: /\.css$/,
-      exclude: helpers.root('client/styles.css'),
+      exclude: [helpers.root('client/styles.css'), helpers.root('client/loader.css')],
       loader: 'raw-loader'
     };
 
@@ -81,12 +85,13 @@ module.exports = function(options) {
 
   if (options.env === 'karma') {
     delete config.entry;
+    // delete config.entry.polyfills;
     delete config.plugins;
     config.devtool = 'inline-source-map';
     config.stats = { warnings: false };
 
-    config.module.rules[2].loader = 'null-loader';
     config.module.rules[3].loader = 'null-loader';
+    config.module.rules[4].loader = 'null-loader';
   }
 
   return config;

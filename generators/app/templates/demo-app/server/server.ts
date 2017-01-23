@@ -1,5 +1,4 @@
-let express = require('express');
-
+import * as express from 'express'
 import * as chalk from 'chalk';
 import * as fs from 'graceful-fs';
 import * as http from 'http';
@@ -56,18 +55,18 @@ function init(): any {
       let port = server.address().port;
 
       if (process.env.NODE_ENV !== 'test') {
-        // Logging initialization\
-        console.log(chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }`));
-        console.log(chalk.bold.cyan(`\tDatabase:\t\t\t ${ config.db.uri }`));
-
-        console.log(chalk.bold.magenta(`\n\t${isSecure ? 'HTTPS': 'HTTP'} Server`));
-        console.log(chalk.bold.gray(`\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:${ port }`));
-
+        console.log(
+          chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }`) +
+          chalk.bold.cyan(`\n\tDatabase:\t\t\t ${ config.db.uri }\n`));
+      
+        if (!process.env.NODE_ENV)
+          console.log(
+            chalk.bold.magenta(`\t${isSecure ? 'HTTPS': 'HTTP'} Server`) +
+            chalk.bold.gray(`\n\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:${ port }\n`));
       }
     });
 
     return app;
-
   });
 };
 

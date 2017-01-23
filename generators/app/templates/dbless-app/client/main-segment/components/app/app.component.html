@@ -4,14 +4,20 @@ App component
 ==================================================================
 -->
 
-<header-section></header-section>
-<router-outlet></router-outlet>
-<footer-section></footer-section>
-<div #errorToast><md-card class="error-card">
-  <md-toolbar color="accent">Error Message</md-toolbar>
-  <md-card-content class="error-content">
-      <table style="width: 100%" cellspacing="0"><tr>
-        <td><p id="errorText">{{ (error$ | async).get('message') }}</p></td>
-      </tr></table>
-  </md-card-content>
-</md-card></div>
+<div>
+	<header>
+		<header-section></header-section>
+	</header>
+	<router-outlet></router-outlet>
+	<footer-section></footer-section>
+
+	<div #errorToast class="error-card">
+	    <md-card>
+	        <md-toolbar color="accent">Error Message</md-toolbar>
+	        <md-card-content class="error-content">
+	        	<div><p id="error-text" *ngIf="(error$ | async).get('message')">{{ (error$ | async).get('message') }}</p></div>
+	        </md-card-content>
+	    </md-card>
+	</div>	
+</div>
+

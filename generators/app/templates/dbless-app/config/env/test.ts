@@ -7,5 +7,5 @@ Used when process.env.NODE_ENV is equal to 'test'
 */
 
 export const testEnv = {
-	port: process.env.PORT || 7001,
+	port: process.env.PORT || 7001
 };

@@ -2,9 +2,11 @@
     position: relative;
     display: block;
     overflow-y: hidden;
+    overflow-x: hidden;
+
 }
 
-header-section {
+header {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,17 +15,31 @@ header-section {
 }
 
 .error-card {
-    opacity: 0;
-    z-index: 1000;
-    width: 20%;
-    padding: 0;
+    display: none;
     position: fixed;
-    bottom: 60px;
-    right: 40px;
+    bottom: 10%;
+    left: 5%;
+    width: 350px;
+    transform: translateY(400px);  
+}
+
+.error-card > md-card {
+    z-index: 10000;
+    padding: 0;
 }
 
 .error-content {
     padding: 15px;
     font-size: medium;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@media (max-width: 800px) {
+    .error-card {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        transform: translateY(-400px);  
+    }
 }

@@ -6,7 +6,6 @@ import * as user from './user/index';
 import * as cloud from './cloud/index';
 import * as wonder from './wonder/index';
 import * as timeOfDay from './time-of-day/index';
-import * as zoom from './zoom/index';
 <%- newStoreImports.join('\n') %>
 
 // IAppState is the applications store where all persistant data
@@ -19,7 +18,6 @@ export class IAppState {
     cloudStyle?: cloud.ICloudStyle;
     animaArray?: cloud.IAnimaArray;
     timeOfDay?: timeOfDay.ITimeOfDay;
-    zoom?: zoom.IZoom;
     <%= newStoreAttrs.join('\n\t') %>
 };
 
@@ -34,7 +32,6 @@ export const rootReducer = combineReducers<IAppState>({
     cloudStyle: cloud.cloudReducer,
     animaArray: cloud.animaReducer,
     timeOfDay: timeOfDay.timeOfDayReducer,
-    zoom: zoom.zoomReducer,
     <%= newStoreReducers.join(',\n\t') %>
 });
 
