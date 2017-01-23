@@ -16,23 +16,23 @@ $ yo goatstack [name?]
 # Possible generators
   <img align="right" src="https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/puzzle-pieces.png"/>
   
-  + `yo goat-stack [?name]`  
+  + `yo goatstack [?name]`  
   
-  + `yo goat-stack:segment [?name]`
+  + `yo goatstack:segment [?name]`
   
-  + `yo goat-stack:component [?name]`
+  + `yo goatstack:component [?name]`
   
-  + `yo goat-stack:service [?name]`
+  + `yo goatstack:service [?name]`
   
-  + `yo goat-stack:directive [?name]`
+  + `yo goatstack:directive [?name]`
   
-  + `yo goat-stack:pipe [?name]`
+  + `yo goatstack:pipe [?name]`
   
-  + `yo goat-stack:actions [?name]`
+  + `yo goatstack:actions [?name]`
   
-  + `yo goat-stack:store-item [?name]`
+  + `yo goatstack:store-item [?name]`
   
-  + `yo goat-stack:endpoint [?name]`  
+  + `yo goatstack:endpoint [?name]`  
   
   
 _**NOTE**: more information on the generator process click [here](https://github.com/projectSHAI/GOATstack/wiki/Yeoman-Generator-usage)_
