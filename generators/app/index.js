@@ -98,7 +98,7 @@ module.exports = generators.Base.extend({
         appdescription      : this.appdescription,
         appkeywords         : this.appkeywords,
         protocol            : this.protocol === 'https',
-        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r|\s+)/gm, '') : ''
+        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r)/gm, '') : ''
 	    });
 	    this.config.save();
 
