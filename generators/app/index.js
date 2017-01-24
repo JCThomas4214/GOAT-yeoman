@@ -1,19 +1,19 @@
-var generators = require('yeoman-generator'),
+var Generator = require('yeoman-generator'),
 	_ = require('lodash'),
   exec = require('child_process').exec,
   glob = require('glob'),
   chalk = require('chalk');
 
-module.exports = generators.Base.extend({
+module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
-  constructor: function () {
-
-    generators.Base.apply(this, arguments);
+  constructor(args, opts) {
+    super(args, opts);
     // This makes `appname` not a required argument.
     this.argument('appname', { type: String, required: false, default: 'GOAT-stack' });
 
-  },
-  prompting: function () {
+  }
+
+  prompting() {
     return this.prompt([{
       type    : 'list',
       name    : 'apptype',
@@ -100,9 +100,10 @@ module.exports = generators.Base.extend({
 	    this.config.save();
 
     }.bind(this));
-  },
+  }
+
   // Writes the application to the name of the project
-  writing: function () {
+  writing() {
     // Write the application template
     this.fs.copyTpl(
       glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png|woff|woff2)`),
@@ -115,12 +116,14 @@ module.exports = generators.Base.extend({
       glob.sync(`${this.templatePath()}/${this.apptype}/public/*`),
       this.destinationPath('public')
     );    
-  },
+  }
+
   // Starts npm install
-  installNpm: function() {
+  installNpm() {
     this.npmInstall();
-  },
-  end: function() {
+  }
+
+  end() {
     if (this.protocol === 'https')
       exec('cd config/other && generate-ssl-certs.sh', (error, stdout, stderr) => {
         if (error) {
@@ -129,4 +132,4 @@ module.exports = generators.Base.extend({
         }
       });
   }
-});
+}

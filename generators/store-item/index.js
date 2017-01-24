@@ -1,18 +1,18 @@
-var generators = require('yeoman-generator'),
+var Generator = require('yeoman-generator'),
 	_ = require('lodash'),
   del = require('del');
 
-module.exports = generators.Base.extend({
+module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
-  constructor: function () {
+  constructor(args, opts) {
+    super(args, opts);
   	// The root of the yeoman project
-  	base = '../../..';
-
-    generators.Base.apply(this, arguments);
+  	this.base = '../../..';
     // // This makes `storename` not a required argument.
     this.argument('storename', { type: String, required: false });
-  },
-  prompting: function () {
+  }
+
+  prompting() {
     return this.prompt([{
       type    : 'input',
       name    : 'storename',
@@ -48,8 +48,9 @@ module.exports = generators.Base.extend({
       this.config.save();
 
     }.bind(this));
-  },
-  editStore: function() { 
+  }
+
+  editStore() { 
     // Get the new values for newComponents and newComponentImports
     this.newStoreAttrs = this.config.get('newStoreAttrs');
     this.newStoreReducers = this.config.get('newStoreReducers');
@@ -57,7 +58,7 @@ module.exports = generators.Base.extend({
 
     // Get the app.module template and inject newComponents and newComponentImports
     var config = this.config.getAll();
-    var templatePath = this.templatePath(`${base}/generators/app/templates/${config.apptype}/client/redux/store/index.ts`);
+    var templatePath = this.templatePath(`${this.base}/generators/app/templates/${config.apptype}/client/redux/store/index.ts`);
 
     this.fs.copyTpl(
       templatePath,
@@ -69,9 +70,10 @@ module.exports = generators.Base.extend({
         newStoreImports: this.newStoreImports
       }
     );
-  },
+  }
+
   // Writes the application to the name of the project
-  writing: function () {
+  writing() {
     // Clone the template store index.ts file
     this.fs.copyTpl(
       this.templatePath(`${this.storetype}/template.index.ts`),
@@ -162,4 +164,5 @@ module.exports = generators.Base.extend({
 
 
   }
-});
+
+}

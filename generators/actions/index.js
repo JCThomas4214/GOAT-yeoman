@@ -1,14 +1,15 @@
-var generators = require('yeoman-generator'),
+var Generator = require('yeoman-generator'),
 	_ = require('lodash');
 
-module.exports = generators.Base.extend({
+module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
-  constructor: function () {
-    generators.Base.apply(this, arguments);
+  constructor(args, opts) {
+    super(args, opts);
     // // This makes `appname` not a required argument.
     this.argument('actionsname', { type: String, required: false });
-  },
-  prompting: function () {
+  }
+
+  prompting() {
     return this.prompt([{
       type    : 'input',
       name    : 'actionsname',
@@ -23,9 +24,10 @@ module.exports = generators.Base.extend({
       this.fname = _.kebabCase(this.actionsname);
 
     }.bind(this));
-  },
+  }
+
   // Writes the application to the name of the project
-  writing: function () {
+  writing() {
     // Clone the template actions.ts file
     this.fs.copyTpl(
       this.templatePath('template.actions.ts'),
@@ -47,4 +49,5 @@ module.exports = generators.Base.extend({
       }
     );
   }
-});
+
+}

@@ -1,18 +1,18 @@
-var generators = require('yeoman-generator'),
+var Generator = require('yeoman-generator'),
 	_ = require('lodash'),
   del = require('del');
 
-module.exports = generators.Base.extend({
+module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
-  constructor: function () {
+  constructor(args, opts) {
+    super(args, opts);
   	// The root of the yeoman project
-  	base = '../../..';
-
-    generators.Base.apply(this, arguments);
+  	this.base = '../../..';
     // // This makes `appname` not a required argument.
     this.argument('submodulename', { type: String, required: false });
-  },
-  prompting: function () {
+  }
+
+  prompting() {
     return this.prompt([{
       type    : 'list',
       name    : 'modulename',
@@ -41,9 +41,10 @@ module.exports = generators.Base.extend({
       this.config.save();
 
     }.bind(this));
-  },
+  }
+
   // Writes the application to the name of the project
-  writing: function () {
+  writing() {
     var location = `client/modules/${this.modulename}/${this.fname}`;
 
      // Clone the template module.ts file
@@ -69,7 +70,7 @@ module.exports = generators.Base.extend({
 
      // Clone the template component.ts file
     this.fs.copyTpl(
-      this.templatePath(`${base}/generators/component/templates/template.component.ts`),
+      this.templatePath(`${this.base}/generators/component/templates/template.component.ts`),
       this.destinationPath(`${location}/${this.fname}.component.ts`),
       { 
         fname: this.fname,
@@ -79,7 +80,7 @@ module.exports = generators.Base.extend({
     );
     // Clone the template component.html file
     this.fs.copyTpl(
-      this.templatePath(`${base}/generators/component/templates/template.component.html`),
+      this.templatePath(`${this.base}/generators/component/templates/template.component.html`),
       this.destinationPath(`${location}/${this.fname}.component.html`),
       { 
         fname: this.fname,
@@ -89,7 +90,7 @@ module.exports = generators.Base.extend({
     );
     // Clone the template component.scss file
     this.fs.copyTpl(
-      this.templatePath(`${base}/generators/component/templates/template.component.scss`),
+      this.templatePath(`${this.base}/generators/component/templates/template.component.scss`),
       this.destinationPath(`${location}/${this.fname}.component.scss`),
       { 
         fname: this.fname,
@@ -98,4 +99,5 @@ module.exports = generators.Base.extend({
       }
     );
   }
-});
+
+}
