@@ -51,41 +51,32 @@ gulp.task('clean_clones', function(done) {
 // Replace specific lines for ejs templating
 gulp.task('ejs_replace', function(done) {
 	return runSequence(
-		'demo_replace_module', 
 		'demo_replace_store',
 		'demo_replace_routes',
 		'demo_replace_html',
 		'demo_replace_appE2e',
 		'demo_replace_default_env',
 		'demo_replace_socketio',
-		'starter_replace_module', 
-		'starter_replace_store',
-		'starter_replace_routes',
-		'starter_replace_html',
-		'starter_replace_appE2e',
-		'starter_replace_default_env',
-		'starter_replace_socketio',
-		'dbless_replace_module',
-		'dbless_replace_store',
-		'dbless_replace_html',
-		'dbless_replace_appE2e',
+		// 'starter_replace_store',
+		// 'starter_replace_routes',
+		// 'starter_replace_html',
+		// 'starter_replace_appE2e',
+		// 'starter_replace_default_env',
+		// 'starter_replace_socketio',
+		// 'dbless_replace_store',
+		// 'dbless_replace_html',
+		// 'dbless_replace_appE2e',
 		done
 	);
 });
 
 // Replace tasks for demo-app
-gulp.task('demo_replace_module', function() {
-	return gulp.src('generators/app/templates/demo-app/client/main.module.ts')
-		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/client'));
-});
 gulp.task('demo_replace_store', function() {
-	return gulp.src('generators/app/templates/demo-app/client/store/index.ts')
+	return gulp.src('generators/app/templates/demo-app/client/redux/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/client/store'));
+		.pipe(gulp.dest('generators/app/templates/demo-app/client/redux/store'));
 });
 gulp.task('demo_replace_routes', function() {
 	return gulp.src('generators/app/templates/demo-app/server/routes.ts')
@@ -123,18 +114,12 @@ gulp.task('demo_replace_socketio', function() {
 });
 
 // Replace tasks for starter-app
-gulp.task('starter_replace_module', function() {
-	return gulp.src('generators/app/templates/starter-app/client/main.module.ts')
-		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/starter-app/client'));
-});
 gulp.task('starter_replace_store', function() {
-	return gulp.src('generators/app/templates/starter-app/client/store/index.ts')
+	return gulp.src('generators/app/templates/starter-app/client/redux/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/starter-app/client/store'));
+		.pipe(gulp.dest('generators/app/templates/starter-app/client/redux/store'));
 });
 gulp.task('starter_replace_routes', function() {
 	return gulp.src('generators/app/templates/starter-app/server/routes.ts')
@@ -172,18 +157,12 @@ gulp.task('starter_replace_socketio', function() {
 });
 
 // Replace tasks for dbless-app
-gulp.task('dbless_replace_module', function() {
-	return gulp.src('generators/app/templates/dbless-app/client/main.module.ts')
-		.pipe(replace("// DO NOT REMOVE: template main.module imports", "<%- newComponentImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template declarations", "<%= newComponents.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/dbless-app/client'));
-});
 gulp.task('dbless_replace_store', function() {
-	return gulp.src('generators/app/templates/dbless-app/client/store/index.ts')
+	return gulp.src('generators/app/templates/dbless-app/client/redux/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/dbless-app/client/store'));
+		.pipe(gulp.dest('generators/app/templates/dbless-app/client/redux/store'));
 });
 gulp.task('dbless_replace_html', function() {
 	return gulp.src('generators/app/templates/dbless-app/client/index.html')
@@ -207,8 +186,8 @@ gulp.task('update', function(done) {
 	return runSequence(
 		'remove_template_old',
 		'clone_demo',
-		'clone_starter',
-		'clone_dbless',
+		// 'clone_starter',
+		// 'clone_dbless',
 		'clean_clones',
 		'ejs_replace',
 		done

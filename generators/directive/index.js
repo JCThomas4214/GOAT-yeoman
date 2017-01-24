@@ -11,10 +11,20 @@ module.exports = generators.Base.extend({
   prompting: function () {
     return this.prompt([{
       type    : 'list',
-      name    : 'segmentname',
-      message : 'What segment would you like to generate to?',
-      choices : ['main-segment'].concat(this.config.get('Segments')),
-      when    : this.config.get('Segments').length > 0
+      name    : 'modulename',
+      message : 'What module would you like to generate to?',
+      choices : this.config.get('modules')
+    }, {
+      type    : 'confirm',
+      name    : 'confirmsub',
+      message : 'Would you like to create your component inside a submodule?',
+      when    : (res) => this.config.get('subModules')[res.modulename].length > 0
+    }, {
+      type    : 'list',
+      name    : 'submodulename',
+      message : 'What submodule would you like to generate to?',
+      choices : (res) => this.config.get('subModules')[res.modulename],
+      when    : (res) => res.confirmsub
     }, {
       type    : 'input',
       name    : 'directivename',
@@ -28,16 +38,19 @@ module.exports = generators.Base.extend({
       this.namelower = _.camelCase(this.directivename);
       this.fname = _.kebabCase(this.directivename);
 
-      this.segmentname = answers.segmentname ? answers.segmentname : 'main-segment';
+      this.modulename = answers.modulename;
+      this.submodulename = answers.submodulename;
 
     }.bind(this));
   },
   // Writes the application to the name of the project
   writing: function () {
+    var location = `client/modules/${this.modulename}${this.submodulename ? ('/' + this.submodulename) : ''}`;
+
     // Clone the template service.ts file
     this.fs.copyTpl(
       this.templatePath('template.directive.ts'),
-      this.destinationPath(`client/${this.segmentname}/directives/${this.fname}.directive.ts`),
+      this.destinationPath(`${location}/directives/${this.fname}.directive.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,

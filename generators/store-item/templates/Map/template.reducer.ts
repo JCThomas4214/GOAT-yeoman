@@ -1,4 +1,4 @@
-import { <%= storename %>Actions } from '../../<%- segmentname %>/actions/<%= fname %>/<%= fname %>.actions';
+import { <%= storename %>Actions } from '../../actions/<%= fname %>/<%= fname %>.actions';
 import { reimmutify<%= storename %> } from './<%= fname %>.transformers';
 import { I<%= storename %> } from './<%= fname %>.types';
 import { INITIAL_STATE } from './<%= fname %>.initial-state';

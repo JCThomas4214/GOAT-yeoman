@@ -4,7 +4,8 @@
   "description": "yo generator for the GOAT-stack, a MEAN stack with Angular2/Angular4 that puts SEO and scale-ability first",
   "files": [
     "generators/app",
-    "generators/segment",
+    "generators/module",
+    "generators/submodule",
     "generators/component",
     "generators/actions",
     "generators/directive",

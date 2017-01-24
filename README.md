@@ -16,23 +16,34 @@ $ yo goatstack [name?]
 # Possible generators
   <img align="right" src="https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/puzzle-pieces.png"/>
   
-  + `yo goatstack [?name]`  
+  + `yo goatstack [name?]`
   
-  + `yo goatstack:segment [?name]`
+  + `yo goatstack:module [name?]`
+    + must add dependancy to app module
+
+  + `yo goatstack:submodule [name?]`
+    + must add dependancy to parent module
   
-  + `yo goatstack:component [?name]`
+  + `yo goatstack:component [name?]`
+    + must add dependancy to parent module
   
-  + `yo goatstack:service [?name]`
+  + `yo goatstack:service [name?]`
+    + must add dependancy to parent module/component
   
-  + `yo goatstack:directive [?name]`
+  + `yo goatstack:directive [name?]`
+    + must add dependancy to parent module/component
   
-  + `yo goatstack:pipe [?name]`
+  + `yo goatstack:pipe [name?]`
+    + must add dependancy to parent module/component
   
-  + `yo goatstack:actions [?name]`
+  + `yo goatstack:actions [name?]`
+    + must add dependancy to parent module/component
   
-  + `yo goatstack:store-item [?name]`
+  + `yo goatstack:store-item [name?]`
+    + must add actions dependancy to parent module/component
   
-  + `yo goatstack:endpoint [?name]`  
+  + `yo goatstack:endpoint [name?]`
+    + no hookup required
   
   
 _**NOTE**: more information on the generator process click [here](https://github.com/projectSHAI/GOATstack/wiki/Yeoman-Generator-usage)_

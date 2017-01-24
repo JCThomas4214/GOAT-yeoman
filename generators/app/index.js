@@ -66,23 +66,20 @@ module.exports = generators.Base.extend({
       this.protocol         = answers.protocol;
 
 	    this.config.set({
-        Segments            : this.apptype === 'demo-app' ? [
-          'footer-segment',
-          'header-segment',
-          'ocean-segment',
-          'sky-segment',
-          'whale-segment',
-        ] : this.apptype === 'starter-app' ? [
-          'footer-segment',
-          'header-segment',
-          'profile-segment'
-        ] : [
-          'footer-segment',
-          'header-segment'
+        modules            : [
+          'core',
+          'home',
+          'user-profile',
+          '404',
+          'shared',
         ],
-
-        newComponents       : [],
-        newComponentImports : [],
+        subModules          : {
+          'core': [],
+          'home': [],
+          'user-profile': [],
+          '404': [],
+          'shared': []
+        },
 
         newStoreImports     : [],
         newStoreAttrs       : [],
