@@ -17,7 +17,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'modelname',
       message : 'Your new model\'s name?',
-      default : this.modelname
+      default : this.options.modelname
     }, {
       type    : 'checkbox',
       name    : 'authselect',

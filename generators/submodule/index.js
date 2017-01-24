@@ -22,7 +22,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'submodulename',
       message : 'What\'s the name for the new module?',
-      default : this.submodulename
+      default : this.options.submodulename
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase
@@ -34,8 +34,7 @@ module.exports = class extends Generator {
 
       // update the yo config file with new component
       var config = this.config.getAll();
-      config.modules.push(this.fname);
-      config.subModules[this.fname] = [];
+      config.subModules[this.modulename].push(this.fname);
 
       this.config.set(config);
       this.config.save();

@@ -30,7 +30,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'pipename',
       message : 'What\'s the name for the new pipe?',
-      default : this.pipename
+      default : this.options.pipename
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase

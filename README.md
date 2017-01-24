@@ -1,9 +1,11 @@
+# Check out the [Demo App](http://www.goatstack.com/)!
 
 [![npm version](https://img.shields.io/npm/v/generator-goatstack.svg)](https://www.npmjs.com/package/generator-goatstack)
 [![Dependency Status](https://img.shields.io/david/projectSHAI/GOATstack.svg)](https://david-dm.org/JCThomas4214/GOAT-yeoman.svg)
 
 ![GOAT-yeoman](https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/goat-yeoman-banner.png)
-yo generator for the [GOATstack](https://github.com/projectSHAI/GOATstack), a MEAN stack that puts SEO and scale-ability first
+
+_**NOTE**: Yo generator for the [GOATstack](https://github.com/projectSHAI/GOATstack), a MEAN stack that puts SEO and scale-ability first_
 
 # Quick-Start
 
@@ -12,6 +14,15 @@ $ npm install -g yo generator-goatstack
 $ mkdir [dirName] $$ cd [dirName]
 $ yo goatstack [name?]
 ```
+
+# What's new? v3.x [BREAKING CHANGES]
+
+* Removed segment generator
+  * segments were an attempt to remedy an issue with ng2-redux which is no longer present
+* NEW module/submodule generator
+  * modules give access to features like lazyLoadingModules and [more](https://angular.io/docs/ts/latest/guide/ngmodule.html)
+  * more inline with the angular way
+
 
 # Possible generators
   <img align="right" src="https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/puzzle-pieces.png"/>

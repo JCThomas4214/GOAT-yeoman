@@ -30,7 +30,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'servicename',
       message : 'What\'s the name for the new service?',
-      default : this.servicename
+      default : this.options.servicename
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase

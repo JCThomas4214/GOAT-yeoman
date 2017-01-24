@@ -30,7 +30,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'directivename',
       message : 'What\'s the name for the new directive?',
-      default : this.directivename
+      default : this.options.directivename
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase

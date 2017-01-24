@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
+    "types": [
+      "graceful-fs",
+      "immutable",
+      "lodash",
+      "core-js",
+      "socket.io-client"
+    ]
+  },
+  "files": [
+    "client/app.module.ts",
+    "client/app.ts",
+    "client/app-aot.ts"
+  ],
+  "exclude": [
+    "node_modules/@types/mongoose"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "ngc-aot",
+    "skipMetadataEmit" : true,
+    "entryModule": "client/app.module#MainModule"
+  }
+}

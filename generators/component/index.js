@@ -31,7 +31,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'componentname',
       message : 'Your new component\'s name?',
-      default : this.componentname
+      default : this.options.componentname
     }]).then(function (answers) {
 
       // Process to get naming convention camelcase and capitalized camelcase

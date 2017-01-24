@@ -9,7 +9,7 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     // This makes `appname` not a required argument.
-    this.argument('appname', { type: String, required: false, default: 'GOAT-stack' });
+    this.argument('appname', { type: String, required: false, default: 'GOATstack' });
 
   }
 
@@ -28,7 +28,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'appname',
       message : 'Your new project\'s name?',
-      default : this.appname
+      default : this.options.appname
     }, {
       type    : 'input',
       name    : 'appdescription',
