@@ -1,0 +1,42 @@
+# Node build artifacts
+node_modules
+npm-debug*
+
+# Local development
+*.env
+*.dev
+.DS_Store
+dist
+tmp
+
+ngc-aot
+*.ngfactory*
+*.shim.ts
+*.js.map
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# certificates
+server/sslcerts
+
+# TypeScript transpiled files
+client/**/**/**/*.js
+
+# CSS files
+**/*.css
+client/**/**/**/*.css
+
+# Typings folder
+typings
+
+# e2e test output
+config/sys/_test-output
+
+visualProject.njsproj
+.vs
+
+debug.log
+.com*
+.org*

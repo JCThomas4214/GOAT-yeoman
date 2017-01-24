@@ -1,0 +1,29 @@
+.error-card {
+    display: none;
+    position: fixed;
+    bottom: 10%;
+    left: 5%;
+    width: 350px;
+    transform: translateY(400px);  
+}
+
+.error-card > md-card {
+    z-index: 10000;
+    padding: 0;
+}
+
+.error-content {
+    padding: 15px;
+    font-size: medium;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@media (max-width: 800px) {
+    .error-card {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        transform: translateY(-400px);  
+    }
+}

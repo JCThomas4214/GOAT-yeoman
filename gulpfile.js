@@ -63,9 +63,9 @@ gulp.task('ejs_replace', function(done) {
 		'starter_replace_appE2e',
 		'starter_replace_default_env',
 		'starter_replace_socketio',
-		// 'dbless_replace_store',
-		// 'dbless_replace_html',
-		// 'dbless_replace_appE2e',
+		'dbless_replace_store',
+		'dbless_replace_html',
+		'dbless_replace_appE2e',
 		done
 	);
 });
@@ -187,7 +187,7 @@ gulp.task('update', function(done) {
 		'remove_template_old',
 		'clone_demo',
 		'clone_starter',
-		// 'clone_dbless',
+		'clone_dbless',
 		'clean_clones',
 		'ejs_replace',
 		done

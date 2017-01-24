@@ -38,7 +38,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'appkeywords',
       message : 'Your new project\'s keywords (comma between each word)?',
-      default : 'redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor, socketio, MEAN'
+      default : 'redux, immutable, node, mongo, express, angular2, ng2, angular4, ng4, jasmine, karma, protractor, socketio, MEAN, webapp, Web Application'
     }, {
       type    : 'list',
       name    : 'protocol',

@@ -1,11 +1,11 @@
 # Check out the [Demo App](http://www.goatstack.com/)!
+_**NOTE**: This is the yo generator for the [GOATstack](https://github.com/projectSHAI/GOATstack), a MEAN stack that puts SEO and scale-ability first_
+___
 
 [![npm version](https://img.shields.io/npm/v/generator-goatstack.svg)](https://www.npmjs.com/package/generator-goatstack)
 [![Dependency Status](https://img.shields.io/david/projectSHAI/GOATstack.svg)](https://david-dm.org/JCThomas4214/GOAT-yeoman.svg)
 
-![GOAT-yeoman](https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/goat-yeoman-banner.png)
-
-_**NOTE**: Yo generator for the [GOATstack](https://github.com/projectSHAI/GOATstack), a MEAN stack that puts SEO and scale-ability first_
+![GOAT yeoman][logo]
 
 # Quick-Start
 
@@ -30,11 +30,11 @@ $ yo goatstack [name?]
 * Server-side rendering with [Angular Universal](https://universal.angular.io/)
   * Angular Universal will be integrated into @angular/core upon [angular@4.x](https://github.com/angular/angular/blob/master/CHANGELOG.md)
   * we will begin refactoring on the GOATv4 branch once rc.1 publishes in the coming month
-  
+
 
 
 # Possible generators
-  <img align="right" src="https://github.com/JCThomas4214/Documentation/blob/master/GOAT-yeoman/puzzle-pieces.png"/>
+  <img align="right" src="https://raw.githubusercontent.com/JCThomas4214/GOAT-yeoman/master/assets/puzzle-pieces.png"/>
   
   + `yo goatstack [name?]`
   
@@ -67,3 +67,5 @@ $ yo goatstack [name?]
   
   
 _**NOTE**: more information on the generator process click [here](https://github.com/projectSHAI/GOATstack/wiki/Yeoman-Generator-usage)_
+
+[logo]: /assets/goat-yeoman-banner.png "GOAT-Yeoman"
