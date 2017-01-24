@@ -15,13 +15,22 @@ $ mkdir [dirName] $$ cd [dirName]
 $ yo goatstack [name?]
 ```
 
-# What's new? v3.x [BREAKING CHANGES]
+# What's new? v3.x
 
+* Moved to [ngModule](https://angular.io/docs/ts/latest/guide/ngmodule.html) structure
 * Removed segment generator
   * segments were an attempt to remedy an issue with ng2-redux which is no longer present
 * NEW module/submodule generator
   * modules give access to features like lazyLoadingModules and [more](https://angular.io/docs/ts/latest/guide/ngmodule.html)
   * more inline with the angular way
+
+
+# Future updates! v4.x [Angular4]
+
+* Server-side rendering with [Angular Universal](https://universal.angular.io/)
+  * Angular Universal will be integrated into @angular/core upon [angular@4.x](https://github.com/angular/angular/blob/master/CHANGELOG.md)
+  * we will begin refactoring on the GOATv4 branch once rc.1 publishes in the coming month
+  
 
 
 # Possible generators
