@@ -21,7 +21,8 @@ module.exports = class extends Generator {
       choices : [
         ` Demo Stack ${chalk.bold.yellow('(demo application found at www.goat-stack.herokuapp.com)')}`,
         ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
-        ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`
+        ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`,
+        ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
       ],
       default : 0
     }, {
@@ -57,7 +58,8 @@ module.exports = class extends Generator {
     }, ]).then(function (answers) {
 
       this.apptype          = /^ Demo/.test(answers.apptype) ? 'demo-app' : 
-                              /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 'dbless-app';
+                              /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 
+                              /^ DBlessGOAT/.test(answers.apptype) ? 'dbless-app' : 'firebase-app';
     	this.appname          = answers.appname;
     	this.appdescription   = answers.appdescription;
     	this.appkeywords      = answers.appkeywords;
