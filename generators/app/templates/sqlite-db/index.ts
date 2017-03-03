@@ -1,7 +1,7 @@
 "use strict";
 import config from "../../config";
 import Sequelize from "sequelize";
-import sqlSeed from "./seed";
+import seed from "./seed";
 
 //initilize the database
 let sequelize = new Sequelize(config.sqlite.database, config.sqlite.username, config.sqlite.password, config.sqlite.options);
@@ -14,7 +14,7 @@ export function sqliteConnect() {
 
       // seed sequelize
       if (config.seedDB) {
-        process.env.NODE_ENV === 'production' ? sqlSeed('prod') : sqlSeed();
+        seed(process.env.NODE_ENV);
       }
 
   });

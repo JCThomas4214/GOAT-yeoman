@@ -4,12 +4,12 @@ import Sequelize from "sequelize";
 import seed from "./seed";
 
 //initilize the database
-let sequelize = new Sequelize(config.mysql.database, config.mysql.username, config.mysql.password, config.mysql.options);
+let sequelize = new Sequelize(config.maria.database, config.maria.username, config.maria.password, config.maria.options);
 
 export default sequelize;
 
 // Initialize sequelize
-export function mysqlConnect() {
+export function mariaConnect() {
   sequelize.sync().then(function() {
 
       // seed sequelize
@@ -20,6 +20,6 @@ export function mysqlConnect() {
   });
 };
 
-export function mysqlDisconnect() {
+export function mariaDisconnect() {
 
 };

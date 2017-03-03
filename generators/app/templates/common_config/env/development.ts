@@ -6,8 +6,8 @@ Used when process.env.NODE_ENV = 'development'
 //process.env.NODE_ENV is utilized in config/config.ts
 */
 
-export const devEnv = {
-  <% if (mongo) { %>mongo: {
+export const devEnv = {<% if (mongo) { %>
+  mongo: {
     uri: 'mongodb://localhost/dev',
     options: {
       user: '',
@@ -15,14 +15,14 @@ export const devEnv = {
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
-  },<% } %>
-  <% if (cassandra) %>cassandra: {
+  },<% } %><% if (cassandra) { %>
+  cassandra: {
     contactPoints: ['127.0.0.1'],
     protocolOptions: { port: 9042 },
     queryOptions: { consistency: 1 },
     keyspace: 'dev'
-  },<% } %>
-  <% if (postgres) %>postgres: {
+  },<% } %><% if (postgres) { %>
+  postgres: {
     // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
     database: 'dev',
     username: 'postgres',
@@ -31,9 +31,9 @@ export const devEnv = {
       host: 'localhost',
       dialect: 'postgres',
     }
-  },<% } %>
-  <% if (mysql) %>mysql: {
-    // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+  },<% } %><% if (mysql) { %>
+  mysql: {
+    // uri: 'mysql://mysql:mysql@localhost:5432/GOATstack'
     database: 'dev',
     username: 'mysql',
     password: 'mysql',
@@ -41,9 +41,9 @@ export const devEnv = {
       host: 'localhost',
       dialect: 'mysql',
     }
-  },<% } %>
-  <% if (mssql) %>mssql: {
-    // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+  },<% } %><% if (mssql) { %>
+  mssql: {
+    // uri: 'mssql://mssql:mssql@localhost:5432/GOATstack'
     database: 'dev',
     username: 'mssql',
     password: 'mssql',
@@ -51,9 +51,9 @@ export const devEnv = {
       host: 'localhost',
       dialect: 'mssql',
     }
-  },<% } %>
-  <% if (maria) %>maria: {
-    // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+  },<% } %><% if (maria) { %>
+  maria: {
+    // uri: 'maria://maria:maria@localhost:5432/GOATstack'
     database: 'dev',
     username: 'maria',
     password: 'maria',
@@ -61,9 +61,9 @@ export const devEnv = {
       host: 'localhost',
       dialect: 'mariadb',
     }
-  },<% } %>
-  <% if (sqlite) %>maria: {
-    // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+  },<% } %><% if (sqlite) { %>
+  sqlite: {
+    // uri: 'sqlite://sqlite:sqlite@localhost:5432/GOATstack'
     database: 'dev',
     username: 'sqlite',
     password: 'sqlite',

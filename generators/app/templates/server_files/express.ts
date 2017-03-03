@@ -14,8 +14,9 @@ let express = require('express'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
   cookieParser = require('cookie-parser'),
-  session = require('express-session'),
-  MongoStore = require('connect-mongo')(session);
+  session = require('express-session');
+
+<% if (mongo) { %>let MongoStore = require('connect-mongo')(session);<% } %>
 
 // let webpack = require('webpack');
 // let webpackConfig = require('../webpack.config')('dev');
@@ -51,7 +52,7 @@ function expressInit(app) {
     }));
   }
   
-  app.use(session({
+ <% if (mongo) { %>app.use(session({
     secret: config.sessionSecret,
     saveUninitialized: true,
     resave: false,
@@ -59,7 +60,7 @@ function expressInit(app) {
       mongooseConnection: mongoose.connection,
       db: 'dreams'
     })
-  }));
+  }));<% } %>
 
   //sets the routes for all the API queries
   routes(app);

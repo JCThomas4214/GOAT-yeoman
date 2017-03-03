@@ -9,8 +9,8 @@ Used when process.env.NODE_ENV = 'production'
 export const prodEnv = {
   port: process.env.PORT || 8443,
   // Binding to 127.0.0.1 is safer in production.
-  host: process.env.HOST || '0.0.0.0',
-  <% if (mongo) { %>mongo: {
+  host: process.env.HOST || '0.0.0.0',<% if (mongo) { %>
+  mongo: {
       uri: 'mongodb://localhost/prod',
       options: {
         user: '',
@@ -18,14 +18,14 @@ export const prodEnv = {
       },
       // Enable mongoose debug mode
       debug: process.env.MONGODB_DEBUG || false
-    },<% } %>
-    <% if (cassandra) %>cassandra: {
+    },<% } %><% if (cassandra) { %>
+    cassandra: {
       contactPoints: ['127.0.0.1'],
       protocolOptions: { port: 9042 },
       queryOptions: { consistency: 1 },
       keyspace: 'prod'
-    },<% } %>
-    <% if (postgres) %>postgres: {
+    },<% } %><% if (postgres) { %>
+    postgres: {
       // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
       database: 'prod',
       username: 'postgres',
@@ -34,9 +34,9 @@ export const prodEnv = {
         host: 'localhost',
         dialect: 'postgres',
       }
-    },<% } %>
-    <% if (mysql) %>mysql: {
-      // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+    },<% } %><% if (mysql) { %>
+    mysql: {
+      // uri: 'mysql://mysql:mysql@localhost:5432/GOATstack'
       database: 'prod',
       username: 'mysql',
       password: 'mysql',
@@ -44,9 +44,9 @@ export const prodEnv = {
         host: 'localhost',
         dialect: 'mysql',
       }
-    },<% } %>
-    <% if (mssql) %>mssql: {
-      // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+    },<% } %><% if (mssql) { %>
+    mssql: {
+      // uri: 'mssql://mssql:mssql@localhost:5432/GOATstack'
       database: 'prod',
       username: 'mssql',
       password: 'mssql',
@@ -54,9 +54,9 @@ export const prodEnv = {
         host: 'localhost',
         dialect: 'mssql',
       }
-    },<% } %>
-    <% if (maria) %>maria: {
-      // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+    },<% } %><% if (maria) { %>
+    maria: {
+      // uri: 'maria://maria:maria@localhost:5432/GOATstack'
       database: 'prod',
       username: 'maria',
       password: 'maria',
@@ -64,9 +64,9 @@ export const prodEnv = {
         host: 'localhost',
         dialect: 'mariadb',
       }
-    },<% } %>
-    <% if (sqlite) %>maria: {
-      // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+    },<% } %><% if (sqlite) { %>
+    sqlite: {
+      // uri: 'sqlite://sqlite:sqlite@localhost:5432/GOATstack'
       database: 'prod',
       username: 'sqlite',
       password: 'sqlite',

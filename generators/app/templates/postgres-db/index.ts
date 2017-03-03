@@ -1,7 +1,7 @@
 "use strict";
 import config from "../../config";
 import Sequelize from "sequelize";
-import sqlSeed from "./seed";
+import seed from "./seed";
 
 //initilize the database
 let sequelize = new Sequelize(config.postgres.database, config.postgres.username, config.postgres.password, config.postgres.options);
@@ -14,7 +14,7 @@ export function postgresConnect() {
 
       // seed sequelize
       if (config.seedDB) {
-        process.env.NODE_ENV === 'production' ? sqlSeed('prod') : sqlSeed();
+        seed(process.env.NODE_ENV);
       }
 
   });

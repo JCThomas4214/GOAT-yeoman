@@ -51,36 +51,36 @@ function init(): any {
 
     if (process.env.NODE_ENV !== 'test') {
           console.log(
-            chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }\n`));
+            chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }\n`));<% if (mongo) { %>
 
-          <% if (mongo) %>console.log(
+          console.log(
             chalk.bold.cyan(`\tMongoDB:`) +
-            chalk.bold.gray(`\n\t - URI:\t\t\t\t ${ config.mongo.uri }\n`));<% } %>
+            chalk.bold.gray(`\n\t - URI:\t\t\t\t ${ config.mongo.uri }\n`));<% } %><% if (cassandra) { %>
 
-          <% if (cassandra) %>console.log(
+          console.log(
             chalk.bold.cyan(`\tCassandra:`) +
             chalk.bold.gray(`\n\t - ContactPoints:\t\t ${ config.cassandra.contactPoints.join(', ') }`) +
             chalk.bold.gray(`\n\t - Port:\t\t\t ${ config.cassandra.protocolOptions.port }`) +
-            chalk.bold.gray(`\n\t - Consistency:\t\t\t ${ config.cassandra.queryOptions.consistency }\n`));
+            chalk.bold.gray(`\n\t - Consistency:\t\t\t ${ config.cassandra.queryOptions.consistency }\n`));<% } %><% if (postgres) { %>
 
-          <% if (postgres) %>console.log(
+          console.log(
             chalk.bold.cyan(`\tPostgres:`) +
-            chalk.bold.cyan(`\n\t - URI:\t\t postgres://${config.postgres.username}:${config.postgres.password}@localhost:5432/${config.postgres.database}`));<% } %>
-
-          <% if (mysql) %>console.log(
-            chalk.bold.cyan(`\tPostgres:`) +
-            chalk.bold.cyan(`\n\t - URI:\t\t mysql://${config.mysql.username}:${config.mysql.password}@localhost:5432/${config.mysql.database}`));<% } %>
-
-          <% if (mssql) %>console.log(
-            chalk.bold.cyan(`\tPostgres:`) +
-            chalk.bold.cyan(`\n\t - URI:\t\t mssql://${config.mssql.username}:${config.mssql.password}@localhost:5432/${config.mssql.database}`));<% } %>
-
-          <% if (sqlite) %>console.log(
-            chalk.bold.cyan(`\tPostgres:`) +
-            chalk.bold.cyan(`\n\t - URI:\t\t sqlite://${config.sqlite.username}:${config.sqlite.password}@localhost:5432/${config.sqlite.database}`));<% } %>
-
-          <% if (maria) %>console.log(
-            chalk.bold.cyan(`\tPostgres:`) +
+            chalk.bold.cyan(`\n\t - URI:\t\t postgres://${config.postgres.username}:${config.postgres.password}@localhost:5432/${config.postgres.database}`));<% } %><% if (mysql) { %>
+          
+          console.log(
+            chalk.bold.cyan(`\MySQL:`) +
+            chalk.bold.cyan(`\n\t - URI:\t\t mysql://${config.mysql.username}:${config.mysql.password}@localhost:5432/${config.mysql.database}`));<% } %><% if (mssql) { %>
+          
+          console.log(
+            chalk.bold.cyan(`\MSSQL:`) +
+            chalk.bold.cyan(`\n\t - URI:\t\t mssql://${config.mssql.username}:${config.mssql.password}@localhost:5432/${config.mssql.database}`));<% } %><% if (sqlite) { %>
+          
+          console.log(
+            chalk.bold.cyan(`\SQLite:`) +
+            chalk.bold.cyan(`\n\t - URI:\t\t sqlite://${config.sqlite.username}:${config.sqlite.password}@localhost:5432/${config.sqlite.database}`));<% } %><% if (maria) { %>
+          
+          console.log(
+            chalk.bold.cyan(`\Maria:`) +
             chalk.bold.cyan(`\n\t - URI:\t\t maria://${config.maria.username}:${config.maria.password}@localhost:5432/${config.maria.database}`));<% } %>
 
           if (!process.env.NODE_ENV)

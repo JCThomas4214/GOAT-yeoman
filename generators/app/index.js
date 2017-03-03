@@ -4,21 +4,28 @@ var Generator = require('yeoman-generator'),
   glob = require('glob'),
   chalk = require('chalk');
 
-function findDbFolder(database) {
+function findDbFolder(database, dbs) {
   switch(database) {
     case 'MongoDB':
+      dbs['mongo'] = true;
       return 'mongo-db';
     case 'Apache Cassandra':
+      dbs['cassandra'] = true;
       return 'cassandra-db';
     case 'PostgresSQL':
+      dbs['postgres'] = true;
       return 'postgres-db';
-    case 'MySQL':            
+    case 'MySQL':
+      dbs['mysql'] = true;   
       return 'mysql-db';
-    case 'MariaDB':            
+    case 'MariaDB':
+      dbs['maria'] = true;       
       return 'maria-db';
-    case 'MSSQL':            
+    case 'MSSQL':
+      dbs['mssql'] = true;      
       return 'mssql-db';
-    case 'SQLite':            
+    case 'SQLite':     
+      dbs['sqlite'] = true;       
       return 'sqlite-db';
   }
 }
@@ -32,24 +39,26 @@ module.exports = class extends Generator {
 
   }
 
+  // {
+  //     type    : 'list',
+  //     name    : 'apptype',
+  //     message : 'Which app would you like to start with?',
+  //     choices : [
+  //       ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
+  //       ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`,
+  //       ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
+  //     ],
+  //     default : 0
+  //   }, 
+
   prompting() {
+    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected than the generated stack will be a dbless solution**\n\n'))
+
     return this.prompt([{
-      type    : 'list',
-      name    : 'apptype',
-      message : 'Which app would you like to start with?',
-      choices : [
-        ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
-        ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`,
-        ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
-      ],
-      default : 0
-    }, {
       type    : 'checkbox',
       name    : 'databases', 
       message : 'Select what databases you would like to use.',
-      choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL'],
-      validate: input => input.length > 0,
-      when    : res => /^ HelloGOAT/.test(res.apptype)
+      choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL']
     }, {
       type    : 'list',
       name    : 'defaultDb',
@@ -76,7 +85,7 @@ module.exports = class extends Generator {
       name    : 'protocol',
       message : 'What type of URL protocol would you like to use?',
       choices : ['http', 'https'],
-      when    : res => !/^ DBlessGOAT/.test(res.apptype)
+      when    : res => res.databases.length > 0
     }, {
       type    : 'confirm',
       name    : 'analyticschoice',
@@ -87,23 +96,34 @@ module.exports = class extends Generator {
       message : 'Paste the Google Analytics script (including script tags) then save => exit!',
       when    : res => res.analyticschoice
     }]).then(function (answers) {
+      this.dbs = {
+        mongo: false,
+        cassandra: false,
+        postgres: false,
+        mysql: false,
+        mssql: false,
+        sqlite: false,
+        maria: false
+      };
+
       this.databases = answers.databases; // initializing databases to scope
       // if defaultDb is defined then set the scope vaiable
-      if (answers.defaultDb) this.defaultDb = findDbFolder(answers.defaultDb);
+      if (answers.defaultDb) this.defaultDb = findDbFolder(answers.defaultDb, this.dbs);
       // else only one database was selected, define as that
-      else this.defaultDb = findDbFolder(this.databases[0]);
-     
+      else this.defaultDb = findDbFolder(this.databases[0], this.dbs);
+
+      this.dbs.defaultDb = this.defaultDb;     
       this.dbFolders = [];
 
       for (let x = 0; x < this.databases.length; x++) {
-        this.dbFolders.push(findDbFolder(this.databases[x]));
+        this.dbFolders.push(findDbFolder(this.databases[x], this.dbs));
       }
 
-      console.log(this.defaultDb);
-      console.log(this.dbFolders);
+      // console.log(this.defaultDb);
+      // console.log(this.dbFolders);
+      // console.log(this.dbs);
 
-      this.apptype          = /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 
-                              /^ DBlessGOAT/.test(answers.apptype) ? 'dbless-app' : 'firebase-app';
+      this.apptype          = this.databases.length > 0 ? 'starter-app' : 'dbless-app';
     	this.appname          = answers.appname;
     	this.appdescription   = answers.appdescription;
     	this.appkeywords      = answers.appkeywords;
@@ -143,7 +163,8 @@ module.exports = class extends Generator {
         protocol            : this.protocol === 'https',
         analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r)/gm, '') : '',
         defaultDb           : this.defaultDb,
-        dbFolders           : this.dbFolders
+        dbFolders           : this.dbFolders,
+        databases           : this.databases
 	    });
 	    this.config.save();
 
@@ -152,6 +173,40 @@ module.exports = class extends Generator {
 
   // Writes the application to the name of the project
   writing() {
+    if (this.apptype === 'starter-app') {
+      for (let x = 0; x < this.dbFolders.length; x++) {
+        if (this.dbFolders[x] === this.defaultDb) {
+          this.fs.copy( // if default, copy the database folder
+            this.templatePath(this.dbFolders[x]),
+            this.destinationPath(`server/${this.dbFolders[x]}`)
+          );
+        } else {
+          this.fs.copy( //copy the database specific index file
+            this.templatePath(`${this.dbFolders[x]}/index.ts`),
+            this.destinationPath(`server/${this.dbFolders[x]}/index.ts`)
+          );
+          this.fs.copy( // copy the empty seed file template
+            this.templatePath('seed.ts'),
+            this.destinationPath(`server/${this.dbFolders[x]}/seed.ts`)
+          );
+        }
+      }
+
+      // Write the generic config templates
+      this.fs.copyTpl(
+        this.templatePath('common_config'),
+        this.destinationPath('config'),
+        this.dbs
+      );
+
+      // Write the generic server templates
+      this.fs.copyTpl(
+        this.templatePath('server_files'),
+        this.destinationPath('server'),
+        this.dbs
+      );  
+    }  
+
     // Write the application template
     this.fs.copyTpl(
       glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png|woff|woff2)`),
@@ -168,7 +223,36 @@ module.exports = class extends Generator {
 
   // Starts npm install
   installYarn() {
-    this.yarnInstall();
+    let hasSequl = false;
+    let addPackages = [];
+
+    if (this.dbs.mongo) {
+      addPackages.push('mongoose');
+      addPackages.push('mongodb');
+      addPackages.push('connect-mongo');
+    }
+    if (this.dbs.cassandra) {
+      addPackages.push('cassmask');
+    }
+    if (this.dbs.postgres) {
+      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('pg');
+      addPackages.push('pg-hstore');
+    }
+    if (this.dbs.mysql || this.dbs.maria) {
+      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('mysql');
+    }
+    if (this.dbs.sqlite) {
+      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('sqlite3');
+    }
+    if (this.dbs.mssql) {
+      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('tedious');
+    }
+
+    this.yarnInstall(addPackages);
   }
 
   end() {

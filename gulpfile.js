@@ -67,7 +67,7 @@ gulp.task('move_mongo', function() {
 		.pipe(gulp.dest('generators/app/templates/mongo-db'));
 });
 gulp.task('move_cassandra', function() {
-	return gulp.src('generators/app/templates/starter-app/server/cass-db/**/**/*.ts')
+	return gulp.src('generators/app/templates/starter-app/server/cassandra-db/**/**/*.ts')
 		.pipe(gulp.dest('generators/app/templates/cassandra-db'));
 });
 gulp.task('move_postgres', function() {
@@ -99,7 +99,7 @@ gulp.task('move_sqlite', function() {
 		.pipe(gulp.dest('generators/app/templates/sqlite-db'));
 });
 gulp.task('move_maria', function() {
-	return gulp.src('generators/app/templates/starter-app/server/maria-db/**/**/*.ts')
+	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
 		.pipe(replace('config.sql', 'config.maria'))
 		.pipe(replace('sequelizeConnect', 'mariaConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mariaDisconnect'))
@@ -115,6 +115,8 @@ gulp.task('fix_package', function() {
 	var pack = require('./generators/app/templates/starter-app/package.json');
 
 	delete pack.dependencies.mongoose;
+	delete pack.dependencies.mongodb;
+	delete pack.dependencies['connect-mongo'];
 	delete pack.dependencies.sequelize;
 	delete pack.dependencies.cassmask;
 	delete pack.dependencies.pg;

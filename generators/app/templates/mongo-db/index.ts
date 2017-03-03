@@ -1,12 +1,12 @@
 let mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 import * as chalk from 'chalk';
 import config from '../../config';
-import mongoSeed from './seed';
+import seed from './seed';
 
 // Initialize Mongoose
-export function mongooseConnect() {
+export function mongoConnect() {
   mongoose.connect(config.mongo.uri, config.mongo.options, function (err) {
     // Log Error
     if (err) {
@@ -14,7 +14,7 @@ export function mongooseConnect() {
       console.log(err);
     } else {
       if (config.seedDB) {
-        mongoSeed(process.env.NODE_ENV);
+        seed(process.env.NODE_ENV);
       }
       // Enabling mongoose debug mode if required
       mongoose.set('debug', config.mongo.debug);
@@ -22,7 +22,7 @@ export function mongooseConnect() {
   });
 };
 
-export function mongooseDisconnect() {
+export function mongoDisconnect() {
   mongoose.disconnect(function (err) {
     console.log(chalk.bold.yellow('Disconnected from MongoDB.'));
   });
