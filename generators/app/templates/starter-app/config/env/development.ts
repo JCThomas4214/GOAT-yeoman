@@ -7,8 +7,8 @@ Used when process.env.NODE_ENV = 'development'
 */
 
 export const devEnv = {
-  db: {
-    uri: 'mongodb://localhost/dreams-dev',
+  mongo: {
+    uri: 'mongodb://localhost/dev',
     options: {
       user: '',
       pass: ''
@@ -16,7 +16,21 @@ export const devEnv = {
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
   },
-  livereload: true,
-  seedDB: true,
-  seedFile: '../config/lib/seed'
+  cassandra: {
+    contactPoints: ['127.0.0.1'],
+    protocolOptions: { port: 9042 },
+    queryOptions: { consistency: 1 },
+    keyspace: 'dev'
+  },
+  sql: {
+    // uri: 'postgres://postgres:postgres@localhost:5432/GOATstack'
+    database: 'dev',
+    username: 'postgres',
+    password: 'postgres',
+    options: {
+      host: 'localhost',
+      dialect: 'postgres'||'mysql'||'mariadb'||'sqlite'||'mssql',
+    }
+  },
+  seedDB: true
 };

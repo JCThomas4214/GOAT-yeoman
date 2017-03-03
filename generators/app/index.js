@@ -4,6 +4,25 @@ var Generator = require('yeoman-generator'),
   glob = require('glob'),
   chalk = require('chalk');
 
+function findDbFolder(database) {
+  switch(database) {
+    case 'MongoDB':
+      return 'mongo-db';
+    case 'Apache Cassandra':
+      return 'cassandra-db';
+    case 'PostgresSQL':
+      return 'postgres-db';
+    case 'MySQL':            
+      return 'mysql-db';
+    case 'MariaDB':            
+      return 'maria-db';
+    case 'MSSQL':            
+      return 'mssql-db';
+    case 'SQLite':            
+      return 'sqlite-db';
+  }
+}
+
 module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
   constructor(args, opts) {
@@ -25,6 +44,18 @@ module.exports = class extends Generator {
         ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
       ],
       default : 0
+    }, {
+      type    : 'checkbox',
+      name    : 'databases', 
+      message : 'Select what databases you would like to use.',
+      choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL'],
+      when    : (res) => /^ HelloGOAT/.test(res.apptype)
+    }, {
+      type    : 'list',
+      name    : 'defaultDb',
+      message : 'What will be your default database?',
+      choices : (res) => res.databases,
+      when    : (res) => res.databases.length > 1
     }, {
       type    : 'input',
       name    : 'appname',
@@ -55,7 +86,21 @@ module.exports = class extends Generator {
       name    : 'analytics',
       message : 'Paste the Google Analytics script (including script tags) then save => exit!',
       when    : (res) => res.analyticschoice
-    }, ]).then(function (answers) {
+    }]).then(function (answers) {
+      this.databases = answers.databases; // initializing databases to scope
+      // if defaultDb is defined then set the scope vaiable
+      if (answers.defaultDb) this.defaultDb = findDbFolder(answers.defaultDb);
+      // else only one database was selected, define as that
+      else this.defaultDb = findDbFolder(this.databases[0]);
+     
+      this.dbFolders = [];
+
+      for (let x = 0; x < this.databases.length; x++) {
+        this.dbFolders.push(findDbFolder(this.databases[x]));
+      }
+
+      console.log(this.defaultDb);
+      console.log(this.dbFolders);
 
       this.apptype          = /^ Demo/.test(answers.apptype) ? 'demo-app' : 
                               /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 
@@ -97,7 +142,9 @@ module.exports = class extends Generator {
         appdescription      : this.appdescription,
         appkeywords         : this.appkeywords,
         protocol            : this.protocol === 'https',
-        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r)/gm, '') : ''
+        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r)/gm, '') : '',
+        defaultDb           : this.defaultDb,
+        dbFolders           : this.dbFolders
 	    });
 	    this.config.save();
 
@@ -121,8 +168,8 @@ module.exports = class extends Generator {
   }
 
   // Starts npm install
-  installNpm() {
-    this.npmInstall();
+  installYarn() {
+    this.yarnInstall();
   }
 
   end() {

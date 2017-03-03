@@ -34,13 +34,13 @@
     "glob": "7.1.1",
     "graceful-fs": "4.1.11",
     "lodash": "^4.17.4",
-    "yeoman-generator": "^1.0.1"
+    "yeoman-generator": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "3.9.1",
     "gulp-cli": "1.2.2",
     "gulp-replace": "0.5.4",
-    "gulp-shell": "0.5.2",
+    "gulp-shell": "^0.6.1",
     "run-sequence": "1.2.2"
   }
 }
