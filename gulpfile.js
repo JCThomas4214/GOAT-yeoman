@@ -56,6 +56,8 @@ gulp.task('format_starter', function(done) {
 		'move_mssql',
 		'move_sqlite',
 		'move_maria',
+		'delete_starter_extra',
+		'fix_package',
 		done
 	);
 });
@@ -102,6 +104,28 @@ gulp.task('move_maria', function() {
 		.pipe(replace('sequelizeConnect', 'mariaConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mariaDisconnect'))
 		.pipe(gulp.dest('generators/app/templates/maria-db'));
+});
+gulp.task('delete_starter_extra', function(done) {
+	return del([		
+		'generators/app/templates/starter-app/server/**',
+		'generators/app/templates/starter-app/config/**',
+	]);
+});
+gulp.task('fix_package', function() {
+	var pack = require('./generators/app/templates/starter-app/package.json');
+
+	delete pack.dependencies.mongoose;
+	delete pack.dependencies.sequelize;
+	delete pack.dependencies.cassmask;
+	delete pack.dependencies.pg;
+	delete pack.dependencies['pg-hstore'];
+	delete pack.dependencies.mysql;
+	delete pack.dependencies.seqlite3;
+	delete pack.dependencies.tedious;
+
+	var json = JSON.stringify(pack, null, 2);
+
+	fs.writeFile('generators/app/templates/starter-app/package.json', json);
 });
 
 

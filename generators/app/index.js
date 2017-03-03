@@ -38,7 +38,6 @@ module.exports = class extends Generator {
       name    : 'apptype',
       message : 'Which app would you like to start with?',
       choices : [
-        ` Demo Stack ${chalk.bold.yellow('(demo application found at www.goat-stack.herokuapp.com)')}`,
         ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
         ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`,
         ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
@@ -49,13 +48,14 @@ module.exports = class extends Generator {
       name    : 'databases', 
       message : 'Select what databases you would like to use.',
       choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL'],
-      when    : (res) => /^ HelloGOAT/.test(res.apptype)
+      validate: input => input.length > 0,
+      when    : res => /^ HelloGOAT/.test(res.apptype)
     }, {
       type    : 'list',
       name    : 'defaultDb',
       message : 'What will be your default database?',
-      choices : (res) => res.databases,
-      when    : (res) => res.databases.length > 1
+      choices : res => res.databases,
+      when    : res => res.databases.length > 1
     }, {
       type    : 'input',
       name    : 'appname',
@@ -76,7 +76,7 @@ module.exports = class extends Generator {
       name    : 'protocol',
       message : 'What type of URL protocol would you like to use?',
       choices : ['http', 'https'],
-      when    : (res) => !/^ DBlessGOAT/.test(res.apptype)
+      when    : res => !/^ DBlessGOAT/.test(res.apptype)
     }, {
       type    : 'confirm',
       name    : 'analyticschoice',
@@ -85,7 +85,7 @@ module.exports = class extends Generator {
       type    : 'editor',
       name    : 'analytics',
       message : 'Paste the Google Analytics script (including script tags) then save => exit!',
-      when    : (res) => res.analyticschoice
+      when    : res => res.analyticschoice
     }]).then(function (answers) {
       this.databases = answers.databases; // initializing databases to scope
       // if defaultDb is defined then set the scope vaiable
@@ -102,8 +102,7 @@ module.exports = class extends Generator {
       console.log(this.defaultDb);
       console.log(this.dbFolders);
 
-      this.apptype          = /^ Demo/.test(answers.apptype) ? 'demo-app' : 
-                              /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 
+      this.apptype          = /^ HelloGOAT/.test(answers.apptype) ? 'starter-app' : 
                               /^ DBlessGOAT/.test(answers.apptype) ? 'dbless-app' : 'firebase-app';
     	this.appname          = answers.appname;
     	this.appdescription   = answers.appdescription;
