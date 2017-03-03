@@ -60,6 +60,11 @@ module.exports = class extends Generator {
       message : 'Select what databases you would like to use.',
       choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL']
     }, {
+      type    : 'confirm',
+      name    : 'haveFirebase',
+      message : 'Would you like to use FireBase on your Client-Side?',
+      when    : res => res.databases.length === 0
+    }, {
       type    : 'list',
       name    : 'defaultDb',
       message : 'What will be your default database?',
@@ -235,20 +240,20 @@ module.exports = class extends Generator {
       addPackages.push('cassmask');
     }
     if (this.dbs.postgres) {
-      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('sequelize');
       addPackages.push('pg');
       addPackages.push('pg-hstore');
     }
     if (this.dbs.mysql || this.dbs.maria) {
-      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('sequelize');
       addPackages.push('mysql');
     }
     if (this.dbs.sqlite) {
-      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('sequelize');
       addPackages.push('sqlite3');
     }
     if (this.dbs.mssql) {
-      if (!hasSequl) addPackages.push('sequelize');
+      addPackages.push('sequelize');
       addPackages.push('tedious');
     }
 
