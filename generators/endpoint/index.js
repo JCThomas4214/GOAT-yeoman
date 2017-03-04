@@ -104,14 +104,14 @@ module.exports = class extends Generator {
 
       // update the yo config file with new store attr, reducer, imports
       var config = this.config.getAll();
-      config.routerImports.push(`import {${this.namelower}Routes} from './api/${this.fname}/${this.fname}.router';`);
+      config.routerImports.push(`import {${this.namelower}Routes} from './${this.database}/api/${this.fname}/${this.fname}.router';`);
       config.expressRouters.push(`app.use('/api/${this.fname}s', ${this.namelower}Routes);`);
 
       if (this.socketchoice) {
         // Delete the existing socketio config for retemplating
         del(['server/socketio.ts']);
-        config.socketImports.push(`import {${this.namelower}Register} from './api/${this.fname}/${this.fname}.socket';`);
-        config.socketRegisters.push(`${this.namelower}Register(socket);`);        
+        config.socketImports.push(`import {${this.namelower}Register} from './${this.database}/api/${this.fname}/${this.fname}.socket';`);
+        config.socketRegisters.push(`${this.namelower}Register(socket);`);
       }
 
       this.config.set(config);
@@ -166,8 +166,8 @@ module.exports = class extends Generator {
   writing() {
     // Clone the template endpoint controller.ts file
     this.fs.copyTpl(
-      this.templatePath('template.controller.ts'),
-      this.destinationPath(`server/api/${this.fname}/${this.fname}.controller.ts`),
+      this.templatePath(`${this.database}/template.controller.ts`),
+      this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.controller.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -176,8 +176,8 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint router.ts file
     this.fs.copyTpl(
-      this.templatePath('template.router.ts'),
-      this.destinationPath(`server/api/${this.fname}/${this.fname}.router.ts`),
+      this.templatePath(`${this.database}/template.router.ts`),
+      this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.router.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -194,8 +194,8 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint model.ts file
     this.fs.copyTpl(
-      this.templatePath('template.model.ts'),
-      this.destinationPath(`server/api/${this.fname}/${this.fname}.model.ts`),
+      this.templatePath(`${this.database}/template.model.ts`),
+      this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.model.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -204,8 +204,8 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
-      this.templatePath('template.integration.ts'),
-      this.destinationPath(`server/api/${this.fname}/${this.fname}.integration.ts`),
+      this.templatePath(`${this.database}/template.integration.ts`),
+      this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.integration.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -222,8 +222,8 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
-      this.templatePath('template.spec.ts'),
-      this.destinationPath(`server/api/${this.fname}/${this.fname}.spec.ts`),
+      this.templatePath(`${this.database}/template.spec.ts`),
+      this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.spec.ts`),
       { 
         fname: this.fname,
         namelower: this.namelower,
@@ -242,8 +242,8 @@ module.exports = class extends Generator {
     if (this.socketchoice) {
       // Clone the template endpoint events.ts file
       this.fs.copyTpl(
-        this.templatePath('template.events.ts'),
-        this.destinationPath(`server/api/${this.fname}/${this.fname}.events.ts`),
+        this.templatePath(`${this.database}/template.events.ts`),
+        this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.events.ts`),
         { 
           fname: this.fname,
           namelower: this.namelower,
@@ -252,8 +252,8 @@ module.exports = class extends Generator {
       );
       // Clone the template endpoint socket.ts file
       this.fs.copyTpl(
-        this.templatePath('template.socket.ts'),
-        this.destinationPath(`server/api/${this.fname}/${this.fname}.socket.ts`),
+        this.templatePath(`${this.database}/template.socket.ts`),
+        this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.socket.ts`),
         { 
           fname: this.fname,
           namelower: this.namelower,
