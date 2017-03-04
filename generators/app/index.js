@@ -56,7 +56,7 @@ module.exports = class extends Generator {
 
     return this.prompt([{
       type    : 'checkbox',
-      name    : 'databases', 
+      name    : 'databases',
       message : 'Select what databases you would like to use.',
       choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL']
     }, {

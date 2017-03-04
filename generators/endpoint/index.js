@@ -14,6 +14,12 @@ module.exports = class extends Generator {
 
   prompting() {
     return this.prompt([{
+      type    : 'list',
+      name    : 'database',
+      message : 'What database should the endpoint be generated to?',
+      choices : res => this.config.get('databases'),
+      when    : res => this.config.get('databases').length > 1
+    }, {
       type    : 'input',
       name    : 'modelname',
       message : 'Your new model\'s name?',
@@ -38,6 +44,23 @@ module.exports = class extends Generator {
 
       // Delete the existing routes for retemplating
       del(['server/routes.ts']);
+
+      this.database = answers.database || this.config.get('databases')[0];
+
+      if (this.database === 'MongoDB')
+        this.database = 'mongo-db';
+      else if (this.database === 'Apache Cassandra')
+        this.database = 'cassandra-db';
+      else if (this.database === 'PostgresSQL')
+        this.database = 'postgres-db';
+      else if (this.database === 'MySQL')
+        this.database = 'mysql-db';
+      else if (this.database === 'MariaDB')
+        this.database = 'maria-db';
+      else if (this.database === 'SQLite')
+        this.database = 'sqlite-db';
+      else if (this.database === 'MSSQL')
+        this.database = 'mssql-db';
 
       // Process to get naming convention camelcase and capitalized camelcase
       var tmp = _.camelCase(answers.modelname);
