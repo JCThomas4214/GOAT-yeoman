@@ -23,6 +23,7 @@ module.exports = class extends Generator {
       type    : 'input',
       name    : 'modelname',
       message : 'Your new model\'s name?',
+      validate: input => input !== '',
       default : this.options.modelname
     }, {
       type    : 'checkbox',
@@ -127,7 +128,7 @@ module.exports = class extends Generator {
 
     // Get the app.module template and inject newComponents and newComponentImports
     var config = this.config.getAll();
-    var templatePath = this.templatePath(`${this.base}/generators/app/templates/${config.apptype}/server/routes.ts`);
+    var templatePath = this.templatePath(`${this.base}/generators/app/templates/server_files/routes.ts`);
 
     this.fs.copyTpl(
       templatePath,
@@ -135,7 +136,8 @@ module.exports = class extends Generator {
       { 
         fname: this.fname,
         routerImports: this.routerImports,
-        expressRouters: this.expressRouters
+        expressRouters: this.expressRouters,
+        defaultDb: config.defaultDb
       }
     );
   }
@@ -148,7 +150,7 @@ module.exports = class extends Generator {
 
       // Get the app.module template and inject newComponents and newComponentImports
       var config = this.config.getAll();
-      var templatePath = this.templatePath(`${this.base}/generators/app/templates/${config.apptype}/server/socketio.ts`);
+      var templatePath = this.templatePath(`${this.base}/generators/app/templates/server_files/socketio.ts`);
 
       this.fs.copyTpl(
         templatePath,

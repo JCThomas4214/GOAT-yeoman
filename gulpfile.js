@@ -144,66 +144,14 @@ gulp.task('clean_clones', function(done) {
 // Replace specific lines for ejs templating
 gulp.task('ejs_replace', function(done) {
 	return runSequence(
-		'demo_replace_store',
-		'demo_replace_routes',
-		'demo_replace_html',
-		'demo_replace_appE2e',
-		'demo_replace_default_env',
-		'demo_replace_socketio',
 		'starter_replace_store',
-		'starter_replace_routes',
 		'starter_replace_html',
 		'starter_replace_appE2e',
-		'starter_replace_default_env',
-		'starter_replace_socketio',
 		'dbless_replace_store',
 		'dbless_replace_html',
 		'dbless_replace_appE2e',
 		done
 	);
-});
-
-// Replace tasks for demo-app
-gulp.task('demo_replace_store', function() {
-	return gulp.src('generators/app/templates/demo-app/client/redux/store/index.ts')
-		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
-		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/client/redux/store'));
-});
-gulp.task('demo_replace_routes', function() {
-	return gulp.src('generators/app/templates/demo-app/server/routes.ts')
-		.pipe(replace("// DO NOT REMOVE: template route imports", "<%- routerImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template routes", "<%- expressRouters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/server'));
-});
-gulp.task('demo_replace_html', function() {
-	return gulp.src('generators/app/templates/demo-app/client/index.html')
-		.pipe(replace("GOAT-stack", "<%= appname %>"))
-		.pipe(replace("The Greatest of All Time Stack!", "<%= appdescription %>"))
-		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
-			"<%= appkeywords %>"))
-		.pipe(replace("<!-- <script></script> -->", "<%- analytics %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/client'));
-});
-gulp.task('demo_replace_appE2e', function() {
-	return gulp.src('generators/app/templates/demo-app/e2e/app.e2e-spec.js')
-		.pipe(replace("GOAT-stack", "<%= appname %>"))
-		.pipe(replace("The Greatest of All Time Stack!", "<%= appdescription %>"))
-		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
-			"<%= appkeywords %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/e2e'));
-});
-gulp.task('demo_replace_default_env', function() {
-	return gulp.src('generators/app/templates/demo-app/config/env/default.ts')
-		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/config/env'));
-});
-gulp.task('demo_replace_socketio', function() {
-	return gulp.src('generators/app/templates/demo-app/server/socketio.ts')
-		.pipe(replace("// DO NOT REMOVE: template socket imports", "<%- socketImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template sockets", "<%= socketRegisters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/demo-app/server'));
 });
 
 // Replace tasks for starter-app
@@ -213,12 +161,6 @@ gulp.task('starter_replace_store', function() {
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
 		.pipe(gulp.dest('generators/app/templates/starter-app/client/redux/store'));
-});
-gulp.task('starter_replace_routes', function() {
-	return gulp.src('generators/app/templates/starter-app/server/routes.ts')
-		.pipe(replace("// DO NOT REMOVE: template route imports", "<%- routerImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template routes", "<%- expressRouters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/starter-app/server'));
 });
 gulp.task('starter_replace_html', function() {
 	return gulp.src('generators/app/templates/starter-app/client/index.html')
@@ -236,17 +178,6 @@ gulp.task('starter_replace_appE2e', function() {
 		.pipe(replace("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor", 
 			"<%= appkeywords %>"))
 		.pipe(gulp.dest('generators/app/templates/starter-app/e2e'));
-});
-gulp.task('starter_replace_default_env', function() {
-	return gulp.src('generators/app/templates/starter-app/config/env/default.ts')
-		.pipe(replace("https_secure: false", "https_secure: <%= protocol %>"))
-		.pipe(gulp.dest('generators/app/templates/starter-app/config/env'));
-});
-gulp.task('starter_replace_socketio', function() {
-	return gulp.src('generators/app/templates/starter-app/server/socketio.ts')
-		.pipe(replace("// DO NOT REMOVE: template socket imports", "<%- socketImports.join('\\n') %>"))
-		.pipe(replace("// DO NOT REMOVE: template sockets", "<%= socketRegisters.join('\\n\\t') %>"))
-		.pipe(gulp.dest('generators/app/templates/starter-app/server'));
 });
 
 // Replace tasks for dbless-app

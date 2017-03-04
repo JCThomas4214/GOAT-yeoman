@@ -1,4 +1,4 @@
-import app from '../../server';
+import app from '../../../server';
 import request = require('supertest');
 
 <% if(authselect.length) { %>import User from '../user/user.model';<% } %>

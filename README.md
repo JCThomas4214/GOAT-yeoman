@@ -7,6 +7,8 @@ ___
 
 ![GOAT yeoman][logo]
 
+### GOATstack uses [Yarn](https://yarnpkg.com/en/) package manager and is required for package consistancy
+
 # Quick-Start
 
 ```sh

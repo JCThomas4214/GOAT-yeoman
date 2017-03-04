@@ -38,21 +38,9 @@ module.exports = class extends Generator {
     this.argument('appname', { type: String, required: false, default: 'GOATstack' });
 
   }
-
-  // {
-  //     type    : 'list',
-  //     name    : 'apptype',
-  //     message : 'Which app would you like to start with?',
-  //     choices : [
-  //       ` HelloGOAT Stack ${chalk.bold.yellow('(basic fullstack without demo additions)')}`,
-  //       ` DBlessGOAT Stack ${chalk.bold.yellow('(HelloGOAT without a database, client-side and express only)')}`,
-  //       ` FireGOAT Stack ${chalk.bold.yellow('(DBlessGOAT with firebase as a "database as a service")')}`
-  //     ],
-  //     default : 0
-  //   }, 
-
+  
   prompting() {
-    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected than the generated stack will be a dbless solution**\n\n'))
+    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected the generated stack will be a dbless solution**\n\n'))
 
     return this.prompt([{
       type    : 'checkbox',
@@ -101,6 +89,15 @@ module.exports = class extends Generator {
       message : 'Paste the Google Analytics script (including script tags) then save => exit!',
       when    : res => res.analyticschoice
     }]).then(function (answers) {
+
+      this.apptype          = answers.databases.length > 0 ? 'starter-app' : 'dbless-app';
+      this.appname          = answers.appname;
+      this.appdescription   = answers.appdescription;
+      this.appkeywords      = answers.appkeywords;
+
+      this.analytics        = answers.analytics;
+      this.protocol         = answers.protocol;
+
       this.dbs = {
         mongo: false,
         cassandra: false,
@@ -117,7 +114,13 @@ module.exports = class extends Generator {
       // else only one database was selected, define as that
       else this.defaultDb = findDbFolder(this.databases[0], this.dbs);
 
-      this.dbs.defaultDb = this.defaultDb;     
+      this.dbs.defaultDb = this.defaultDb;  
+      this.dbs.protocol = this.protocol === 'http' ? false : true;
+      this.dbs.routerImports = [];
+      this.dbs.expressRouters = [];
+      this.dbs.socketImports = [];
+      this.dbs.socketRegisters = [];
+
       this.dbFolders = [];
 
       for (let x = 0; x < this.databases.length; x++) {
@@ -127,14 +130,6 @@ module.exports = class extends Generator {
       // console.log(this.defaultDb);
       // console.log(this.dbFolders);
       // console.log(this.dbs);
-
-      this.apptype          = this.databases.length > 0 ? 'starter-app' : 'dbless-app';
-    	this.appname          = answers.appname;
-    	this.appdescription   = answers.appdescription;
-    	this.appkeywords      = answers.appkeywords;
-
-      this.analytics        = answers.analytics;
-      this.protocol         = answers.protocol;
 
 	    this.config.set({
         modules            : [

@@ -17,6 +17,7 @@ glob('server/**/api/**', function(er, files) {
 			spec_dir: 'dist',
 			spec_files: [
 				'server/**/api/**/*.spec.js',
+				'server/**/api/user/user.integration.js', // execute user first to create test account
 				'server/**/api/**/*.integration.js'
 			]
 		});
