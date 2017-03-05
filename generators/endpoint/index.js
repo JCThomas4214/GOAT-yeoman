@@ -80,8 +80,14 @@ module.exports = class extends Generator {
       this.patch_patch = false;
       this.delete_destroy = false;
 
-      for(let i = 0; i < answers.authselect.length; i++) {
-        switch(answers.authselect[i]) {
+      if (this.database === this.config.get('defaultDb')) {       
+       this.authImport = `../../auth/auth.service`; 
+      } else {
+        this.authImport = `../../../${this.config.get('defaultDb')}/auth/auth.service`;
+      }
+
+      for(let i = 0; i < this.authselect.length; i++) {
+        switch(this.authselect[i]) {
           case 'GET controller.index':
             this.get_index = true;
             break;
@@ -185,6 +191,7 @@ module.exports = class extends Generator {
         namelower: this.namelower,
         modelname: this.modelname,
 
+        authImport: this.authImport,
         authselect: this.authselect,
         get_index: this.get_index,
         get_show: this.get_show,
@@ -231,6 +238,7 @@ module.exports = class extends Generator {
         namelower: this.namelower,
         modelname: this.modelname,
 
+        authImport: this.authImport,
         authselect: this.authselect,
         get_index: this.get_index,
         get_show: this.get_show,

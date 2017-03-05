@@ -4,7 +4,7 @@
 import config from '../config';
 
 // Socket imports go here
-<%- socketImports.join('\\n') %>
+<%- socketImports.join('\n') %>
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -18,7 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
-  <%= socketRegisters.join('\\n\\t') %>
+  <%= socketRegisters.join('\n  ') %>
 
 }
 
