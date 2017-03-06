@@ -5,7 +5,7 @@ import config from '../config';
 
 // Socket imports go here
 import wonderRegister from './api/wonder/wonder.socket';
-<%- socketImports.join('\n') %>
+// DO NOT REMOVE: template socket imports
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -20,7 +20,7 @@ function onConnect(socket) {
 
   // Insert sockets below
   wonderRegister(socket);
-  <%= socketRegisters.join('\n\t') %>
+  // DO NOT REMOVE: template sockets
 
 }
 

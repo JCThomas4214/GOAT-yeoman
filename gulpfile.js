@@ -72,6 +72,7 @@ gulp.task('move_cassandra', function() {
 });
 gulp.task('move_postgres', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
+		.pipe(replace('sql-db', 'postgres-db'))
 		.pipe(replace('config.sql', 'config.postgres'))		
 		.pipe(replace('sequelizeConnect', 'postgresConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'postgresDisconnect'))
@@ -79,6 +80,7 @@ gulp.task('move_postgres', function() {
 });
 gulp.task('move_mysql', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
+		.pipe(replace('sql-db', 'mysql-db'))
 		.pipe(replace('config.sql', 'config.mysql'))
 		.pipe(replace('sequelizeConnect', 'mysqlConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mysqlDisconnect'))
@@ -86,6 +88,7 @@ gulp.task('move_mysql', function() {
 });
 gulp.task('move_mssql', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
+		.pipe(replace('sql-db', 'mssql-db'))
 		.pipe(replace('config.sql', 'config.mssql'))
 		.pipe(replace('sequelizeConnect', 'mssqlConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mssqlDisconnect'))
@@ -93,6 +96,7 @@ gulp.task('move_mssql', function() {
 });
 gulp.task('move_sqlite', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
+		.pipe(replace('sql-db', 'sqlite-db'))
 		.pipe(replace('config.sql', 'config.sqlite'))
 		.pipe(replace('sequelizeConnect', 'sqliteConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'sqliteDisconnect'))
@@ -100,6 +104,7 @@ gulp.task('move_sqlite', function() {
 });
 gulp.task('move_maria', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
+		.pipe(replace('sql-db', 'maria-db'))
 		.pipe(replace('config.sql', 'config.maria'))
 		.pipe(replace('sequelizeConnect', 'mariaConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mariaDisconnect'))

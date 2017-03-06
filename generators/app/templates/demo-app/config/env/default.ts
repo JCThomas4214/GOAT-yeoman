@@ -6,7 +6,7 @@ These configuration settings get called no matter what Node's process.env.NODE_E
 
 export const defaultConfig = {
   // Change to use https
-  https_secure: <%= protocol %>,
+  https_secure: false,
   // You will need to generate a self signed ssl certificate
   // using the generator in ./scripts or use a trusted certificate
   cert_loc: './server/sslcerts/cert.pem',

@@ -16,12 +16,12 @@ describe('App E2E Tests', function () {
   });
 
   it('should contain correct meta description', function () {
-    expect(element(by.name('description')).getAttribute('content')).toEqual("<%= appdescription %>");
+    expect(element(by.name('description')).getAttribute('content')).toEqual("The Greatest of All Time Stack!");
   });
 
   it('should contain correct meta keywords', function () {
     expect(element(by.name('keywords')).getAttribute('content'))
-      .toEqual("<%= appkeywords %>");
+      .toEqual("redux, node, mongo, express, angular2, ng2, jasmine, karma, protractor");
   });
 
 });

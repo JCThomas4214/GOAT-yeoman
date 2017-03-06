@@ -29,14 +29,8 @@ describe('<%= modelname %> API:', function() {
 	<% } %>
 
 	// <%= namelower %>s are cleared from DB
-	beforeAll((done) => {
-	  <%= modelname %>.remove().create([{
-	  	name: '<%= namelower %>1',
-	  	info: 'new <%= modelname %>1'
-	  }, {
-	  	name: '<%= namelower %>2',
-	  	info: 'new <%= modelname %>2'
-	  }]).seam().subscribe(x => {}, err => console.log(err), () => done());
+	beforeAll(() => {
+	  <%= modelname %>.remove({});
 	});
 
 
@@ -56,10 +50,8 @@ describe('<%= modelname %> API:', function() {
 					if (err) {
 						done.fail(err);
 					}
-					<%= modelname %>.findOne().seam().subscribe(
-						x => new<%= modelname %>s = x,
-						err => console.log(err),
-						() => done());
+					new<%= modelname %>s = res.body;
+					done();
 				});
 		});
 
@@ -95,10 +87,6 @@ describe('<%= modelname %> API:', function() {
 		it('should GET the all <%= namelower %>', () => {
 			expect(<%= modelname %>s[0].name).toBe('<%= namelower %>');
 			expect(<%= modelname %>s[0].info).toBe('new <%= modelname %>');
-			expect(<%= modelname %>s[1].name).toBe('<%= namelower %>1');
-			expect(<%= modelname %>s[1].info).toBe('new <%= modelname %>1');
-			expect(<%= modelname %>s[2].name).toBe('<%= namelower %>2');
-			expect(<%= modelname %>s[2].info).toBe('new <%= modelname %>2');
 		});
 	});
 
@@ -107,7 +95,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -131,7 +119,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.put('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.put('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(put_upsert) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %> updated',
@@ -159,7 +147,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.delete('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.delete('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(delete_destroy) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(204)
 				.end((err, res) => {
@@ -172,7 +160,7 @@ describe('<%= modelname %> API:', function() {
 
 		it('should respond with 404 not found', (done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(404)
 				.end((err, res) => {

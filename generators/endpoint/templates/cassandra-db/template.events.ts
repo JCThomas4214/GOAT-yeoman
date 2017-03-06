@@ -9,23 +9,27 @@ let <%= modelname %>Events = new EventEmitter();
 // Set max event listeners (0 == unlimited)
 <%= modelname %>Events.setMaxListeners(0);
 
-// Model events
-let events = {
-  'save': 'save',
-  'remove': 'remove'
-};
+<%= modelname %>.post('create', function(next, err) {
 
-// Register the event emitter to the model events
-for (let e in events) {
-  let event = events[e];
-  <%= modelname %>.schema.post(e, emitEvent(event));
-}
+	/* 
+	 "This" is an Entity object with the properties used to query the database in the first place.
+	 If you would like the row that was just inserted you will need to use cassmask to query 
+	 your table for the most recently inserted row.
+	 This is highly dependant on how you're sorting inside your partitions!
 
-function emitEvent(event) {
-  return function(doc) {
-    <%= modelname %>Events.emit(event + ':' + doc._id, doc);
-    <%= modelname %>Events.emit(event, doc);
-  };
-}
+	 <%= modelname %>.findOne({part: '<%= modelname %>'}, {orderBy: 'name asc'}).seam().subscribe(
+	 	entity => {
+	 		CloudEvents.emit('save:' + entity.id, entity);
+	 		CloudEvents.emit('save', entity);
+
+	 		next(entity);
+	 	}, error => err(error));
+	*/
+
+	<%= modelname %>Events.emit('save', this);
+
+	next(this);
+
+ });
 
 export default <%= modelname %>Events;
