@@ -81,7 +81,7 @@ module.exports = class extends Generator {
       this.delete_destroy = false;
 
       if (this.database === this.config.get('defaultDb')) {       
-       this.authImport = `../../auth/auth.service`; 
+        this.authImport = `../../auth/auth.service`; 
       } else {
         this.authImport = `../../../${this.config.get('defaultDb')}/auth/auth.service`;
       }
@@ -172,9 +172,14 @@ module.exports = class extends Generator {
 
   // Writes the application to the name of the project
   writing() {
+    if (this.database !== 'mongo-db' && this.database !== 'cassandra-db')
+      this.tempDb = 'sql-db';
+    else
+      this.tempDb = this.database;
+
     // Clone the template endpoint controller.ts file
     this.fs.copyTpl(
-      this.templatePath(`${this.database}/template.controller.ts`),
+      this.templatePath(`${this.tempDb}/template.controller.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.controller.ts`),
       { 
         fname: this.fname,
@@ -184,7 +189,7 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint router.ts file
     this.fs.copyTpl(
-      this.templatePath(`${this.database}/template.router.ts`),
+      this.templatePath(`${this.tempDb}/template.router.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.router.ts`),
       { 
         fname: this.fname,
@@ -203,7 +208,7 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint model.ts file
     this.fs.copyTpl(
-      this.templatePath(`${this.database}/template.model.ts`),
+      this.templatePath(`${this.tempDb}/template.model.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.model.ts`),
       { 
         fname: this.fname,
@@ -213,7 +218,7 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
-      this.templatePath(`${this.database}/template.integration.ts`),
+      this.templatePath(`${this.tempDb}/template.integration.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.integration.ts`),
       { 
         fname: this.fname,
@@ -231,7 +236,7 @@ module.exports = class extends Generator {
     );
     // Clone the template endpoint integration.ts file
     this.fs.copyTpl(
-      this.templatePath(`${this.database}/template.spec.ts`),
+      this.templatePath(`${this.tempDb}/template.spec.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.spec.ts`),
       { 
         fname: this.fname,
@@ -252,7 +257,7 @@ module.exports = class extends Generator {
     if (this.socketchoice) {
       // Clone the template endpoint events.ts file
       this.fs.copyTpl(
-        this.templatePath(`${this.database}/template.events.ts`),
+        this.templatePath(`${this.tempDb}/template.events.ts`),
         this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.events.ts`),
         { 
           fname: this.fname,
@@ -262,7 +267,7 @@ module.exports = class extends Generator {
       );
       // Clone the template endpoint socket.ts file
       this.fs.copyTpl(
-        this.templatePath(`${this.database}/template.socket.ts`),
+        this.templatePath(`${this.tempDb}/template.socket.ts`),
         this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.socket.ts`),
         { 
           fname: this.fname,
