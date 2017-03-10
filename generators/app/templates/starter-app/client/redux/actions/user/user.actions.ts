@@ -72,6 +72,7 @@ export class UserActions {
             payload: user
           });
         }, err => {
+          console.log('This is the err',err);
           this.invalidateUser(err);
           this.errorHandler.showError(err.message);
         });

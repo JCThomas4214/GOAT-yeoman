@@ -5,22 +5,24 @@ import * as jwt from 'jsonwebtoken';
 
 // Handles status codes and error message json
 // specificity: validation
-function validationError(res, statusCode = null) {
+function validationError(res, err, statusCode = null) {
+
+    console.log('error object',err.errors[0]);
   statusCode = statusCode || 422;
-  return function(err) {
-    res.status(statusCode).json(err);
+
+    res.status(statusCode).json(err.errors[0]);
     return null;
-  };
+
 }
 
 // Handles status codes and error message json
 // specificity: error
-function handleError(res, statusCode = null) {
+function handleError(res, err, statusCode = null) {
   statusCode = statusCode || 500;
-  return function(err) {
-    res.status(statusCode).send(err);
+
+    res.status(statusCode).send(err.errors[0]);
     return null;
-  };
+
 }
 
 /**
@@ -38,7 +40,7 @@ export function changePassword(req, res, next) {
           .then(() => {
             res.status(204).end();
           })
-          .catch(validationError(res));
+          .catch(err => validationError(res, err));
       } else {
         return res.status(403).end();
       }
@@ -53,14 +55,20 @@ export function index(req, res) {
   return User.findAll({ attributes: {exclude: ['salt', 'password'] } }).then(users => {
       res.status(200).json(users);
     })
-    .catch(handleError(res));
+    .catch(err => handleError(res, err));
 }
 
 /**
  * Creates a new user endpoint
  */
 export function create(req, res, next) {
-  User.create({provider: 'local', role: 'user', username: req.body.username, email: req.body.email, pasword: req.body.password}).then(user => {
+  
+  User.create({ 
+    username: req.body.username, 
+    email: req.body.email, 
+    password: req.body.password,
+    role: 'user'
+  }).then(user => {
       let token = jwt.sign(
         { id: user['id'] },
         config.sessionSecret,
@@ -73,7 +81,10 @@ export function create(req, res, next) {
 
       return null;
     })
-    .catch(validationError(res));
+    .catch(err => {
+        console.log('in create', err);
+      validationError(res, err);
+    });
 }
 
 /**
@@ -85,7 +96,7 @@ export function destroy(req, res) {
     .then(function() {
       res.status(204).end();
     })
-    .catch(handleError(res));
+    .catch(err => handleError(res, err));
 }
 
 /**
@@ -100,15 +111,14 @@ export function show(req, res, next) {
       }
       res.json(user['profile']);
     })
-    .catch(err => next(err));
+    .catch(err => validationError(res, err));
 }
 
 /**
  * Get my info: all user information
  */
 export function me(req, res, next) {
-    console.log('sup');
-
+    console.log('in me');
   let userId = req.user.id;
   let token = req.headers.token;
 
@@ -122,5 +132,5 @@ export function me(req, res, next) {
 
       return null;
     })
-    .catch(err => next(err));
+    .catch(err => validationError(res, err));
 }

@@ -1,4 +1,4 @@
-import { cassandra } from 'cassmask';
+import { connect } from 'cassmask';
 
 import config from '../../config';
 import seed from './seed';
@@ -6,7 +6,7 @@ import seed from './seed';
 // Initialize Express-Cassandra
 export function cassandraConnect() {
   
-  cassandra.connect(config.cassandra, function (err, result) {
+  connect(config.cassandra, function (err, result) {
     // seed cassandra
     if (config.seedDB) {
       seed(process.env.NODE_ENV);

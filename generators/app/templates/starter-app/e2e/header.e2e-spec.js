@@ -175,7 +175,7 @@ describe('Header E2E Tests', function () {
       element(by.css('#reg-btn')).click();
       browser.wait(EC.presenceOf(element(by.css('#error-text'))), 2000);
       browser.sleep(500);
-      expect(element(by.css('#error-text')).getText()).toEqual('This username is already in use!');
+      expect(element(by.css('#error-text')).getText()).toEqual('username must be unique');
       done();
     });
 
@@ -194,7 +194,7 @@ describe('Header E2E Tests', function () {
                 element(by.css('#reg-btn')).click();
                 browser.wait(EC.presenceOf(element(by.css('#error-text'))), 2000);
                 browser.sleep(500);
-                expect(element(by.css('#error-text')).getText()).toEqual('This email address is already in use!');
+                expect(element(by.css('#error-text')).getText()).toEqual('email must be unique');
             } else {
                 element(by.css('#sign-up-btn')).click();
                 browser.sleep(1050);
@@ -206,7 +206,7 @@ describe('Header E2E Tests', function () {
                 element(by.css('#reg-btn')).click();
                 browser.wait(EC.presenceOf(element(by.css('#error-text'))), 2000);
                 browser.sleep(500);
-                expect(element(by.css('#error-text')).getText()).toEqual('This email address is already in use!');                    
+                expect(element(by.css('#error-text')).getText()).toEqual('email must be unique');                    
             }
         }); 
 

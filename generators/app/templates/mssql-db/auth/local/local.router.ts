@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
 
     let error = err || info;
     if (error) {
-      res.status(401).json({message: error});
+      res.status(401).json(error);
       return null;
     }
     if (!user) {

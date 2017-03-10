@@ -1,5 +1,4 @@
 import User from './user.model';
-import {Entity, uuid, toTimeStamp, now} from 'cassmask';
 import config from '../../../../config';
 
 import * as jwt from 'jsonwebtoken';
@@ -91,9 +90,9 @@ export function create(req, res, next) {
 
 export function me(req, res, next) {
 	const token = req.headers.token;
-	const userId = req.user.id;
+	const userEmail = req.user.email;
 
-	return User.findById(userId, { 
+	return User.find({ email: userEmail }, { 
 		attributes: { exclude: ['password', 'salt', 'facebook', 'google', 'github'] }
 	}).seam().subscribe(user => {
 	 	if (!user) return res.status(401).json({ message: 'User does not exist' });

@@ -839,14 +839,14 @@ cassandra-driver@^3.2.0:
   dependencies:
     long "^2.2.0"
 
-cassmask@^1.3.6:
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/cassmask/-/cassmask-1.3.6.tgz#7069c1c0d4fda7e6b21df8fa13b1d7c6c3be0277"
+cassmask@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/cassmask/-/cassmask-1.5.3.tgz#f80d30d1d89a984e29d31dbb69e75a4d4b0487e8"
   dependencies:
     cassandra-driver "^3.2.0"
     immutable "^3.8.1"
     lodash "^4.17.4"
-    rxjs "^5.1.1"
+    rxjs "^5.2.0"
 
 center-align@^0.1.1:
   version "0.1.3"
@@ -5345,7 +5345,7 @@ rxjs@5.0.3:
   dependencies:
     symbol-observable "^1.0.1"
 
-rxjs@^5.1.1:
+rxjs@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.2.0.tgz#db537de8767c05fa73721587a29e0085307d318b"
   dependencies:

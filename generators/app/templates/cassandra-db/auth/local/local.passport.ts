@@ -9,7 +9,6 @@ import {Strategy as LocalStrategy} from 'passport-local';
 function localAuthenticate(User, email, password, done) {
   let user;
   User.find({ email: email }).seam().subscribe(ur => user = ur, err => done(err), () => {
-
       if (Array.isArray(user)) {
         return done(null, false, { message: 'There was more than one user' });
       }

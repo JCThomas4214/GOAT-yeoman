@@ -1,52 +1,54 @@
 import * as crypto from 'crypto';
-import {cassandra, Schema, uuid, toTimeStamp, now} from 'cassmask';
 
-let User = new Schema('Users', {
-	email: cassandra.TEXT,
-	password: cassandra.TEXT,
-	created: {
-		Type: cassandra.TIMESTAMP,
-		Default: toTimeStamp(now())
-	},
+import * as cassmask from 'cassmask';
+import {uuid, toTimeStamp, now} from 'cassmask';
 
-	username: cassandra.TEXT,
-	firstname: cassandra.TEXT,
-	lastname: cassandra.TEXT,
-	role: {
-		Type: cassandra.TEXT,
-		Default: 'user'
-	},
+interface IUserSchema extends cassmask.ISchema {
+	email?: cassmask.TEXT;
+	password?: cassmask.TEXT;
+	created?: cassmask.TIMESTAMP;
 
-	facebook: cassandra.TEXT,
-	google: cassandra.TEXT,
-	github: cassandra.TEXT,
-	salt: cassandra.TEXT,
-	keys: ['email', 'created', 'password', 'salt']
-});
+	username?: cassmask.TEXT;
+	firstname?: cassmask.TEXT;
+	lastname?: cassmask.TEXT;
+	role?: cassmask.TEXT;
+	facebook?: cassmask.TEXT;
+	google?: cassmask.TEXT;
+	github?: cassmask.TEXT;
+	salt?: cassmask.TEXT;
+}
 
-User.pre(['create', 'update'], function(next, err) {
-	if (!this.password) {
-	  	return next();
+class UserSchema extends cassmask.Schema {
+	email = cassmask.TEXT;
+	password = cassmask.TEXT;
+	created = {
+		type: cassmask.TIMESTAMP,
+		default: toTimeStamp(now())
+	};
+
+	username = cassmask.TEXT;
+	firstname = cassmask.TEXT;
+	lastname = cassmask.TEXT;
+	role = {
+		type: cassmask.TEXT,
+		default: 'user'
+	};
+
+	facebook = cassmask.TEXT;
+	google = cassmask.TEXT;
+	github = cassmask.TEXT;
+	salt = cassmask.TEXT;
+	keys = ['email', 'created', 'password', 'salt'];
+
+	constructor() {
+		super();
 	}
-	// Make salt with a callback
-    this.makeSalt((saltErr, salt) => {
-      if (saltErr) {
-        return err(saltErr);
-      }
-      this.salt = salt;
-      this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
-        if (encryptErr) {
-          return err(encryptErr);
-        }
-        this.password = hashedPassword;
-        next();
-      });
-    });
-});
 
-User.helper.methods({
+	/*
+		Set helper functions for Entity
+	*/
 
-	authenticate(password, callback) {
+	authenticate(password: string, callback?: Function) {
 		if (!callback) {
 		  return this.password === this.encryptPassword(password);
 		}
@@ -62,9 +64,9 @@ User.helper.methods({
 	        callback(null, false);
 	      }
 	    });
-	},
+	};
 
-	makeSalt(byteSize, callback): any {
+	makeSalt(byteSize, callback?: Function): any {
 	  let defaultByteSize = 16;
 
 	  if (typeof byteSize === 'function') {
@@ -87,9 +89,9 @@ User.helper.methods({
           callback(null, salt.toString('base64'));
         }
       });
-	},
+	};
 
-	encryptPassword(password, callback): any {
+	encryptPassword(password: string, callback?: Function): any {
 	  if (!password || !this.salt) {
 	    if (!callback) {
 		  return null;
@@ -114,7 +116,33 @@ User.helper.methods({
 	      callback(null, key.toString('base64'));
 	    }
 	  });
-	}
-});
+	};
 
-export default User;
+	/*
+		Set Event hook functions for create and update
+	*/
+	
+	pre_create(next, err) {
+		if (!this.password) {
+		  	return next();
+		}
+		// Make salt with a callback
+	    this.makeSalt((saltErr, salt) => {
+	      if (saltErr) {
+	        return err(saltErr);
+	      }
+	      this.salt = salt;
+	      this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
+	        if (encryptErr) {
+	          return err(encryptErr);
+	        }
+	        this.password = hashedPassword;
+	        next();
+	      });
+	    });
+	}
+
+	pre_update = this.pre_create;
+}
+
+export default cassmask.model<IUserSchema>('Users', new UserSchema());

@@ -3,16 +3,39 @@ import sequelize from "../../../mysql-db";
 import * as crypto from "crypto";
 
 let User = sequelize.define("User", {
-	  username:  {type: Sequelize.STRING},
+	  username:  {type: Sequelize.STRING, 
+	  	unique: true,
+	  	validate: {
+	  		notEmpty: {
+	  			args: true,
+	  			msg: 'A user needs at least a username'
+	  		}
+	  	}
+	  },
 	  firstname: {type: Sequelize.STRING},
 	  lastname:  {type: Sequelize.STRING},
-	  email:     {type: Sequelize.STRING},
-	  password:  {type: Sequelize.STRING},
+	  email:     {type: Sequelize.STRING,
+	  	unique: true,
+	  	validate: {
+	  		notEmpty: {
+	  			args: true,
+	  			msg: 'Email cannot be blank'
+	  		}
+	  	}
+	  },
+	  password:  {type: Sequelize.STRING,
+	  	validate: {
+	  		notEmpty: {
+	  			args: true,
+	  			msg: 'Password cannot be blank'
+	  		}
+	  	}},
 	  role:      {type: Sequelize.STRING},
 	  salt:      {type: Sequelize.STRING}
 	},{
 		hooks: {
-			beforeCreate: function(user, options, next) {
+			beforeCreate: function(user, options, next) {								
+
 				// Make salt with a callback
 				user['makeSalt']((saltErr, salt) => {
 				  if (saltErr) {

@@ -135,7 +135,7 @@ UserSchema
       .catch(err => {
         throw err;
       });
-  }, 'This email address is already in use!');
+  }, 'email must be unique');
 
 // Validate username is not taken
 UserSchema
@@ -154,7 +154,7 @@ UserSchema
       .catch(err => {
         throw err;
       });
-  }, 'This username is already in use!');
+  }, 'username must be unique');
 
 let validatePresenceOf = function(value) {
   return value && value.length;

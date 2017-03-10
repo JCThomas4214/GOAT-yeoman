@@ -1,17 +1,29 @@
-import {cassandra, Schema, uuid, toTimeStamp, now} from 'cassmask';
+import * as cassmask from 'cassmask';
+import {uuid, toTimeStamp, now} from 'cassmask';
 
-let <%= modelname %> = new Schema('<%= modelname %>s', {
-	part: { // used as the partition key to astabliah cluster sorting
-	  Type: cassandra.TEXT,
-	  Default: '<%= modelname %>'
-	},
-	created: {
-	  Type: cassandra.TIMESTAMP,
-	  Default: toTimeStamp(now())
-	},
-	name: cassandra.TEXT,
-	info: cassandra.TEXT,
-	keys: ['part', 'name', 'info']
-});
+interface I<%= modelname %>Schema extends cassmask.ISchema {
+	part?: cassmask.TEXT;
+	created?: cassmask.TIMESTAMP;
+	name?: cassmask.TEXT;
+	info?: cassmask.TEXT;
+}
 
-export default <%= modelname %>;
+class <%= modelname %>Schema extends cassmask.Schema {
+	part = { // used as the partition key to astabliah cluster sorting
+	  type: cassmask.TEXT,
+	  default: '<%= modelname %>'
+	};
+	created = {
+	  type: cassmask.TIMESTAMP,
+	  default: toTimeStamp(now())
+	};
+	name = cassmask.TEXT;
+	info = cassmask.TEXT;
+	keys = ['part', 'name', 'info'];
+
+	constructor() {
+		super();
+	}
+}
+
+export default cassmask.model<I<%= modelname %>Schema>('<%= modelname %>', new <%= modelname %>Schema());
