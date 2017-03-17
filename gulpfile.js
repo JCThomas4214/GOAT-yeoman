@@ -152,6 +152,7 @@ gulp.task('ejs_replace', function(done) {
 		'starter_replace_store',
 		'starter_replace_html',
 		'starter_replace_appE2e',
+		'dbless_copy_readme',
 		'dbless_replace_store',
 		'dbless_replace_html',
 		'dbless_replace_appE2e',
@@ -186,6 +187,10 @@ gulp.task('starter_replace_appE2e', function() {
 });
 
 // Replace tasks for dbless-app
+gulp.task('dbless_copy_readme', function() {
+	return gulp.src('generators/app/templates/starter-app/README.md')
+		.pipe(gulp.dest('generators/app/templates/dbless-app'));
+});
 gulp.task('dbless_replace_store', function() {
 	return gulp.src('generators/app/templates/dbless-app/client/redux/store/index.ts')
 		.pipe(replace("// DO NOT REMOVE: template store imports", "<%- newStoreImports.join('\\n') %>"))
