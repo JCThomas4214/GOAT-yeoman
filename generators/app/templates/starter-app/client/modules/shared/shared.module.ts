@@ -6,12 +6,11 @@ import { LazyLoadImageModule }                       from 'ng2-lazyload-image';
 
 @NgModule({
   imports:      [ CommonModule ],
-  declarations: [  ],
   exports:      [
   	CommonModule, 
   	FormsModule, 
   	LazyLoadImageModule, 
-  	MaterialModule 
+  	MaterialModule
   ]
 })
 export class SharedModule { }

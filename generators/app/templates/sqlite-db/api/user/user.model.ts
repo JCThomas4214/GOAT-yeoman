@@ -30,7 +30,6 @@ let User = sequelize.define("User", {
 	  			msg: 'Password cannot be blank'
 	  		}
 	  	}},
-	  role:      {type: Sequelize.STRING},
 	  salt:      {type: Sequelize.STRING}
 	},{
 		hooks: {

@@ -34,12 +34,8 @@ gulp.task('remove_template_old', function(done) {
 });
 
 // Git clone the template repos and put them inside
-gulp.task('clone_demo', shell.task([
-	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOATstack demo-app'
-]));
 gulp.task('clone_starter', shell.task([
 	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOATstack starter-app',
-	'cd generators/app/templates/starter-app && git checkout helloGOAT'
 ]));
 gulp.task('clone_dbless', shell.task([
 	'cd generators/app/templates && git clone https://github.com/projectSHAI/GOATstack dbless-app',
@@ -130,6 +126,10 @@ gulp.task('fix_package', function() {
 	delete pack.dependencies.seqlite3;
 	delete pack.dependencies.tedious;
 
+	delete pack.dependencies['@types/mongoose'];
+	delete pack.dependencies['@types/mongodb'];
+	delete pack.dependencies['@types/sequelize'];
+
 	var json = JSON.stringify(pack, null, 2);
 
 	fs.writeFile('generators/app/templates/starter-app/package.json', json);
@@ -214,7 +214,6 @@ gulp.task('dbless_replace_appE2e', function() {
 gulp.task('update', function(done) {
 	return runSequence(
 		'remove_template_old',
-		'clone_demo',
 		'clone_starter',
 		'clone_dbless',
 		'format_starter',

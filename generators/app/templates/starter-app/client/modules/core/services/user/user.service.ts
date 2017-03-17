@@ -66,7 +66,6 @@ export class UserService {
       email: email,
       password: password
     });
-    console.log('in signup fn in service', this.http.post(this.userUrl, body));
     return this.http.post(this.userUrl, body)
       .map(this.extractToken)
       .catch(this.handleError);

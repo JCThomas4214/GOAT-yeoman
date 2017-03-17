@@ -119,6 +119,24 @@ class UserSchema extends cassmask.Schema {
 	};
 
 	/*
+		Set validation functions for username and email
+	*/
+
+	validate_username(username, next) {
+		return this.model.findOne({ username: username }).seam().subscribe(
+			user => {},
+			err => next(),
+			() => next('username must be unique'));
+	}
+
+	validate_email(email, next) {
+		return this.model.findOne({ email: email }).seam().subscribe(
+			user => {},
+			err => next(),
+			() => next('email must be unique'));
+	}
+
+	/*
 		Set Event hook functions for create and update
 	*/
 	
@@ -145,4 +163,4 @@ class UserSchema extends cassmask.Schema {
 	pre_update = this.pre_create;
 }
 
-export default cassmask.model<IUserSchema>('Users', new UserSchema());
+export default cassmask.model<IUserSchema>('User', new UserSchema(), ['username']);

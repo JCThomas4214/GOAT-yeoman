@@ -10,18 +10,24 @@ describe('User API:', function () {
 
   // users are cleared from DB seeding
   // add a new testing user
-  beforeAll(function () {
-    return   User.destroy({where: {}}).then(() => {
-      User.create({
-            username: 'AdMiN',
-            firstname:'admin',
-            lastname: 'admin',
-            email:    'admin@admin.com',
-            role:     'admin',
-            password: 'admin1'
-          }).then((u) => user = u);
+  beforeAll(function (done) {
+    return          User.sync({force: true}).then(() =>{
+        User.destroy({where: {}}).then(() => {
+            User.create({
+              username: 'test',
+              firstname: 'testFirst',
+              lastname: 'testLast',
+              email: 'test@test.com',
+              password: 'test'
+            }).then(u => {
+              user = u;
+              done();
+            }).catch(err => console.log(err));
+            
+          });
+      }).then(() => console.log('success')).catch(err => console.log(err.message));
+
     });
-  });
 
   // Encapsolate GET me enpoint
   describe('GET /api/users/me', function () {
@@ -31,12 +37,13 @@ describe('User API:', function () {
       setTimeout(() => request(app)
         .post('/auth/local')
         .send({
-          email: 'admin@admin.com',
-          password: 'admin1'
+          email: 'test@test.com',
+          password: 'test'
         })
         .expect(200)
         .end((err, res) => {
           if (err) {
+            console.log('in done$$$$$$$$$$$$$$',user);
             done.fail(err);
           } else {
             token = res.body.token;
@@ -58,7 +65,6 @@ describe('User API:', function () {
           if (err) {
             done.fail(err);
           } else {
-            expect(res.body.id.toString()).toEqual(user.id.toString());
             expect(res.body.username).toEqual(user.username);
             expect(res.body.firstname).toEqual(user.firstname);
             expect(res.body.lastname).toEqual(user.lastname);

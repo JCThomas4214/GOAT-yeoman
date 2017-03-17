@@ -41,7 +41,16 @@ export default function seed(env?: string): void {
               lastname: 'testLast',
               email: 'test@test.com',
               password: 'test'
-            });
+            }).then(() => {
+                        User.create({
+                          username: 'AdMiN',
+                          firstname:'admin',
+                          lastname: 'admin',
+                          email:    'admin@admin.com',
+                          role:     'admin',
+                          password: 'admin1'
+                        });
+              });
           });
       }).then(() => console.log('success')).catch(err => console.log(err.message));
       break;

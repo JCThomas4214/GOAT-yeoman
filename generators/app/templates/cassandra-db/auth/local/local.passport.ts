@@ -8,12 +8,12 @@ import {Strategy as LocalStrategy} from 'passport-local';
 // local.router.ts
 function localAuthenticate(User, email, password, done) {
   let user;
-  User.find({ email: email }).seam().subscribe(ur => user = ur, err => done(err), () => {
+  User.find({ email: email }).seam().subscribe(
+    ur => user = ur, 
+    err => done(null, false, { message: 'This email is not registered!' }), 
+    () => {
       if (Array.isArray(user)) {
         return done(null, false, { message: 'There was more than one user' });
-      }
-      if (!user) {
-        return done(null, false, { message: 'This email is not registered!' });
       }
 
       user.authenticate(password, (err, auth) => {

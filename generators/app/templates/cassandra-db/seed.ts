@@ -26,7 +26,13 @@ export default function seed(env?: string) : void {
         }]).seam().subscribe(x => {}, err => console.log(err));
       break;
     case "test":
-      // code...
+      User.remove().create({
+          email: 'test@test.com',
+          firstname: 'testFirst',
+          lastname: 'testLast',
+          username: 'test',
+          password: 'test'
+        }).seam().subscribe(x => {}, err => console.log(err));
       break;
     default:
       // code... for production and others

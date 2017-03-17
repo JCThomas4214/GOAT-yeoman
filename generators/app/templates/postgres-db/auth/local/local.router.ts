@@ -15,6 +15,7 @@ router.post('/', function(req, res, next) {
 
     let error = err || info;
     if (error) {
+      console.log('in passport', req.body);
       res.status(401).json(error);
       return null;
     }

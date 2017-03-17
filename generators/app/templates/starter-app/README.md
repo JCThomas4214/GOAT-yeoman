@@ -18,7 +18,17 @@ $ [sudo] npm start
 $ # dev environment served to http://localhost:1701
 ```
 
-# What's new? v3.x
+# Coming Soon! v3.1
+
+**_WARNING: 3.0 => 3.1 brings BREAKING CHANGES to the generator. Upgrade with caution_**
+
+* generator will no longer prompt for what app you would like to generate (demo, helloGOAT, dblessGOAT)
+   * instead it will prompt for what databases you would like to use (Apache-Cassandra, MongoDB, MySQL, PostgresSQL, MariaDB, SQLite, MSSQL), you can select one or many
+   * Then it will ask what database will be your default, where user authentication will be generated
+   * __IF NO DATABASE IS SELECTED__ a dbless solution will be generated
+* All packages updated to the latest
+
+# What's New! v3.0
 
 * Moved to [ngModule](https://angular.io/docs/ts/latest/guide/ngmodule.html) structure
 * Removed segment generator

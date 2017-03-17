@@ -1,4 +1,4 @@
-import { NgRedux } from 'ng2-redux';
+import { NgRedux } from '@angular-redux/store';
 import { <%= actionsname %>Actions } from './<%= fname %>.actions';
 
 const testList = [{

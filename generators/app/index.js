@@ -227,6 +227,8 @@ module.exports = class extends Generator {
     let addPackages = [];
 
     if (this.dbs.mongo) {
+      addPackages.push('@types/mongoose');
+      addPackages.push('@types/mongodb');
       addPackages.push('mongoose');
       addPackages.push('mongodb');
       addPackages.push('connect-mongo');
@@ -235,19 +237,23 @@ module.exports = class extends Generator {
       addPackages.push('cassmask');
     }
     if (this.dbs.postgres) {
+      addPackages.push('@types/sequelize');
       addPackages.push('sequelize');
       addPackages.push('pg');
       addPackages.push('pg-hstore');
     }
     if (this.dbs.mysql || this.dbs.maria) {
+      addPackages.push('@types/sequelize');
       addPackages.push('sequelize');
       addPackages.push('mysql');
     }
     if (this.dbs.sqlite) {
+      addPackages.push('@types/sequelize');
       addPackages.push('sequelize');
       addPackages.push('sqlite3');
     }
     if (this.dbs.mssql) {
+      addPackages.push('@types/sequelize');
       addPackages.push('sequelize');
       addPackages.push('tedious');
     }
