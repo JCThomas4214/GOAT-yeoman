@@ -52,7 +52,7 @@ $ # dev environment served to http://localhost:1701
   * [Home](https://github.com/projectSHAI/GOAT-stack/wiki)
   * [FAQ](https://github.com/projectSHAI/GOAT-stack/wiki/FAQ)
   * [Dev-Tools](https://github.com/projectSHAI/GOAT-stack/wiki/Dev-Tools)
-  * [NPM Scripts](https://github.com/projectSHAI/GOAT-stack/wiki/NPM-Scripts)
+  * [Scripts](https://github.com/projectSHAI/GOAT-stack/wiki/NPM-Scripts)
   * [Client Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Client-Side-Docs)
   * [Server Side Docs](https://github.com/projectSHAI/GOAT-stack/wiki/Server-Side-Docs)
   * [End to End Testing](https://github.com/projectSHAI/GOAT-stack/wiki/End-to-End-Testing)
@@ -219,7 +219,7 @@ $ heroku login
 ### 2) Run the gulp task
 
 ```sh
-$ [sudo] yarn run deploy:heroku
+$ [sudo] yarn deploy:heroku
 ```
 
 ## Yo Generator Project [here](https://github.com/JCThomas4214/GOAT-yeoman)
