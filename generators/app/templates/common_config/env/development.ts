@@ -58,7 +58,7 @@ export const devEnv = {<% if (mongo) { %>
   maria: {
     // uri: 'maria://maria:maria@localhost:5432/GOATstack'
     database: 'dev',
-    username: 'maria',
+    username: 'root',
     password: 'maria',
     options: {
       host: 'localhost',

@@ -61,7 +61,7 @@ export const prodEnv = {
   maria: {
     // uri: 'maria://maria:maria@localhost:5432/GOATstack'
     database: 'prod',
-    username: 'maria',
+    username: 'root',
     password: 'maria',
     options: {
       host: 'localhost',

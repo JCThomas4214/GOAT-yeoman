@@ -106,7 +106,7 @@ gulp.task('move_maria', function() {
 	return gulp.src('generators/app/templates/starter-app/server/sql-db/**/**/*.ts')
 		.pipe(replace('sql-db', 'maria-db'))
 		.pipe(replace('config.sql', 'config.maria'))
-		.pipe(replace('sequelizeConnect', 'mariaConnect'))		
+		.pipe(replace('sequelizeConnect', 'mariaConnect'))
 		.pipe(replace('sequelizeDisconnect', 'mariaDisconnect'))
 		.pipe(replace('sqlSeed(env?: string)', 'mariaSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/maria-db'));

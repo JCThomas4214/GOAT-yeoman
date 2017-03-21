@@ -24,6 +24,8 @@ $ mkdir [dirName] $$ cd [dirName]
 $ yo goatstack [name?]
 ```
 
+_**NOTE:** Remember to get the approapriate login credentials for your databases in ['config/env'](https://github.com/projectSHAI/GOATstack/tree/master/config/env)_
+
 # Coming Soon! v3.1 && v4
 
 _**NOTE:** v3.1 will be Angular@2.4.10, v4 Angular@4.0.0_
