@@ -2,9 +2,10 @@ import <%= modelname %> from './<%= fname %>.model';
 import {Entity, uuid, toTimeStamp, now} from 'cassmask';
 
 // if the wonder object was not found
-function handleError(res, err) {
+function handleError(res, err, code?) {
+  const statusCode = code || err.statusCode || 500;
   if (err) {
-    res.status(err.statusCode || 500).json(err);
+    res.status(statusCode).json(err);
   }
 }
 
@@ -36,7 +37,7 @@ export function show(req, res) {
 export function create(req, res) {
   return <%= modelname %>.create(req.body).seam().subscribe(
     entity => respondWithResult(res, entity, 201),
-    err => handleError(err));
+    err => handleError(res, err));
 }
 
 // Upserts the given <%= modelname %> in the DB at the specified ID

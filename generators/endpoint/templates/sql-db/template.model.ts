@@ -1,22 +1,11 @@
-// import * as mongoose from 'mongoose';
+import Sequelize from "sequelize";
+import sequelize from "../../../<%= database %>";
 
-// Mongoose Model the typescript way
-// create interface to specift the type
-// interface I<%= modelname %> extends mongoose.Document {
-//   created: Date;
-//   name: String;
-//   info: String;
-// }
+// Sequelize schema like usual
+let <%= modelname %> = sequelize.define("<%= fname %>", {
+  name: {type: Sequelize.STRING},
+  info: {type: Sequelize.STRING}
+});
 
-// // Mongoose schema like usual
-// let <%= modelname %>Schema: mongoose.Schema = new mongoose.Schema({
-//   created: {
-//     type: Date,
-//     default: Date.now
-//   },
-//   name: String,
-//   info: String
-// });
-
-// // export default using es6 to import in other files
-// export default mongoose.model<I<%= modelname %>>('<%= modelname %>', <%= modelname %>Schema, null, null);
+// export default using es6 to import in other files
+export default <%= modelname %>;

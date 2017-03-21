@@ -1,11 +1,11 @@
-/**
+ /**
  * Broadcast updates to client when the model changes
  */
 
 import <%= modelname %>Events from './<%= fname %>.events';
 
 // Model events to emit
-let events = ['save', 'remove'];
+let events = ['save'];
 
 function register(socket) {
   // Bind model events to socket events

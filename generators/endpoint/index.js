@@ -213,7 +213,8 @@ module.exports = class extends Generator {
       { 
         fname: this.fname,
         namelower: this.namelower,
-        modelname: this.modelname
+        modelname: this.modelname,
+        database: this.database
       }
     );
     // Clone the template endpoint integration.ts file

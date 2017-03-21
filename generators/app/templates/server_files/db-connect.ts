@@ -6,14 +6,19 @@ import { mssqlConnect, mssqlDisconnect } from './mssql-db';<% } %><% if (sqlite)
 import { sqliteConnect, sqliteDisconnect } from './sqlite-db';<% } %><% if (maria) { %>
 import { mariaConnect, mariaDisconnect } from './maria-db';<% } %>
 
-export function connect() {<% if (mongo) { %>
-  mongoConnect();<% } %><% if (cassandra) { %>
-  cassandraConnect();<% } %><% if (postgres) { %>
-  postgresConnect();<% } %><% if (mysql) { %>
-  mysqlConnect();<% } %><% if (mssql) { %>
-  mssqlConnect();<% } %><% if (sqlite) { %>
-  sqliteConnect();<% } %><% if (maria) { %>
-  mariaConnect();<% } %>
+import * as Rx from 'rxjs';
+
+export function connect(): Rx.Observable<any> {
+  let obs = [];<% if (mongo) { %>
+  obs.push(mongoConnect());<% } %><% if (cassandra) { %>
+  obs.push(cassandraConnect());<% } %><% if (postgres) { %>
+  obs.push(postgresConnect());<% } %><% if (mysql) { %>
+  obs.push(mysqlConnect());<% } %><% if (mssql) { %>
+  obs.push(mssqlConnect());<% } %><% if (sqlite) { %>
+  obs.push(sqliteConnect());<% } %><% if (maria) { %>
+  obs.push(mariaConnect());<% } %>
+
+  return obs.length > 1 ? Rx.Observable.merge.apply(this, obs) : obs[0];
 }
 
 export function disconnect() {<% if (mongo) { %>

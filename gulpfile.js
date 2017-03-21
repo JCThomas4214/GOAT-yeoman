@@ -72,6 +72,7 @@ gulp.task('move_postgres', function() {
 		.pipe(replace('config.sql', 'config.postgres'))		
 		.pipe(replace('sequelizeConnect', 'postgresConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'postgresDisconnect'))
+		.pipe(replace('sqlSeed(env?: string)', 'postgresSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/postgres-db'));
 });
 gulp.task('move_mysql', function() {
@@ -80,6 +81,7 @@ gulp.task('move_mysql', function() {
 		.pipe(replace('config.sql', 'config.mysql'))
 		.pipe(replace('sequelizeConnect', 'mysqlConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mysqlDisconnect'))
+		.pipe(replace('sqlSeed(env?: string)', 'mysqlSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/mysql-db'));
 });
 gulp.task('move_mssql', function() {
@@ -88,6 +90,7 @@ gulp.task('move_mssql', function() {
 		.pipe(replace('config.sql', 'config.mssql'))
 		.pipe(replace('sequelizeConnect', 'mssqlConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mssqlDisconnect'))
+		.pipe(replace('sqlSeed(env?: string)', 'mssqlSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/mssql-db'));
 });
 gulp.task('move_sqlite', function() {
@@ -96,6 +99,7 @@ gulp.task('move_sqlite', function() {
 		.pipe(replace('config.sql', 'config.sqlite'))
 		.pipe(replace('sequelizeConnect', 'sqliteConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'sqliteDisconnect'))
+		.pipe(replace('sqlSeed(env?: string)', 'sqliteSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/sqlite-db'));
 });
 gulp.task('move_maria', function() {
@@ -104,6 +108,7 @@ gulp.task('move_maria', function() {
 		.pipe(replace('config.sql', 'config.maria'))
 		.pipe(replace('sequelizeConnect', 'mariaConnect'))		
 		.pipe(replace('sequelizeDisconnect', 'mariaDisconnect'))
+		.pipe(replace('sqlSeed(env?: string)', 'mariaSeed(env?: string)'))
 		.pipe(gulp.dest('generators/app/templates/maria-db'));
 });
 gulp.task('delete_starter_extra', function(done) {

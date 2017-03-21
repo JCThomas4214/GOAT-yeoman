@@ -12,8 +12,8 @@ describe('<%= modelname %> API:', function() {
 	  request(app)
 	    .post('/auth/local')
 	    .send({
-	      email: 'Fakie@mrfake.com',
-	      password: 'mrfakie'
+	      email: 'test@test.com',
+	      password: 'test'
 	    })
 	    .expect(200)
 	    .expect('Content-Type', /json/)
@@ -29,8 +29,11 @@ describe('<%= modelname %> API:', function() {
 	<% } %>
 
 	// <%= namelower %>s are cleared from DB
-	beforeAll(() => {
-	  <%= modelname %>.remove({});
+	beforeAll((done) => {
+		<%= modelname %>.sync().then(() => {
+			<%= modelname %>.destroy({truncate: true, cascade: true}).catch(err => console.log(err));
+			done();
+		}).catch(err => console.log(err));
 	});
 
 
@@ -95,7 +98,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -119,7 +122,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.put('/api/<%= fname %>s/' + new<%= modelname %>s._id)
+				.put('/api/<%= fname %>s/' + new<%= modelname %>s.id)
 				<% if(put_upsert) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %> updated',
@@ -147,7 +150,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.delete('/api/<%= fname %>s/' + new<%= modelname %>s._id)
+				.delete('/api/<%= fname %>s/' + new<%= modelname %>s.id)
 				<% if(delete_destroy) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(204)
 				.end((err, res) => {
@@ -160,7 +163,7 @@ describe('<%= modelname %> API:', function() {
 
 		it('should respond with 404 not found', (done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s._id)
+				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(404)
 				.end((err, res) => {
