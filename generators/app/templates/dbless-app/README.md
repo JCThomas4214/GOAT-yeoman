@@ -2,10 +2,12 @@
 
 ![build](https://circleci.com/gh/JCThomas4214/GOAT-stack/tree/master.svg?style=shield)
 [![npm version](https://img.shields.io/npm/v/generator-goatstack.svg)](https://www.npmjs.com/package/generator-goatstack)
-[![Dependency Status](https://img.shields.io/david/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/master.svg)
-[![Dev-Dependency Status](https://img.shields.io/david/dev/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack/tree/master.svg#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack)
+[![Dev-Dependency Status](https://img.shields.io/david/dev/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack?type=dev)
 
 ![Main Banner](https://github.com/JCThomas4214/Documentation/raw/master/GOAT/assets/GOAT-banner.jpg?raw=true)
+
+_The GOATyeoman generator is located [here](https://github.com/JCThomas4214/GOAT-yeoman)_
 
 ### **GOATstack uses [Yarn](https://yarnpkg.com/en/) package manager and is required for package consistancy**
 
@@ -15,32 +17,24 @@
 $ [sudo] yarn global add yo generator-goatstack
 $ mkdir [dirName] && cd [dirName]
 $ [sudo] yo goatstack [name?]
-$ # [sudo] mongod in another terminal!
+$ # Make sure to have the database runnning!!
 $ [sudo] yarn start
 $ # dev environment served to http://localhost:1701
 ```
 
-# Coming Soon! v3.1
+# Coming Soon! v3.1 && v4
 
-**_WARNING: 3.0 => 3.1 brings BREAKING CHANGES to the generator. Upgrade with caution_**
+_**NOTE:** v3.1 will be Angular@2.4.10, v4 Angular@4.0.0_
 
+**_WARNING: v3.0 => v3.1 || v4 brings BREAKING CHANGES to the generator. Upgrade with caution_**
+
+* Angular4 (v4 only)
 * generator will no longer prompt for what app you would like to generate (demo, helloGOAT, dblessGOAT)
    * instead it will prompt for what databases you would like to use (Apache-Cassandra, MongoDB, MySQL, PostgresSQL, MariaDB, SQLite, MSSQL), you can select one or many
    * Then it will ask what database will be your default, where user authentication will be generated
    * __IF NO DATABASE IS SELECTED__ a dbless solution will be generated
-* All packages updated to the latest
 
-# What's New! v3.0
-
-* Moved to [ngModule](https://angular.io/docs/ts/latest/guide/ngmodule.html) structure
-* Removed segment generator
-  * segments were an attempt to remedy an issue with ng2-redux which is no longer present
-* NEW module/submodule generator
-  * modules give access to features like lazyLoadingModules and [more](https://angular.io/docs/ts/latest/guide/ngmodule.html)
-  * more inline with the angular way
-
-
-# Future updates! v4.x [Angular4]
+# Future updates in v4.x!
 
 * Server-side rendering with [Angular Universal](https://universal.angular.io/)
   * Angular Universal will be integrated into @angular/core upon [angular@4.x](https://github.com/angular/angular/blob/master/CHANGELOG.md)
@@ -154,7 +148,7 @@ If you end up not liking the GOAT Stack, that's ok too! Please drop by our [Redd
 $ yarn global add yo generator-goatstack
 $ mkdir GOATstack && cd GOATstack
 $ yo goatstack [name?]
-$ # mongod in another terminal!
+$ # Make sure to have the database running!!
 $ yarn start
 $ # dev environment served to http://localhost:1701
 ```
@@ -199,7 +193,7 @@ $ sudo apt-get update && sudo apt-get install yarn
 $ sudo yarn global add yo generator-goatstack
 $ mkdir GOATstack && cd GOATstack 
 $ sudo yo goatstack [name?]
-$ # sudo mongod in another terminal!
+$ # Make sure to have the database running!!
 $ sudo yarn start
 $ # dev environment served to http://localhost:1701
 ```
@@ -221,8 +215,6 @@ $ heroku login
 ```sh
 $ [sudo] yarn deploy:heroku
 ```
-
-## Yo Generator Project [here](https://github.com/JCThomas4214/GOAT-yeoman)
 
 ## Created By
  + [Jason Thomas](https://github.com/JCThomas4214)

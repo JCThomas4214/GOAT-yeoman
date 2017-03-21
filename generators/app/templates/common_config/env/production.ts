@@ -33,6 +33,7 @@ export const prodEnv = {
     options: {
       host: 'localhost',
       dialect: 'postgres',
+      logging: false
     }
   },<% } %><% if (mysql) { %>
   mysql: {
@@ -43,6 +44,7 @@ export const prodEnv = {
     options: {
       host: 'localhost',
       dialect: 'mysql',
+      logging: false
     }
   },<% } %><% if (mssql) { %>
   mssql: {
@@ -53,6 +55,7 @@ export const prodEnv = {
     options: {
       host: 'localhost',
       dialect: 'mssql',
+      logging: false
     }
   },<% } %><% if (maria) { %>
   maria: {
@@ -63,6 +66,7 @@ export const prodEnv = {
     options: {
       host: 'localhost',
       dialect: 'mariadb',
+      logging: false
     }
   },<% } %><% if (sqlite) { %>
   sqlite: {
@@ -73,6 +77,7 @@ export const prodEnv = {
     options: {
       host: 'localhost',
       dialect: 'sqlite',
+      logging: false
     }
   },<% } %>
   seedDB: true

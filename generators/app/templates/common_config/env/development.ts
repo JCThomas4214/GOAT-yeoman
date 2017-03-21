@@ -30,6 +30,7 @@ export const devEnv = {<% if (mongo) { %>
     options: {
       host: 'localhost',
       dialect: 'postgres',
+      logging: false
     }
   },<% } %><% if (mysql) { %>
   mysql: {
@@ -40,6 +41,7 @@ export const devEnv = {<% if (mongo) { %>
     options: {
       host: 'localhost',
       dialect: 'mysql',
+      logging: false
     }
   },<% } %><% if (mssql) { %>
   mssql: {
@@ -50,6 +52,7 @@ export const devEnv = {<% if (mongo) { %>
     options: {
       host: 'localhost',
       dialect: 'mssql',
+      logging: false
     }
   },<% } %><% if (maria) { %>
   maria: {
@@ -60,6 +63,7 @@ export const devEnv = {<% if (mongo) { %>
     options: {
       host: 'localhost',
       dialect: 'mariadb',
+      logging: false
     }
   },<% } %><% if (sqlite) { %>
   sqlite: {
@@ -70,6 +74,7 @@ export const devEnv = {<% if (mongo) { %>
     options: {
       host: 'localhost',
       dialect: 'sqlite',
+      logging: false
     }
   },<% } %>
   seedDB: true
