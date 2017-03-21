@@ -80,19 +80,19 @@ connect().subscribe(
                 chalk.bold.cyan(`\n\t - URI:\t\t\t\t postgres://${config.postgres.username}:${config.postgres.password}@localhost:5432/${config.postgres.database}\n`));<% } %><% if (mysql) { %>
               
               console.log(
-                chalk.bold.cyan(`\MySQL:`) +
+                chalk.bold.cyan(`\tMySQL:`) +
                 chalk.bold.cyan(`\n\t - URI:\t\t\t\t mysql://${config.mysql.username}:${config.mysql.password}@localhost:5432/${config.mysql.database}\n`));<% } %><% if (mssql) { %>
               
               console.log(
-                chalk.bold.cyan(`\MSSQL:`) +
+                chalk.bold.cyan(`\tMSSQL:`) +
                 chalk.bold.cyan(`\n\t - URI:\t\t\t\t mssql://${config.mssql.username}:${config.mssql.password}@localhost:5432/${config.mssql.database}\n`));<% } %><% if (sqlite) { %>
               
               console.log(
-                chalk.bold.cyan(`\SQLite:`) +
+                chalk.bold.cyan(`\tSQLite:`) +
                 chalk.bold.cyan(`\n\t - URI:\t\t\t\t sqlite://${config.sqlite.username}:${config.sqlite.password}@localhost:5432/${config.sqlite.database}\n`));<% } %><% if (maria) { %>
               
               console.log(
-                chalk.bold.cyan(`\Maria:`) +
+                chalk.bold.cyan(`\tMaria:`) +
                 chalk.bold.cyan(`\n\t - URI:\t\t\t\t maria://${config.maria.username}:${config.maria.password}@localhost:5432/${config.maria.database}\n`));<% } %>
 
               if (!process.env.NODE_ENV)
