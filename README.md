@@ -1,5 +1,6 @@
 # Check out the [Demo App](http://www.goatstack.com/)!
 
+[![Travis Build](https://travis-ci.org/JCThomas4214/GOAT-yeoman.svg?branch=master)](https://travis-ci.org/JCThomas4214/GOAT-yeoman)
 [![npm version](https://img.shields.io/npm/v/generator-goatstack.svg)](https://www.npmjs.com/package/generator-goatstack)
 [![Dependency Status](https://img.shields.io/david/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack)
 [![Dev-Dependency Status](https://img.shields.io/david/dev/projectSHAI/GOATstack.svg)](https://david-dm.org/projectSHAI/GOAT-stack?type=dev)
