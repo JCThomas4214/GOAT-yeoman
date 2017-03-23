@@ -14,7 +14,9 @@
     "generators/service",
     "generators/store-item"
   ],
-  "scripts": {},
+  "scripts": {
+    "test": "node tests"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JCThomas4214/GOAT-yeoman.git"
@@ -41,6 +43,10 @@
     "gulp-cli": "1.2.2",
     "gulp-replace": "0.5.4",
     "gulp-shell": "^0.6.3",
-    "run-sequence": "1.2.2"
+    "jasmine": "^2.5.3",
+    "jasmine-spec-reporter": "^3.2.0",
+    "run-sequence": "1.2.2",
+    "yeoman-assert": "^3.0.0",
+    "yeoman-test": "^1.6.0"
   }
 }
