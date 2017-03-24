@@ -27,9 +27,9 @@ $ yo goatstack [name?]
 
 _**NOTE:** Remember to get the approapriate login credentials for your databases in ['config/env'](https://github.com/projectSHAI/GOATstack/tree/master/config/env)_
 
-# Coming Soon! v3.1 && v4
+# What's New in v3.1 && v4?
 
-_**NOTE:** v3.1 will be Angular@2.4.10, v4 Angular@4.0.0_
+_**NOTE:** v3.1 => Angular@2.4.10, v4 => Angular@4.0.0_
 
 **_WARNING: v3.0 => v3.1 || v4 brings BREAKING CHANGES to the generator. Upgrade with caution_**
 
