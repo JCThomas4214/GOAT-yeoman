@@ -12,8 +12,8 @@ describe('<%= modelname %> API:', function() {
 	  request(app)
 	    .post('/auth/local')
 	    .send({
-	      email: 'Fakie@mrfake.com',
-	      password: 'mrfakie'
+	      email: 'test@test.com',
+	      password: 'test'
 	    })
 	    .expect(200)
 	    .expect('Content-Type', /json/)
