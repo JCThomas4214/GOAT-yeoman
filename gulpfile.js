@@ -29,7 +29,7 @@ gulp.task('remove_template_old', function(done) {
 		'generators/app/templates/mysql-db/**',		
 		'generators/app/templates/mssql-db/**',		
 		'generators/app/templates/maria-db/**',		
-		'generators/app/templates/sqlite-db/**',		
+		'generators/app/templates/sqlite-db/**',	
 	], done);
 });
 
@@ -159,6 +159,7 @@ gulp.task('ejs_replace', function(done) {
 		'starter_replace_appE2e',
 		'dbless_copy_readme',
 		'dbless_replace_store',
+		'dbless_replace_server',
 		'dbless_replace_html',
 		'dbless_replace_appE2e',
 		done
@@ -202,6 +203,13 @@ gulp.task('dbless_replace_store', function() {
 		.pipe(replace("// DO NOT REMOVE: template store attributes", "<%= newStoreAttrs.join('\\n\\t') %>"))
 		.pipe(replace("// DO NOT REMOVE: template reducers", "<%= newStoreReducers.join(',\\n\\t') %>"))
 		.pipe(gulp.dest('generators/app/templates/dbless-app/client/redux/store'));
+});
+gulp.task('dbless_replace_server', function() {
+	return gulp.src('generators/app/templates/dbless-app/server/server.ts')
+		.pipe(replace("// if (process.env.NODE_ENV === 'production' || !process.env.NODE_ENV) {", "if (process.env.NODE_ENV === 'production' || !process.env.NODE_ENV) {"))
+		.pipe(replace("//   require('./server-render').serverSideRendering(app);", "  require('./server-render').serverSideRendering(app);"))
+		.pipe(replace("// }", "}"))
+		.pipe(gulp.dest('generators/app/templates/dbless-app/server'));
 });
 gulp.task('dbless_replace_html', function() {
 	return gulp.src('generators/app/templates/dbless-app/client/index.html')

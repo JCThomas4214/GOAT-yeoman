@@ -59,6 +59,10 @@ module.exports = class extends Generator {
       choices : res => res.databases,
       when    : res => res.databases.length > 1
     }, {
+      type    : 'confirm',
+      name    : 'haveUniversal',
+      message : 'Would you like to use Angular Universal for server side rendering?'
+    }, {
       type    : 'input',
       name    : 'appname',
       message : 'Your new project\'s name?',
@@ -90,13 +94,14 @@ module.exports = class extends Generator {
       when    : res => res.analyticschoice
     }]).then(function (answers) {
 
-      this.apptype          = answers.databases.length > 0 ? 'starter-app' : 'dbless-app';
-      this.appname          = answers.appname;
-      this.appdescription   = answers.appdescription;
-      this.appkeywords      = answers.appkeywords;
+      this.apptype                 = answers.databases.length > 0 ? 'starter-app' : 'dbless-app';
+      this.serverrender            = answers.haveUniversal;
+      this.appname                 = answers.appname;
+      this.appdescription          = answers.appdescription;
+      this.appkeywords             = answers.appkeywords;
 
-      this.analytics        = answers.analytics;
-      this.protocol         = answers.protocol;
+      this.analytics               = answers.analytics;
+      this.protocol                = answers.protocol;
 
       this.dbs = {
         mongo: false,
@@ -105,11 +110,12 @@ module.exports = class extends Generator {
         mysql: false,
         mssql: false,
         sqlite: false,
-        maria: false
+        maria: false,
+        ssr: this.serverrender
       };
 
       this.databases = answers.databases; // initializing databases to scope
-      // if defaultDb is defined then set the scope vaiable
+      // if defaultDb is defined then set the scope variable
       if (answers.defaultDb) this.defaultDb = findDbFolder(answers.defaultDb, this.dbs);
       // else only one database was selected, define as that
       else this.defaultDb = findDbFolder(this.databases[0], this.dbs);
@@ -204,9 +210,24 @@ module.exports = class extends Generator {
         this.templatePath('server_files'),
         this.destinationPath('server'),
         this.dbs
-      );  
-    }  
+      );
+    }
 
+    if (this.serverrender === true) {
+      // Write the necessary universal server files
+      this.fs.copyTpl(
+        this.templatePath('server_render_files/server'),
+        this.destinationPath('server'),
+        this.dbs
+      );
+      // Write the necessary universal client files
+      this.fs.copyTpl(
+        this.templatePath('server_render_files/client'),
+        this.destinationPath('client/modules'),
+        this.dbs
+      );
+    }
+    
     // Write the application template
     this.fs.copyTpl(
       glob.sync(`${this.templatePath()}/${this.apptype}/**/**/**/*.!(svg|jpg|png|woff|woff2)`),
@@ -218,7 +239,7 @@ module.exports = class extends Generator {
     this.fs.copy(
       glob.sync(`${this.templatePath()}/${this.apptype}/public/*`),
       this.destinationPath('public')
-    );    
+    );
   }
 
   // Starts npm install

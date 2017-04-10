@@ -10,6 +10,11 @@ import expressInit from './express';
 // Initialize express
 let app = express();
 
+// Angular universal server side rendering
+// if (process.env.NODE_ENV === "production" || !process.env.NODE_ENV) {
+//   require("./server-render").serverSideRendering(app);
+}
+
 function init(): any {
   // Initialize http server
   let server: any = http.createServer(app);
