@@ -1,3 +1,4 @@
+
 # Check out the [Demo App](http://www.goatstack.com/)!
 
 [![Travis Build](https://travis-ci.org/JCThomas4214/GOAT-yeoman.svg?branch=master)](https://travis-ci.org/JCThomas4214/GOAT-yeoman)
@@ -11,6 +12,9 @@ _This is the yo generator for the [GOATstack](https://github.com/projectSHAI/GOA
 
 # Quick Update
 The main dev on this repo is currently in a situation where he is unable to work on any issue reports. Please be patient with any problems that might arise, specifically with version deprecation issues.
+
+We appreciate all your support.
+Cheers!
 
 # Stack Types
 
