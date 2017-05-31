@@ -9,6 +9,9 @@
 
 _This is the yo generator for the [GOATstack](https://github.com/projectSHAI/GOATstack), a CANE/MEAN/SEAN stack that puts SEO and scale-ability first_
 
+# Quick Update
+The main dev on this repo is currently in a situation where he is unable to work on any issue reports. Please be patient with any problems that might arise, specifically with version deprecation issues.
+
 # Stack Types
 
 * _CANE_ - Cassandra, Angular, NodeJS, Express
