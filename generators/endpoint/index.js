@@ -235,7 +235,7 @@ module.exports = class extends Generator {
         delete_destroy: this.delete_destroy
       }
     );
-    // Clone the template endpoint integration.ts file
+    // Clone the template endpoint spec.ts file
     this.fs.copyTpl(
       this.templatePath(`${this.tempDb}/template.spec.ts`),
       this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.spec.ts`),
@@ -254,6 +254,18 @@ module.exports = class extends Generator {
         delete_destroy: this.delete_destroy
       }
     );
+
+    if (this.database === 'cassandra-db') {
+      // Clone the cassandra template endpoint statements.ts file
+      this.fs.copyTpl(
+        this.templatePath(`${this.tempDb}/template.statements.ts`),
+        this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.statements.ts`),
+        { 
+          fname: this.fname,
+          modelname: this.modelname
+        }
+      );      
+    }
 
     if (this.socketchoice) {
       // Clone the template endpoint events.ts file
