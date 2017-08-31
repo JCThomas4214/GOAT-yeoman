@@ -1,7 +1,11 @@
 import app from '../../../server';
 import request = require('supertest');
 
-import User from './user.model';
+import { client } from '../../../cassandra-db';
+import DbModel from '../../db.model';
+import { devKeyspace } from '../../prepared.statements';
+import { usersTable, truncateUsers, seedUsers, testUser } from './prepared.statements';
+import UserModel from './user.model';
 
 // User Endpoint testing
 describe('User API:', function () {
@@ -11,23 +15,21 @@ describe('User API:', function () {
   // users are cleared from DB seeding
   // add a new testing user
   beforeAll(done => {
-    User.remove().create({
-        email: 'test@test.com',
-        firstname: 'testfirst',
-        lastname: 'testlast',
-        password: 'test',
-        username: 'test'
-      }).seam().subscribe(
-        u => user = u,
-        err => {
+        UserModel.userByEmail('test@test.com').then(result => {
+          user = result.rows[0];
+          done();
+        })
+        .catch(err => {
           expect(err).not.toBeDefined();
           done();
-        },
-        () => done());
+        });
+
+      
   });
 
+
   // Encapsolate GET me enpoint
-  describe('GET /api/users/me', function () {
+  describe('GET /api/users/me cassandra', function () {
 
     // before every 'it' get new OAuth token representing the user
     beforeAll(function (done) {
@@ -35,7 +37,7 @@ describe('User API:', function () {
         .post('/auth/local')
         .send({
           email: 'test@test.com',
-          password: 'test'
+          password: 'test1'
         })
         .expect(200)
         .end((err, res) => {
@@ -61,8 +63,6 @@ describe('User API:', function () {
             done.fail(err);
           } else {
             expect(res.body.username).toEqual(user.username);
-            expect(res.body.firstname).toEqual(user.firstname);
-            expect(res.body.lastname).toEqual(user.lastname);
             expect(res.body.email).toEqual(user.email);
             done();
           }

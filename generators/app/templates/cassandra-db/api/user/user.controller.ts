@@ -1,4 +1,6 @@
-import User from './user.model';
+import UserModel from './user.model';
+import { client } from '../../../cassandra-db';
+import { allUsers, findByEmail, insertUser } from './prepared.statements';
 import config from '../../../../config';
 
 import * as jwt from 'jsonwebtoken';
@@ -19,95 +21,92 @@ function validationError(res, err) {
 
 export function index(req, res) {
 	let users = [];
-	return User.find().seam().subscribe(
-		x => users = x, 
-		err => handleError(res, err),
-		() => {
+	return UserModel.allUsers()
+		.then(result => {
+			users = result.rows
 			res.json(users);
+		}) 
+		.catch(err => {
+			handleError(res, err)
 		});
 }
 
 export function show(req, res, next) {
-	const userId = req.params.id;
+	const userEmail = req.params.email;
 
-	return User.findById(userId).seam().subscribe(
-		user => {
-			if (!user) {
+	return UserModel.userByEmail(userEmail)
+		.then(result => {
+			if (!result) {
 				return res.status(404).end();
 			}
 			res.json({
-				username: user.username,
-				firstname: user.firstname,
-				lastname: user.lastname
+				username: result.rows[0].username,
+				firstname: result.rows[0].firstname,
+				lastname: result.rows[0].lastname
 			});
-		}, err => next(err));
+		})
+		.catch(err => {
+			handleError(res, err)
+		});;
 }
 
 export function changePassword(req, res) {
-	const userId = req.user.id;
+	const userEmail = req.user.email;
 	const oldPass = String(req.body.oldPassword);
 	const newPass = String(req.body.newPassword);
 
-	return User.findById(userId).seam().subscribe(user => {
-		if (user.authenticate(oldPass)) {
-			user.password = newPass;
-			return user.save().subscribe(
-				x => {}, 
-				err => validationError(res, err),
-				() => {
-					res.status(204).end();
-				});
-		} else {
-			res.status(403).end();
-		}
-	});
+	return UserModel.updatePassword(userEmail, oldPass, newPass, res)
+		.then((result) => {
+			res.status(204).end();
+		})
+		.catch(err => {
+			validationError(res, err);
+		});
 }
 
 export function create(req, res, next) {
 	const user = req.body;
+	return UserModel.userByEmail(user.email).then(result => {
+		if(result.rows[0] === undefined) {
+			return UserModel.insertUser(user.email, user.username, user.password)
+			.then(result => {
+				const token = jwt.sign(
+					{ 
+						email: user.email,
+						role: user.role
+					}, 
+					config.sessionSecret,
+					{ expiresIn: 60 * 60 * 5 });
+	
+				req.headers.token = token;
+				req.user = user;
+				next();
+	
+			})
+			.catch(err => {
+				validationError(res, err)});
+		}
+		else {
+			const duplicate: object = {message: 'Email is already in use!'};
 
-	return User.create({
-		email: user.email,
-		password: user.password,
-		username: user.username
-	}).seam().subscribe(user => {
-		
-		const token = jwt.sign(
-			{ 
-				id: user.id, 
-				email: user.email,
-				role: user.role
-			}, 
-		  	config.sessionSecret,
-		  	{ expiresIn: 60 * 60 * 5 });
+			validationError(res, duplicate);
+			return res.status(403).json(duplicate);
+		}
+	}).catch();
 
-		req.headers.token = token;
-		req.user = user;
-		next();
-
-	}, err => validationError(res, err));
 }
 
 export function me(req, res, next) {
 	const token = req.headers.token;
 	const userEmail = req.user.email;
 
-	return User.find({ email: userEmail }, { 
-		attributes: { exclude: ['password', 'salt', 'facebook', 'google', 'github'] }
-	}).seam().subscribe(user => {
-	 	if (!user) return res.status(401).json({ message: 'User does not exist' });
+	return UserModel.userByEmail(userEmail)
+		.then(result => {
+			const user = result.rows[0];
+			if (!user) return res.status(401).json({ message: 'User does not exist' });
 
-		if (token) res.json({ token, user });
-		else res.json(user);
-	 }, err => next(err));
-}
-
-export function destroy(req, res) {
-	const userId = req.params.id;
-
-	return User.find({ id: userId }).seam().subscribe(user => {
-		user.remove().subscribe(
-			x => res.json(user), 
-			err => handleError(res, err));
-	});
+			if (token) res.json({ token, user });
+			else res.json(user);
+		})
+		.catch(err => next(err));
 }

@@ -1,29 +1,40 @@
-import * as cassmask from 'cassmask';
-import {uuid, toTimeStamp, now} from 'cassmask';
+import { client } from '../../../cassandra-db';
+import { truncate<%= modelname %>, insert<%= modelname %>, findById, all<%= modelname %>s, update<%= modelname %>, delete<%= modelname %> } from './<%= fname %>.statements';
+const Uuid = require('cassandra-driver').types.Uuid;
 
-interface I<%= modelname %>Schema extends cassmask.ISchema {
-	part?: cassmask.TEXT;
-	created?: cassmask.TIMESTAMP;
-	name?: cassmask.TEXT;
-	info?: cassmask.TEXT;
-}
+class <%= modelname %> {
 
-class <%= modelname %>Schema extends cassmask.Schema {
-	part = { // used as the partition key to astabliah cluster sorting
-	  type: cassmask.TEXT,
-	  default: '<%= modelname %>'
-	};
-	created = {
-	  type: cassmask.TIMESTAMP,
-	  default: toTimeStamp(now())
-	};
-	name = cassmask.TEXT;
-	info = cassmask.TEXT;
-	keys = ['part', 'name', 'info'];
+	private queryOptions: object = { prepared: true };
+	//////////
+	// CRUD //
+	//////////
 
-	constructor() {
-		super();
+	// Create
+	insertRow(name: string): Promise<any> {
+		const id: string = String(Uuid.random());
+
+		return client.execute(insert<%= modelname %>, [id, name, Date.now()], queryOptions);
 	}
+
+	// Read
+	allRows(): Promise<any> {
+		return client.execute(all<%= modelname %>s, undefined, this.queryOptions);
+	}
+
+	findById(id: string): Promise<any> {
+		return client.execute(findById, [id], this.queryOptions);
+	}
+
+	// Update
+	updateById(name: string, id: string): Promise<any> {
+		return client.execute(update<%= modelname %>, [name, id], this.queryOptions);
+	}
+
+	// Delete
+	deleteById(id: string): Promise<any> {
+		return client.execute(delete<%= modelname %>, [id], this.queryOptions);
+	}
+
 }
 
-export default cassmask.model<I<%= modelname %>Schema>('<%= modelname %>', new <%= modelname %>Schema());
+export default new <%= modelname %>;

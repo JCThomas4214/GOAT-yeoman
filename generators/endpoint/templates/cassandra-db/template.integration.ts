@@ -13,7 +13,7 @@ describe('<%= modelname %> API:', function() {
 	    .post('/auth/local')
 	    .send({
 	      email: 'test@test.com',
-	      password: 'test'
+	      password: 'test1'
 	    })
 	    .expect(200)
 	    .expect('Content-Type', /json/)
