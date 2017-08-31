@@ -27,7 +27,7 @@ export const truncate<%= modelname %>: string = `TRUNCATE ${<%= modelname %>}`;
 export const insert<%= modelname %>: string = `INSERT INTO ${<%= modelname %>} (id, name, created ) VALUES (?, ?, ?)`;
 // read
 export const findById: string = 'SELECT name FROM ${<%= modelname %>} WHERE id = ?';
-export const all<%= modelname %>s: string = 'SELECT name FROM ${<%= modelname %>}';
+export const all<%= modelname %>: string = 'SELECT name FROM ${<%= modelname %>}';
 // update - NA
 export const update<%= modelname %>: string = 'UPDATE ${<%= modelname %>} SET name = ? WHERE id = ? IF NOT EXISTS';
 // delete - NA

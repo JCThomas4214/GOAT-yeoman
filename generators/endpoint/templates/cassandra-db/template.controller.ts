@@ -19,14 +19,14 @@ function respondWithResult(res, entity, code: number = 200) {
   res.status(code).json(entity);
 }
 
-// Gets a list of <%= modelname %>s
+// Gets a list of <%= modelname %>
 export function index(req, res) {
   return <%= modelname %>.allRows()
     .then(result => {
       respondWithResult(res, result.rows)
     })
     .catch(err => {
-      handleError(res, err)
+      handleError(res, err);
     });
 }
 
@@ -37,7 +37,7 @@ export function show(req, res) {
       respondWithResult(res, result.rows)
     })
     .catch(err => {
-      handleError(res, err)
+      handleError(res, err);
     });
 }
 
@@ -48,18 +48,18 @@ export function create(req, res) {
       respondWithResult(res, result.rows, 201)
     })
     .catch(err => {
-      handleError(res, err)
+      handleError(res, err);
     });
 }
 
 // Upserts the given <%= modelname %> in the DB at the specified ID
 export function upsert(req, res) {
-  return <%= modelname %>.updateById(req.params.id)
+  return <%= modelname %>.updateById(req.params.id, req.params.name)
     .then(result => {
       respondWithResult(res, {message: 'update was successful!'})
     })
     .catch(err => {
-      handleError(res, err));
+      handleError(res, err);
     });
 }
 
@@ -75,6 +75,6 @@ export function destroy(req, res) {
       respondWithResult(res, {message: 'Item succesfully deleted!'}, 204),
     })
     .catch(err => {
-      err => handleError(res, err));
+      err => handleError(res, err);
     });
 }

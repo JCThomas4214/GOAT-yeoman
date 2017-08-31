@@ -1,5 +1,5 @@
 import { client } from '../../../cassandra-db';
-import { truncate<%= modelname %>, insert<%= modelname %>, findById, all<%= modelname %>s, update<%= modelname %>, delete<%= modelname %> } from './<%= fname %>.statements';
+import { truncate<%= modelname %>, insert<%= modelname %>, findById, all<%= modelname %>, update<%= modelname %>, delete<%= modelname %> } from './<%= fname %>.statements';
 const Uuid = require('cassandra-driver').types.Uuid;
 
 class <%= modelname %> {
@@ -13,12 +13,12 @@ class <%= modelname %> {
 	insertRow(name: string): Promise<any> {
 		const id: string = String(Uuid.random());
 
-		return client.execute(insert<%= modelname %>, [id, name, Date.now()], queryOptions);
+		return client.execute(insert<%= modelname %>, [id, name, Date.now()], this.queryOptions);
 	}
 
 	// Read
 	allRows(): Promise<any> {
-		return client.execute(all<%= modelname %>s, undefined, this.queryOptions);
+		return client.execute(all<%= modelname %>, undefined, this.queryOptions);
 	}
 
 	findById(id: string): Promise<any> {
