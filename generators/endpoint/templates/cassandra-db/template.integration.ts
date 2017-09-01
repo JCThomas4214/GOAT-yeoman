@@ -1,10 +1,21 @@
 import app from '../../../server';
 import request = require('supertest');
 
-import <%= modelname %> from './<%= fname %>.model';
+import DbModel from '../../db.model';
+import DbStmts from '../../prepared.statements';
+import <%= modelname %>Model from './<%= fname %>.model';
+import <%= modelname %>Stmts from './<%= fname %>.statements';
+
+const testKeyspace: string = DbStmts.testKeyspace;
+const <%= namelower %>Table: string = <%= modelname %>Stmts.<%= namelower %>Table;
+const truncate<%= modelname %>Table: string = <%= modelname %>Stmts.truncate<%= modelname %>Table;
+const seed<%= modelname %>Table: string = <%= modelname %>Stmts.seed<%= modelname %>Table;
 
 describe('<%= modelname %> API:', function() {
-	let new<%= modelname %>s;
+	let new<%= modelname %>;
+	
+
+
 	<% if(authselect.length) { %>
 	let token;
 
@@ -28,23 +39,28 @@ describe('<%= modelname %> API:', function() {
 	});
 	<% } %>
 
-	// <%= namelower %>s are cleared from DB
+	// Seed the <%= namelower %> table
 	beforeAll((done) => {
-	  <%= modelname %>.remove().create([{
-	  	name: '<%= namelower %>1',
-	  	info: 'new <%= modelname %>1'
-	  }, {
-	  	name: '<%= namelower %>2',
-	  	info: 'new <%= modelname %>2'
-	  }]).seam().subscribe(x => {}, err => console.log(err), () => done());
+		DbModel.keyspace(testKeyspace)
+        .then(result => {
+          console.log('Int test: Test keyspace ready to seed!');
+          // list all your batch queries here by table
+          DbModel.seed(<%= namelower %>Table, truncate<%= modelname %>Table, seed<%= modelname %>Table)
+            .then(result => {
+				console.log('Int Test: <%= modelname %> Table seeded succesfully!');
+				done();
+			})
+            .catch(err => done.fail(err));
+        })
+        .catch(err => done.fail(err));
 	});
 
 
 
-	describe('POST /api/<%= fname %>s', () => {
+	describe('POST /api/<%= fname %>', () => {
 		beforeAll((done) => {
 			request(app)
-				.post('/api/<%= fname %>s')
+				.post('/api/<%= fname %>')
 				<% if(post_create) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %>',
@@ -69,12 +85,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('GET /api/<%= fname %>s', () => {
+	describe('GET /api/<%= fname %>', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(app)
-				.get('/api/<%= fname %>s')
+				.get('/api/<%= fname %>')
 				<% if(get_index) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -107,7 +123,7 @@ describe('<%= modelname %> API:', function() {
 
 		beforeAll((done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.get('/api/<%= fname %>/' + new<%= modelname %>s.id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -126,12 +142,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('PUT /api/<%= fname %>s/:id', () => {
+	describe('PUT /api/<%= fname %>/:id', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(app)
-				.put('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.put('/api/<%= fname %>/' + new<%= modelname %>s.id)
 				<% if(put_upsert) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
 					name: '<%= namelower %> updated',
@@ -154,12 +170,12 @@ describe('<%= modelname %> API:', function() {
 		});
 	});
 
-	describe('DELETE /api/<%= fname %>s/:id', () => {
+	describe('DELETE /api/<%= fname %>/:id', () => {
 		let <%= modelname %>s;
 
 		beforeAll((done) => {
 			request(app)
-				.delete('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.delete('/api/<%= fname %>/' + new<%= modelname %>s.id)
 				<% if(delete_destroy) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(204)
 				.end((err, res) => {
@@ -172,7 +188,7 @@ describe('<%= modelname %> API:', function() {
 
 		it('should respond with 404 not found', (done) => {
 			request(app)
-				.get('/api/<%= fname %>s/' + new<%= modelname %>s.id)
+				.get('/api/<%= fname %>/' + new<%= modelname %>s.id)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(404)
 				.end((err, res) => {

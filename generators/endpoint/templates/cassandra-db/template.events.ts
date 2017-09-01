@@ -1,7 +1,7 @@
 /**
  * <%= modelname %> model events
  */
-import <%= modelname %> from './<%= fname %>.model';
+import <%= modelname %>Model from './<%= fname %>.model';
 
 let EventEmitter = require('events').EventEmitter;
 let <%= modelname %>Events = new EventEmitter();
@@ -9,7 +9,7 @@ let <%= modelname %>Events = new EventEmitter();
 // Set max event listeners (0 == unlimited)
 <%= modelname %>Events.setMaxListeners(0);
 
-<%= modelname %>.post('create', function(next, err) {
+<%= modelname %>Model.post('create', function(next, err) {
 
 	/* 
 	 "This" is an Entity object with the properties used to query the database in the first place.
