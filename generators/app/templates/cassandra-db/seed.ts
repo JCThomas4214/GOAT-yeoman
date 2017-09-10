@@ -4,7 +4,6 @@
  */
 import { client } from '../cassandra-db';
 import DbModel from './db.model';
-import UserModel from './api/user/user.model';
 import DbStmts from './prepared.statements';
 import UserStmts from './api/user/prepared.statements';
 

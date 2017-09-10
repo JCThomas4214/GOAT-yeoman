@@ -1,5 +1,4 @@
 import <%= modelname %>Model from './<%= fname %>.model';
-import {Entity, uuid, toTimeStamp, now} from 'cassmask';
 
 // if the wonder object was not found
 function handleError(res, err, code?) {
@@ -32,9 +31,9 @@ export function index(req, res) {
 
 // Gets a single <%= modelname %> from the DB
 export function show(req, res) {
-  return <%= modelname %>Model.findByKey(req.params.id)
+  return <%= modelname %>Model.findRowByKey(req.params.timeid)
     .then(result => {
-      respondWithResult(res, result.rows);
+      respondWithResult(res, result.rows[0]);
     })
     .catch(err => {
       handleError(res, err);
@@ -43,7 +42,7 @@ export function show(req, res) {
 
 // Creates a new <%= modelname %> in the DB
 export function create(req, res) {
-  return <%= modelname %>Model.insertRow(req.body.name)
+  return <%= modelname %>Model.insertRow(req.body.name, req.body.timeid)
     .then(result => {
       respondWithResult(res, result.rows, 201);
     })
@@ -54,9 +53,9 @@ export function create(req, res) {
 
 // Upserts the given <%= modelname %> in the DB at the specified ID
 export function upsert(req, res) {
-  return <%= modelname %>Model.updateRowByKey(req.params.id, req.params.name)
+  return <%= modelname %>Model.updateRowByKey(req.params.name, req.params.timeid)
     .then(result => {
-      respondWithResult(res, {message: 'update was successful!'});
+      respondWithResult(res, {message: 'Update was successful!'});
     })
     .catch(err => {
       handleError(res, err);
@@ -65,7 +64,7 @@ export function upsert(req, res) {
 
 // Deletes a <%= modelname %> from the DB
 export function destroy(req, res) {
-  return <%= modelname %>Model.deleteRowByKey(req.params.id)
+  return <%= modelname %>Model.deleteRowByKey(req.params.timeid)
     .then(result => {
       respondWithResult(res, {message: 'Item succesfully deleted!'}, 204);
     })

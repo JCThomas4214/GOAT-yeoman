@@ -1,6 +1,6 @@
 import { client } from '../../../cassandra-db';
 import <%= modelname %>Stmts from './<%= fname %>.statements';
-const Uuid = require('cassandra-driver').types.Uuid;
+const TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 // Define Prepared Statments
 const insertRow: string = <%= modelname %>Stmts.insertRow;
@@ -17,10 +17,11 @@ class <%= modelname %>Model {
 	//////////
 
 	// Create
-	insertRow(name: string): Promise<any> {
-		const id: string = String(Uuid.random());
+	insertRow(name: string, timeid?): Promise<any> {
+		if(!timeid)
+			timeid = TimeUuid.now();
 
-		return client.execute(insertRow, [id, name, Date.now()], this.queryOptions);
+		return client.execute(insertRow, [timeid, name], this.queryOptions);
 	}
 
 	// Read
@@ -28,18 +29,18 @@ class <%= modelname %>Model {
 		return client.execute(allRows, undefined, this.queryOptions);
 	}
 
-	findRowByKey(id: string): Promise<any> {
-		return client.execute(findRowByKey, [id], this.queryOptions);
+	findRowByKey(timeid: string): Promise<any> {
+		return client.execute(findRowByKey, [timeid], this.queryOptions);
 	}
 
 	// Update
-	updateRowByKey(name: string, id: string): Promise<any> {
-		return client.execute(updateRowByKey, [name, id], this.queryOptions);
+	updateRowByKey(name: string,  timeid: string): Promise<any> {
+		return client.execute(updateRowByKey, [timeid, name], this.queryOptions);
 	}
 
 	// Delete
-	deleteRowByKey(id: string): Promise<any> {
-		return client.execute(deleteRowByKey, [id], this.queryOptions);
+	deleteRowByKey(timeid: string): Promise<any> {
+		return client.execute(deleteRowByKey, [timeid], this.queryOptions);
 	}
 
 }

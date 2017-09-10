@@ -1,40 +1,55 @@
 /////////////////////////
 // Prepared statements //
 /////////////////////////
-const Uuid = require('cassandra-driver').types.Uuid;
+const TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 class <%= modelname %>Stmts {
 
     // create tables
-    public <%= modelname %>Table: string = `CREATE TABLE IF NOT EXISTS <%= modelname %> (
-        id uuid,
+    public <%= namelower %>Table: string = `CREATE TABLE IF NOT EXISTS <%= namelower %> (
+        timeid timeuuid,
         name text,
-        created timestamp,
-        PRIMARY KEY (id)
+        PRIMARY KEY (timeid)
     );`;
 
     // delete tables
-    public truncate<%= modelname %>: string = `TRUNCATE <%= modelname %>`;
+    public truncate<%= modelname %>Table: string = `TRUNCATE <%= namelower %>`;
 
     ///////////////////////
     // Seeding ////////////
     ///////////////////////
+    private batchQuery: string = 'INSERT INTO <%= namelower %> (timeid, name) VALUES (?, ?)';
     // seed statements
-    // use batch statements and add a new function in the ../../seed.ts file
+    public seed<%= modelname %>Table: Array<{ query: string, params: Array<string> }> = [{
+            query: this.batchQuery,
+            params: [TimeUuid.now(), '<%= modelname %>1']
+        },
+        {
+            query: this.batchQuery,
+            params: [TimeUuid.now(), '<%= modelname %>2']
+        },
+        {
+            query: this.batchQuery,
+            params: [TimeUuid.now(), '<%= modelname %>3']
+        },
+        {
+            query: this.batchQuery,
+            params: [TimeUuid.now(), '<%= modelname %>4']
+        }];
 
     /////////////
     // queries //
     /////////////
 
     // create
-    public insertRow: string = `INSERT INTO <%= modelname %> (id, name, created ) VALUES (?, ?, ?)`;
+    public insertRow: string = `INSERT INTO <%= namelower %> (timeid, name) VALUES (?, ?)`;
     // read
-    public findByKey: string = 'SELECT name FROM <%= modelname %> WHERE id = ?';
-    public allRows: string = 'SELECT name FROM <%= modelname %>';
+    public findRowByKey: string = 'SELECT timeid, name FROM <%= namelower %> WHERE timeid = ?';
+    public allRows: string = 'SELECT timeid, name FROM <%= namelower %>';
     // update
-    public updateRowByKey: string = 'UPDATE <%= modelname %> SET name = ? WHERE id = ? IF NOT EXISTS';
+    public updateRowByKey: string = 'UPDATE <%= namelower %> SET name = ? WHERE timeid = ? IF EXISTS';
     // delete
-    public deleteRowByKey: string = 'DELETE FROM <%= modelname %> WHERE id = ?';
+    public deleteRowByKey: string = 'DELETE FROM <%= namelower %> WHERE timeid = ?';
 
 }
 

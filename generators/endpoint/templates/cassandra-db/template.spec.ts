@@ -52,7 +52,7 @@ describe('<%= modelname %> API Router:', function() {
     expect(<%= namelower %>Index.<%= namelower %>Routes).toEqual(routerStub);
   });
 
-  describe('POST /api/<%= fname %>s', function() {
+  describe('POST /api/<%= fname %>', function() {
 
     // expect with each request the approapriate endpoint was called
     it('should route to <%= namelower %>.controller.create', function() {
@@ -62,7 +62,7 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('GET /api/<%= fname %>s', function() {
+  describe('GET /api/<%= fname %>', function() {
 
     // expect with each request the approapriate endpoint was called
     it('should route to <%= namelower %>.controller.index', function() {
@@ -72,37 +72,37 @@ describe('<%= modelname %> API Router:', function() {
 
   });
 
-  describe('DELETE /api/<%= fname %>s/:id', function() {
+  describe('DELETE /api/<%= fname %>/:timeid', function() {
 
     it('should route to <%= namelower %>.controller.destroy', function() {
-      expect(routerStub.delete.withArgs('/:id', <% if(delete_destroy) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.destroy').calledOnce)
+      expect(routerStub.delete.withArgs('/:timeid', <% if(delete_destroy) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.destroy').calledOnce)
         .toBe(true);
     });
 
   });
 
-  describe('GET /api/<%= fname %>s/:id', function() {
+  describe('GET /api/<%= fname %>/:timeid', function() {
 
     it('should route to <%= namelower %>.controller.show', function() {
-      expect(routerStub.get.withArgs('/:id', <% if(get_show) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.show').calledOnce)
+      expect(routerStub.get.withArgs('/:timeid', <% if(get_show) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.show').calledOnce)
         .toBe(true);
     });
 
   });
 
-  describe('PUT /api/<%= fname %>s/:id', function() {
+  describe('PUT /api/<%= fname %>/:timeid', function() {
 
     it('should route to <%= namelower %>.controller.upsert', function() {
-      expect(routerStub.put.withArgs('/:id', <% if(put_upsert) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.upsert').calledOnce)
+      expect(routerStub.put.withArgs('/:timeid', <% if(put_upsert) { %>'authService.isAuthenticated', <% } %>'<%= namelower %>Ctrl.upsert').calledOnce)
         .toBe(true);
     });
 
   });
 
-  // describe('PATCH /api/<%= namelower %>s/:id', function() {
+  // describe('PATCH /api/<%= namelower %>s/:timeid', function() {
 
   //   it('should route to <%= namelower %>.controller.patch', function() {
-  //     expect(routerStub.patch.withArgs('/:id','<%= namelower %>Ctrl.patch').calledOnce)
+  //     expect(routerStub.patch.withArgs('/:timeid','<%= namelower %>Ctrl.patch').calledOnce)
   //       .toBe(true);
   //   });
 

@@ -112,7 +112,7 @@ module.exports = class extends Generator {
       // update the yo config file with new store attr, reducer, imports
       var config = this.config.getAll();
       config.routerImports.push(`import {${this.namelower}Routes} from './${this.database}/api/${this.fname}/${this.fname}.router';`);
-      config.expressRouters.push(`app.use('/api/${this.fname}s', ${this.namelower}Routes);`);
+      config.expressRouters.push(`app.use('/api/${this.fname}', ${this.namelower}Routes);`);
 
       if (this.socketchoice) {
         // Delete the existing socketio config for retemplating
@@ -262,6 +262,7 @@ module.exports = class extends Generator {
         this.destinationPath(`server/${this.database}/api/${this.fname}/${this.fname}.statements.ts`),
         { 
           fname: this.fname,
+          namelower: this.namelower,
           modelname: this.modelname
         }
       );      
