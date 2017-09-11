@@ -255,7 +255,7 @@ module.exports = class extends Generator {
       addPackages.push('connect-mongo');
     }
     if (this.dbs.cassandra) {
-      addPackages.push('cassmask');
+      addPackages.push('cassandra-driver');
     }
     if (this.dbs.postgres) {
       addPackages.push('@types/sequelize');

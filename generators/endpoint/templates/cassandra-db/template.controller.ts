@@ -53,7 +53,7 @@ export function create(req, res) {
 
 // Upserts the given <%= modelname %> in the DB at the specified ID
 export function upsert(req, res) {
-  return <%= modelname %>Model.updateRowByKey(req.params.name, req.params.timeid)
+  return <%= modelname %>Model.updateRowByKey(req.body.name, req.params.timeid)
     .then(result => {
       respondWithResult(res, {message: 'Update was successful!'});
     })

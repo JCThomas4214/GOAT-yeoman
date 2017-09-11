@@ -116,16 +116,17 @@ describe('<%= modelname %> API:', function() {
 		});
 
 		it('should GET all <%= namelower %> rows', () => {
-			expect(all<%= modelname %>.length).toBe(seed<%= modelname %>Table.length);
+			expect(all<%= modelname %>.length).toBe(seed<%= modelname %>Table.length + 1);
 		});
 	});
 
 	describe('GET /api/<%= fname %>/:timeid', () => {
 		let <%= namelower %>: {name: string, timeid: string};
+		let timeId: string = String(seed<%= modelname %>Table[0].params[0]);
 
 		beforeAll((done) => {
 			request(app)
-				.get('/api/<%= fname %>/' + seed<%= modelname %>Table[0].params[0])
+				.get('/api/<%= fname %>/' + timeId)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -138,22 +139,22 @@ describe('<%= modelname %> API:', function() {
 				});
 		});
 
-		it('should GET a <%= namelower %>', () => {
-			expect(<%= namelower %>.name).toBe('<%= modelname %>');
-			expect(<%= namelower %>.timeid).toBe(seed<%= modelname %>Table[0].params[0]);
+		it('should GET a(n) <%= namelower %>', () => {
+			expect(<%= namelower %>.name).toBe('<%= modelname %>1');
+			expect(<%= namelower %>.timeid).toBe(timeId);
 		});
 	});
 
 	describe('PUT /api/<%= fname %>/:timeid', () => {
-		let <%= namelower %>: {name: string, timeid: string};
+		let message: string;
+		let timeId: string = String(seed<%= modelname %>Table[1].params[0]);
 
 		beforeAll((done) => {
 			request(app)
-				.put('/api/<%= fname %>/' + seed<%= modelname %>Table[1].params[0])
+				.put('/api/<%= fname %>/' + timeId)
 				<% if(put_upsert) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.send({
-					name: '<%= namelower %> updated',
-					timeid: seed<%= modelname %>Table[1].params[0]
+					name: '<%= namelower %> updated'
 				})
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -161,22 +162,22 @@ describe('<%= modelname %> API:', function() {
 					if (err) {
 						done.fail(err);
 					}
-					<%= namelower %> = res.body;
+					message = res.body.message;
 					done();
 				});
 		});
 
 		it('should be a(n) <%= namelower %>', () => {
-			expect(<%= namelower %>.name).toBe('<%= namelower %> updated');
-			expect(<%= namelower %>.timeid).toBe(seed<%= modelname %>Table[1].params[0]);
+			expect(message).toBe('Update was successful!');
 		});
 	});
 
 	describe('DELETE /api/<%= fname %>/:id', () => {
+		let timeId: string = String(seed<%= modelname %>Table[2].params[0]);
 
 		beforeAll((done) => {
 			request(app)
-				.delete('/api/<%= fname %>/' + seed<%= modelname %>Table[2].params[0])
+				.delete('/api/<%= fname %>/' + timeId)
 				<% if(delete_destroy) { %>.set('authorization', 'Bearer ' + token)<% } %>
 				.expect(204)
 				.end((err, res) => {
@@ -187,13 +188,13 @@ describe('<%= modelname %> API:', function() {
 				});
 		});
 
-		it('should respond with 404 not found', (done) => {
+		it('should respond with no results', (done) => {
 			request(app)
-				.get('/api/<%= fname %>/' + seed<%= modelname %>Table[2].params[0])
+				.get('/api/<%= fname %>/' + timeId)
 				<% if(get_show) { %>.set('authorization', 'Bearer ' + token)<% } %>
-				.expect(404)
+				.expect(200)
 				.end((err, res) => {
-					if (err) {
+					if (err || res.body !== '') {
 						done.fail(err);
 					}
 					done();

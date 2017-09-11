@@ -35,7 +35,7 @@ class <%= modelname %>Model {
 
 	// Update
 	updateRowByKey(name: string,  timeid: string): Promise<any> {
-		return client.execute(updateRowByKey, [timeid, name], this.queryOptions);
+		return client.execute(updateRowByKey, [name, timeid], this.queryOptions);
 	}
 
 	// Delete
