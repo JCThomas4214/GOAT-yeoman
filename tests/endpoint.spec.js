@@ -373,9 +373,9 @@ describe('goatstack:endpoint', function() {
 			assert.noFileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /authServiceStub/);
 			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.post\.withArgs\(\'\/\', \'testEightCtrl\.create\'/);
 			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.get\.withArgs\(\'\/\', \'testEightCtrl\.index\'/);
-			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.delete\.withArgs\(\'\/:id\', \'testEightCtrl\.destroy\'/);
-			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.get\.withArgs\(\'\/:id\', \'testEightCtrl\.show\'/);
-			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.put\.withArgs\(\'\/:id\', \'testEightCtrl\.upsert\'/);
+			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.delete\.withArgs\(\'\/:timeid\', \'testEightCtrl\.destroy\'/);
+			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.get\.withArgs\(\'\/:timeid\', \'testEightCtrl\.show\'/);
+			assert.fileContent('../temp/server/cassandra-db/api/test-eight/test-eight.spec.ts', /routerStub\.put\.withArgs\(\'\/:timeid\', \'testEightCtrl\.upsert\'/);
 		});
 
 	});		
