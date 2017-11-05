@@ -1,34 +1,9 @@
-var Generator = require('yeoman-generator'),
-	_ = require('lodash'),
-  exec = require('child_process').exec,
-  glob = require('glob'),
-  chalk = require('chalk');
-
-function findDbFolder(database, dbs) {
-  switch(database) {
-    case 'MongoDB':
-      dbs['mongo'] = true;
-      return 'mongo-db';
-    case 'Apache Cassandra':
-      dbs['cassandra'] = true;
-      return 'cassandra-db';
-    case 'PostgresSQL':
-      dbs['postgres'] = true;
-      return 'postgres-db';
-    case 'MySQL':
-      dbs['mysql'] = true;   
-      return 'mysql-db';
-    case 'MariaDB':
-      dbs['maria'] = true;       
-      return 'maria-db';
-    case 'MSSQL':
-      dbs['mssql'] = true;      
-      return 'mssql-db';
-    case 'SQLite':     
-      dbs['sqlite'] = true;       
-      return 'sqlite-db';
-  }
-}
+const Generator = require('yeoman-generator'),
+	    _ = require('lodash'),
+      exec = require('child_process').exec,
+      glob = require('glob'),
+      chalk = require('chalk'),
+      newApp = require('./new');
 
 module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
@@ -38,147 +13,115 @@ module.exports = class extends Generator {
     this.argument('appname', { type: String, required: false, default: 'GOATstack' });
 
   }
-  
-  prompting() {
-    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected the generated stack will be a dbless solution**\n\n'))
 
+  prompting() {
+
+    this.log(`
+       .-::/:-'        
+      -++/-://+.         
+      -++.  '://-         Hello!         
+      ':o.   ./+/-        You've just launched the GOATstack generator
+      :o   -/o+/'                  
+      '.' -/oo//          Select from the list below to get started!
+          '/ooo+-'       
+          .+ooo--+o+:-.    
+          .oooo:':/+ooo.   
+          :ooooo++oooo+'   
+          -oooooooooo+.    
+          ./oooooo+-' 
+          '
+    `);
+    
     return this.prompt([{
+      type    : 'list',
+      name    : 'welcome',
+      message : `Select from the options below`,
+      choices: [ 
+            {type: 'separator', line: '----------- Start here --------------------'},
+            {name: `Generate a new app`, value: 'new'},
+            {name: 'Add boilerplate to an existing app', value: 'boiler'}, 
+            {type: 'separator', line: '----------- Resources --------------------'},
+            {name: 'View Documentation', value: 'b'},
+            'View Demo app',
+            {type: 'separator', line: '----------- Get involved --------------------'},
+            'Report a Bug',
+            'Make a Pull Request',
+            {type: 'separator', line: '----------- Created By --------------------'},
+            'LyghtWorks',
+            'Christopher Haugen',
+            'Jason Thomas',
+            {type: 'separator', line: '----------- Custom optimizations, tailored for your use-case! ------------'},
+            'It\'s dangerous to go alone! Hire us'
+        ]
+    }, 
+    // prompts for selection a
+    {
       type    : 'checkbox',
       name    : 'databases',
-      message : 'Select what databases you would like to use.',
-      choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL']
+      message : 'Select what databases you would like to use.' + chalk.yellow.bold('\n\n  **If no databases are selected the generated stack will be a dbless solution**\n'),
+      choices : ['MongoDB','Apache Cassandra', 'PostgresSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL'],
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'confirm',
       name    : 'haveFirebase',
       message : 'Would you like to use FireBase on your Client-Side?',
-      when    : res => res.databases.length === 0
+      when    : res => res.welcome === 'new' && res.databases.length === 0
     }, {
       type    : 'list',
       name    : 'defaultDb',
       message : 'What will be your default database?',
       choices : res => res.databases,
-      when    : res => res.databases.length > 1
+      when    : res => res.welcome === 'new' && res.databases.length > 1
     }, {
       type    : 'confirm',
       name    : 'haveUniversal',
-      message : 'Would you like to use Angular Universal for server side rendering?'
+      message : 'Would you like to use Angular Universal for server side rendering?',
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'input',
       name    : 'appname',
       message : 'Your new project\'s name?',
-      default : this.options.appname
+      default : this.options.appname,
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'input',
       name    : 'appdescription',
       message : 'Your new project\'s description?',
-      default : 'The Greatest of All Time Stack!'
+      default : 'The Greatest of All Time Stack!',
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'input',
       name    : 'appkeywords',
       message : 'Your new project\'s keywords (comma between each word)?',
-      default : 'redux, immutable, node, mongo, express, angular2, ng2, angular4, ng4, jasmine, karma, protractor, socketio, MEAN, webapp, Web Application'
+      default : 'redux, immutable, node, mongo, express, angular2, ng2, angular4, ng4, jasmine, karma, protractor, socketio, MEAN, webapp, Web Application',
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'list',
       name    : 'protocol',
       message : 'What type of URL protocol would you like to use?',
       choices : ['http', 'https'],
-      when    : res => res.databases.length > 0
+      when    : res => res.databases.length > 0,
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'confirm',
       name    : 'analyticschoice',
-      message : 'Would you like to add Google Analytics?'
+      message : 'Would you like to add Google Analytics?',
+      when    : res => res.welcome === 'new'
     }, {
       type    : 'editor',
       name    : 'analytics',
       message : 'Paste the Google Analytics script (including script tags) then save => exit!',
-      when    : res => res.analyticschoice
+      when    : res => res.welcome === 'new' && res.analyticschoice
     }]).then(function (answers) {
 
-      this.apptype                 = answers.databases.length > 0 ? 'starter-app' : 'dbless-app';
-      this.serverrender            = answers.haveUniversal;
-      this.appname                 = answers.appname;
-      this.appdescription          = answers.appdescription;
-      this.appkeywords             = answers.appkeywords;
-
-      this.analytics               = answers.analytics;
-      this.protocol                = answers.protocol;
-
-      this.dbs = {
-        mongo: false,
-        cassandra: false,
-        postgres: false,
-        mysql: false,
-        mssql: false,
-        sqlite: false,
-        maria: false,
-        ssr: this.serverrender
-      };
-
-      this.databases = answers.databases; // initializing databases to scope
-      // if defaultDb is defined then set the scope variable
-      if (answers.defaultDb) this.defaultDb = findDbFolder(answers.defaultDb, this.dbs);
-      // else only one database was selected, define as that
-      else this.defaultDb = findDbFolder(this.databases[0], this.dbs);
-
-      this.dbs.defaultDb = this.defaultDb;  
-      this.dbs.protocol = this.protocol === 'http' ? false : true;
-      this.dbs.routerImports = [];
-      this.dbs.expressRouters = [];
-      this.dbs.socketImports = [];
-      this.dbs.socketRegisters = [];
-
-      this.dbFolders = [];
-
-      for (let x = 0; x < this.databases.length; x++) {
-        this.dbFolders.push(findDbFolder(this.databases[x], this.dbs));
-      }
-
-      // console.log(this.defaultDb);
-      // console.log(this.dbFolders);
-      // console.log(this.dbs);
-
-	    this.config.set({
-        modules            : [
-          'core',
-          'home',
-          'user-profile',
-          '404',
-          'shared',
-        ],
-        subModules          : {
-          'core': [],
-          'home': [],
-          'user-profile': [],
-          '404': [],
-          'shared': []
-        },
-
-        newStoreImports     : [],
-        newStoreAttrs       : [],
-        newStoreReducers    : [],
-
-        routerImports       : [],
-        expressRouters      : [],
-        socketImports       : [],
-        socketRegisters     : [],
-
-        apptype             : this.apptype,
-        appname             : this.appname,
-        appdescription      : this.appdescription,
-        appkeywords         : this.appkeywords,
-        protocol            : this.protocol === 'https',
-        analytics           : this.analytics ? this.analytics.replace(/(\r\n|\n|\r)/gm, '') : '',
-        defaultDb           : this.defaultDb,
-        dbFolders           : this.dbFolders,
-        databases           : this.databases
-	    });
-	    this.config.save();
+      newApp.afterPrompt(this, answers);
 
     }.bind(this));
   }
 
   // Writes the application to the name of the project
   writing() {
+    this.log(this.destinationRoot());
     if (this.apptype === 'starter-app') {
       for (let x = 0; x < this.dbFolders.length; x++) {
         if (this.dbFolders[x] === this.defaultDb) {
@@ -243,7 +186,7 @@ module.exports = class extends Generator {
   }
 
   // Starts npm install
-  installYarn() {
+  installNpm() {
     let hasSequl = false;
     let addPackages = [];
 
@@ -279,7 +222,7 @@ module.exports = class extends Generator {
       addPackages.push('tedious');
     }
 
-    this.yarnInstall(addPackages);
+    this.npmInstall(addPackages);
   }
 
   end() {
