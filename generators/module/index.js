@@ -42,7 +42,7 @@ module.exports = class extends Generator {
 
      // Clone the template module.ts file
     this.fs.copyTpl(
-      this.templatePath(`template.module.ts`),
+      this.templatePath(`${this.base}/generators/module/templates/template.module.ts`),
       this.destinationPath(`${location}/${this.fname}.module.ts`),
       { 
         fname: this.fname,
@@ -52,7 +52,7 @@ module.exports = class extends Generator {
     );   
      // Clone the template routing.module.ts file
     this.fs.copyTpl(
-      this.templatePath(`template-routing.module.ts`),
+      this.templatePath(`${this.base}/generators/module/templates/template-routing.module.ts`),
       this.destinationPath(`${location}/${this.fname}-routing.module.ts`),
       { 
         fname: this.fname,
