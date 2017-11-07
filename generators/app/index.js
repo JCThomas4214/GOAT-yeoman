@@ -3,7 +3,8 @@ const Generator = require('yeoman-generator'),
   exec = require('child_process').exec,
   glob = require('glob'),
   chalk = require('chalk'),
-  newApp = require('./new-app');
+  newApp = require('./new-app'),
+  opn = require('opn');
 
 module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
@@ -48,8 +49,6 @@ module.exports = class extends Generator {
         { name: 'View Documentation', value: 'viewDocs' },
         { name: 'View Demo App', value: 'demo' },
         { type: 'separator', line: '----------- Get involved -----------------' },
-        { name: 'Star us on Github!', value: 'star' },
-        { name: 'Make a Pull Request', value: 'pull' },
         { name: 'Report a Bug', value: 'bug' },
         { type: 'separator', line: '----------- Created By -------------------' },
         { name: 'Christopher Haugen', value: 'ch' },
@@ -176,10 +175,13 @@ module.exports = class extends Generator {
       ],
       when: res => res.docs.indexOf('3rd') > -1
     }
+    //To Do prompts for user to enter their contact info and job description to text and email.
 
     ]).then(function (answers) {
 
-      if (answers.welcome === 'newApp') {
+      this.isNew = answers.welcome === 'newApp';
+
+      if (this.isNew) {
         newApp.afterPrompt(this, answers);
       } else if (answers.welcome === 'boilerplate') {
 
@@ -218,76 +220,68 @@ module.exports = class extends Generator {
         }
       } else if (answers.welcome === 'viewDocs') {
 
-        const goatyeoman = "https://github.com/JCThomas4214/GOAT-yeoman";
-        const goatstack = "https://github.com/projectSHAI/GOATstack/wiki";
-        for(let i = 0; i <= answers.docs.length; i++) {
+        const goatDocs = {
+          goatyeoman : 'https://github.com/JCThomas4214/GOAT-yeoman',
+          goatstack : 'https://github.com/projectSHAI/GOATstack/wiki'
+        };
+        for(let i = 0; i < answers.docs.length; i++) {
 
           if(answers.docs[i] === '3rd') {
 
-            const ts = "https://www.typescriptlang.org/docs/home.html",
-                  js = "https://developer.mozilla.org/en-US/docs/Web/javascript",
-                  npm = "https://docs.npmjs.com/",
-                  gulp = "https://github.com/gulpjs/gulp/blob/master/docs/API.md",
-                  ng = "https://angular.io/docs/",
-                  redux = "https://redux.js.org/",
-                  rx = "http://reactivex.io/rxjs/",
-                  immutable = "https://facebook.github.io/immutable-js/docs/#/",
-                  socket = "https://socket.io/docs/#",
-                  node = "https://nodejs.org/en/docs/",
-                  express = "http://expressjs.com/",
-                  mongoose = "http://mongoosejs.com/docs/api.html",
-                  sequelize = "http://docs.sequelizejs.com/manual/installation/getting-started.html",
-                  pass = "http://www.passportjs.org/docs",
-                  cassdriver = "https://github.com/datastax/nodejs-driver",
-                  mongo = "https://docs.mongodb.com/",
-                  cass = "http://cassandra.apache.org/doc/latest/",
-                  postgre = "https://www.postgresql.org/docs/",
-                  mysql = "https://dev.mysql.com/doc/",
-                  maria = "https://mariadb.org/learn/",
-                  sqlite = "https://sqlite.org/docs.html",
-                  mssql = "https://docs.microsoft.com/en-us/sql/sql-server/sql-server-technical-documentation",
-                  jasmine = "https://jasmine.github.io/",
-                  karma = "http://karma-runner.github.io/0.13/index.html",
-                  protractor = "http://www.protractortest.org/#/";
+            const thirdPartyDocs = {
+              ts : 'https://www.typescriptlang.org/docs/home.html',
+              js : 'https://developer.mozilla.org/en-US/docs/Web/javascript',
+              npm : 'https://docs.npmjs.com/',
+              gulp : 'https://github.com/gulpjs/gulp/blob/master/docs/API.md',
+              ng : 'https://angular.io/docs/',
+              redux : 'https://redux.js.org/',
+              rx : 'http://reactivex.io/rxjs/',
+              immutable : 'https://facebook.github.io/immutable-js/docs/#/',
+              socket : 'https://socket.io/docs/#',
+              node : 'https://nodejs.org/en/docs/',
+              express : 'http://expressjs.com/',
+              mongoose : 'http://mongoosejs.com/docs/api.html',
+              sequelize : 'http://docs.sequelizejs.com/manual/installation/getting-started.html',
+              pass : 'http://www.passportjs.org/docs',
+              cassdriver : 'https://github.com/datastax/nodejs-driver',
+              mongo : 'https://docs.mongodb.com/',
+              cass : 'http://cassandra.apache.org/doc/latest/',
+              postgre : 'https://www.postgresql.org/docs/',
+              mysql : 'https://dev.mysql.com/doc/',
+              maria : 'https://mariadb.org/learn/',
+              sqlite : 'https://sqlite.org/docs.html',
+              mssql : 'https://docs.microsoft.com/en-us/sql/sql-server/sql-server-technical-documentation',
+              jasmine : 'https://jasmine.github.io/',
+              karma : 'http://karma-runner.github.io/0.13/index.html',
+              protractor : 'http://www.protractortest.org/#/'
+            };
 
-            for(let i = 0; i <= answers.thirdParty.length; i++) {
-              this.log('Navigating to inner' + chalk.blue(answers.thirdParty[i]));
+            for(let i = 0; i < answers.thirdParty.length; i++) {
+              this.log('Navigating to ' + chalk.blue(thirdPartyDocs[answers.thirdParty[i]]));
               this.log(answers.thirdParty);
-              exec('explorer ' + answers.thirdParty[i]);
+              opn(thirdPartyDocs[answers.thirdParty[i]]);
             }
 
           } else {
-            this.log('Navigating to outer' + chalk.blue(answers.docs[i]));
-            this.log(answers.docs);
-            exec('explorer ' + answers.docs[i]);
+            this.log('Navigating to ' + chalk.blue(goatDocs[answers.docs[i]]));
+            
+            opn(goatDocs[answers.docs[i]]);
           }
 
         }
 
       } else if (answers.welcome === 'demo') {
-
-
-      } else if (answers.welcome === 'star') {
-
-
-      } else if (answers.welcome === 'pull') {
-
-
+        opn("http://www.goatstack.com");
       } else if (answers.welcome === 'bug') {
-
-
+        opn("https://github.com/projectSHAI/GOATstack/issues");
       } else if (answers.welcome === 'ch') {
-
-
+        opn("https://github.com/projectSHAI");
       } else if (answers.welcome === 'jt') {
-
-
+        opn("https://github.com/JCThomas4214");
       } else if (answers.welcome === 'viewD') {
 
-
       } else if (answers.welcome === 'hire') {
-
-
+        //To Do prompts for user to enter their contact info and job description to text and email.
       }
 
     }.bind(this));
@@ -295,15 +289,15 @@ module.exports = class extends Generator {
 
   // Where you write the generator specific files (routes, controllers, etc)
   writing() {
-    if (this.appname) {
-      // newApp.writing(this, glob);
+    if (this.isNew) {
+      newApp.writing(this, glob);
     }
   }
 
   // Where installations are run (npm, bower)
   install() {
-    if (this.appname) {
-      // newApp.installNpm(this);
+    if (this.isNew) {
+      newApp.installNpm(this);
     }
   }
 

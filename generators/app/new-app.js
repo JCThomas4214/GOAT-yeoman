@@ -27,6 +27,7 @@ function findDbFolder(database, dbs) {
 module.exports = {
   
   afterPrompt(generator, answers) {
+    
     generator.apptype = answers.databases.length > 0 ? 'starter-app' : 'dbless-app';
     generator.serverrender = answers.haveUniversal;
     generator.appname = answers.appname;
