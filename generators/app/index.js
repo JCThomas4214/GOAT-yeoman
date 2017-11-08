@@ -52,9 +52,10 @@ module.exports = class extends Generator {
         { name: 'Report a Bug', value: 'bug' },
         { type: 'separator', line: '----------- Created By -------------------' },
         { name: 'Christopher Haugen', value: 'ch' },
-        { name: 'Jason Thomas', value: 'jt' },
-        { type: 'separator', line: '----------- Custom optimizations, tailored for your use-case! ------------' },
-        { name: 'It\'s dangerous to go alone! Hire us', value: 'hire' }
+        { name: 'Jason Thomas', value: 'jt' }
+        //TODO add a form for people to request our consult
+        // { type: 'separator', line: '----------- Custom optimizations, tailored for your use-case! ------------' },
+        // { name: 'It\'s dangerous to go alone! Hire us', value: 'hire' }
       ]
     },
     // newApp prompts
@@ -173,18 +174,32 @@ module.exports = class extends Generator {
         {name: 'Karma', value: 'karma'},
         {name: 'Protractor', value: 'protractor'}
       ],
-      when: res => res.docs.indexOf('3rd') > -1
+      when: res => {
+        if(res.docs === undefined)
+          return false;
+        else
+          return res.docs.indexOf('3rd') > -1;
+      }
+    },
+
+    // Sub Generator list
+    {
+      type: 'list',
+      name: 'subgens',
+      message: 'Select the template you would like to generate',
+      choices: ['module', 'submodule', 'component', 'service', 'directive', 'pipe', 'actions', 'storeitem', 'endpoint', 'help!'],
+      when: res => res.welcome === 'boilerplate'
     }
     //To Do prompts for user to enter their contact info and job description to text and email.
 
     ]).then(function (answers) {
 
+      //identify whether the user selected to generate a new app or not
       this.isNew = answers.welcome === 'newApp';
 
       if (this.isNew) {
         newApp.afterPrompt(this, answers);
       } else if (answers.welcome === 'boilerplate') {
-
         switch (answers.subgens) {
           case 'module':
 
@@ -215,7 +230,7 @@ module.exports = class extends Generator {
             return this.composeWith(require.resolve('../endpoint'));
           case 'help!':
 
-            return this.log('help selected');
+            return opn('https://github.com/JCThomas4214/GOAT-yeoman');
 
         }
       } else if (answers.welcome === 'viewDocs') {
@@ -258,13 +273,11 @@ module.exports = class extends Generator {
 
             for(let i = 0; i < answers.thirdParty.length; i++) {
               this.log('Navigating to ' + chalk.blue(thirdPartyDocs[answers.thirdParty[i]]));
-              this.log(answers.thirdParty);
               opn(thirdPartyDocs[answers.thirdParty[i]]);
             }
 
           } else {
             this.log('Navigating to ' + chalk.blue(goatDocs[answers.docs[i]]));
-            
             opn(goatDocs[answers.docs[i]]);
           }
 

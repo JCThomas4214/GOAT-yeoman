@@ -110,7 +110,6 @@ module.exports = {
   },
 
   writing(generator, glob) {
-    generator.log(generator.destinationRoot());
     if (generator.apptype === 'starter-app') {
       for (let x = 0; x < generator.dbFolders.length; x++) {
         if (generator.dbFolders[x] === generator.defaultDb) {
