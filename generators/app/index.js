@@ -56,7 +56,8 @@ module.exports = class extends Generator {
         //TODO add a form for people to request our consult
         // { type: 'separator', line: '----------- Custom optimizations, tailored for your use-case! ------------' },
         // { name: 'It\'s dangerous to go alone! Hire us', value: 'hire' }
-      ]
+      ],
+      when: res => this.options.appname === 'GOATstack'
     },
     // newApp prompts
     {
@@ -64,58 +65,58 @@ module.exports = class extends Generator {
       name: 'databases',
       message: 'Select what databases you would like to use.' + chalk.yellow.bold('\n\n  **If no databases are selected the generated stack will be a dbless solution**\n'),
       choices: ['MongoDB', 'Apache Cassandra', 'PostgreSQL', 'MySQL', 'MariaDB', 'SQLite', 'MSSQL'],
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'confirm',
       name: 'haveFirebase',
       message: 'Would you like to use FireBase on your Client-Side?',
-      when: res => res.welcome === 'newApp' && res.databases.length === 0
+      when: res => res.databases.length === 0
     }, {
       type: 'list',
       name: 'defaultDb',
       message: 'What will be your default database?',
       choices: res => res.databases,
-      when: res => res.welcome === 'newApp' && res.databases.length > 1
+      when: res => res.databases.length > 1
     }, {
       type: 'confirm',
       name: 'haveUniversal',
       message: 'Would you like to use Angular Universal for server side rendering?',
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'input',
       name: 'appname',
       message: 'Your new project\'s name?',
       default: this.options.appname,
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'input',
       name: 'appdescription',
       message: 'Your new project\'s description?',
       default: 'The Greatest of All Time Stack!',
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'input',
       name: 'appkeywords',
       message: 'Your new project\'s keywords (comma between each word)?',
       default: 'redux, immutable, node, mongo, express, angular2, ng2, angular4, ng4, jasmine, karma, protractor, socketio, MEAN, webapp, Web Application',
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'list',
       name: 'protocol',
       message: 'What type of URL protocol would you like to use?',
       choices: ['http', 'https'],
       when: res => res.databases.length > 0,
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'confirm',
       name: 'analyticschoice',
       message: 'Would you like to add Google Analytics?',
-      when: res => res.welcome === 'newApp'
+      when: res => res.welcome === 'newApp' || this.options.appname !== 'GOATstack'
     }, {
       type: 'editor',
       name: 'analytics',
       message: 'Paste the Google Analytics script (including script tags) then save => exit!',
-      when: res => res.welcome === 'newApp' && res.analyticschoice
+      when: res => res.analyticschoice
     },
 
     //View Documentation prompts
@@ -195,7 +196,7 @@ module.exports = class extends Generator {
     ]).then(function (answers) {
 
       //identify whether the user selected to generate a new app or not
-      this.isNew = answers.welcome === 'newApp';
+      this.isNew = answers.welcome === 'newApp' || this.options.appname !== 'GOATstack';
 
       if (this.isNew) {
         newApp.afterPrompt(this, answers);

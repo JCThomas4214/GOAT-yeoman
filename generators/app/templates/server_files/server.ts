@@ -69,46 +69,46 @@ connect().subscribe(
 
         if (process.env.NODE_ENV !== 'test') {
               console.log(
-                chalk.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }\n`));<% if (mongo) { %>
+                chalk.default.bold.cyan(`\n\tEnvironment:\t\t\t ${ process.env.NODE_ENV || 'production' }\n`));<% if (mongo) { %>
 
               console.log(
-                chalk.bold.cyan(`\tMongoDB:`) +
-                chalk.bold.gray(`\n\t - URI:\t\t\t\t ${ config.mongo.uri }\n`));<% } %><% if (cassandra) { %>
+                chalk.default.bold.cyan(`\tMongoDB:`) +
+                chalk.default.bold.gray(`\n\t - URI:\t\t\t\t ${ config.mongo.uri }\n`));<% } %><% if (cassandra) { %>
 
               console.log(
-                chalk.bold.cyan(`\tCassandra:`) +
-                chalk.bold.gray(`\n\t - ContactPoints:\t\t ${ config.cassandra.contactPoints.join(', ') }`) +
-                chalk.bold.gray(`\n\t - Port:\t\t\t ${ config.cassandra.protocolOptions.port }`) +
-                chalk.bold.gray(`\n\t - Consistency:\t\t\t ${ config.cassandra.queryOptions.consistency }\n`));<% } %><% if (postgres) { %>
+                chalk.default.bold.cyan(`\tCassandra:`) +
+                chalk.default.bold.gray(`\n\t - ContactPoints:\t\t ${ config.cassandra.contactPoints.join(', ') }`) +
+                chalk.default.bold.gray(`\n\t - Port:\t\t\t ${ config.cassandra.protocolOptions.port }`) +
+                chalk.default.bold.gray(`\n\t - Consistency:\t\t\t ${ config.cassandra.queryOptions.consistency }\n`));<% } %><% if (postgres) { %>
 
               console.log(
-                chalk.bold.cyan(`\tPostgres:`) +
-                chalk.bold.cyan(`\n\t - URI:\t\t\t\t postgres://${config.postgres.username}:${config.postgres.password}@localhost:5432/${config.postgres.database}\n`));<% } %><% if (mysql) { %>
+                chalk.default.bold.cyan(`\tPostgres:`) +
+                chalk.default.bold.cyan(`\n\t - URI:\t\t\t\t postgres://${config.postgres.username}:${config.postgres.password}@localhost:5432/${config.postgres.database}\n`));<% } %><% if (mysql) { %>
               
               console.log(
-                chalk.bold.cyan(`\tMySQL:`) +
-                chalk.bold.cyan(`\n\t - URI:\t\t\t\t mysql://${config.mysql.username}:${config.mysql.password}@localhost:5432/${config.mysql.database}\n`));<% } %><% if (mssql) { %>
+                chalk.default.bold.cyan(`\tMySQL:`) +
+                chalk.default.bold.cyan(`\n\t - URI:\t\t\t\t mysql://${config.mysql.username}:${config.mysql.password}@localhost:5432/${config.mysql.database}\n`));<% } %><% if (mssql) { %>
               
               console.log(
-                chalk.bold.cyan(`\tMSSQL:`) +
-                chalk.bold.cyan(`\n\t - URI:\t\t\t\t mssql://${config.mssql.username}:${config.mssql.password}@localhost:5432/${config.mssql.database}\n`));<% } %><% if (sqlite) { %>
+                chalk.default.bold.cyan(`\tMSSQL:`) +
+                chalk.default.bold.cyan(`\n\t - URI:\t\t\t\t mssql://${config.mssql.username}:${config.mssql.password}@localhost:5432/${config.mssql.database}\n`));<% } %><% if (sqlite) { %>
               
               console.log(
-                chalk.bold.cyan(`\tSQLite:`) +
-                chalk.bold.cyan(`\n\t - URI:\t\t\t\t sqlite://${config.sqlite.username}:${config.sqlite.password}@localhost:5432/${config.sqlite.database}\n`));<% } %><% if (maria) { %>
+                chalk.default.bold.cyan(`\tSQLite:`) +
+                chalk.default.bold.cyan(`\n\t - URI:\t\t\t\t sqlite://${config.sqlite.username}:${config.sqlite.password}@localhost:5432/${config.sqlite.database}\n`));<% } %><% if (maria) { %>
               
               console.log(
-                chalk.bold.cyan(`\tMaria:`) +
-                chalk.bold.cyan(`\n\t - URI:\t\t\t\t maria://${config.maria.username}:${config.maria.password}@localhost:5432/${config.maria.database}\n`));<% } %>
+                chalk.default.bold.cyan(`\tMaria:`) +
+                chalk.default.bold.cyan(`\n\t - URI:\t\t\t\t maria://${config.maria.username}:${config.maria.password}@localhost:5432/${config.maria.database}\n`));<% } %>
 
               if (!process.env.NODE_ENV)
                 console.log(
-                  chalk.bold.magenta(`\t${isSecure ? 'HTTPS': 'HTTP'} Server`) +
-                  chalk.bold.gray(`\n\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:${ port }\n`));
+                  chalk.default.bold.magenta(`\t${isSecure ? 'HTTPS': 'HTTP'} Server`) +
+                  chalk.default.bold.gray(`\n\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:${ port }\n`));
               else
                 console.log(
-                  chalk.bold.magenta(`\tWebPack DevServer:`) +
-                  chalk.bold.gray(`\n\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:1701\n`));
+                  chalk.default.bold.magenta(`\tWebPack DevServer:`) +
+                  chalk.default.bold.gray(`\n\tServer Address:\t\t\t ${isSecure ? 'https': 'http'}://localhost:1701\n`));
             }
       });
   });
