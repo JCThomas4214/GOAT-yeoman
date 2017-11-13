@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgRedux } from '@angular-redux/store';
 import { MockNgRedux } from '@angular-redux/store/testing';
 import { UserActions } from './user.actions';
-import { UserService } from '../../../modules/core/services/user/user.service';
+import { AuthService } from '../../../modules/core/services/auth/auth.service';
 import { ErrorHandlerActions } from '../error/errorHandler.actions';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
@@ -25,12 +25,12 @@ const error = {
   message: 'this is a test error message'
 };
 
-class MockUserService extends UserService {
+class MockAuthService extends AuthService {
   constructor() {
     super(null);
   }
 
-  getMe(): Observable<any> {
+  autoLogin(): Observable<any> {
     return Observable.of(testUser);
   }
   login(email: string, password: string): Observable<any> {
@@ -44,20 +44,20 @@ class MockUserService extends UserService {
 
 describe('User Actions Creator', () => {
   let actions: UserActions;
-  let userService: UserService;
+  let authService: AuthService;
   let errorActions: ErrorHandlerActions;
   let mockRedux: NgRedux<any>;
 
   beforeEach(() => {
     Cookie.delete('token');
 
-    userService = new MockUserService();
+    authService = new MockAuthService();
     mockRedux = MockNgRedux.getInstance();
     errorActions = new ErrorHandlerActions(mockRedux);
-    actions = new UserActions(mockRedux, errorActions, userService);
+    actions = new UserActions(mockRedux, errorActions, authService);
   });
 
-  it('should dispatch LOGIN_USER action when getMe() called', () => {
+  it('should dispatch LOGIN_USER action when autoLogin() called', () => {
     Cookie.set('token', 'testCookie');
 
     const expectedActionPre = {

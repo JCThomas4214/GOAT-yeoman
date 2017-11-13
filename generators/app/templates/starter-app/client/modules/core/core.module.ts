@@ -1,9 +1,14 @@
 import { NgModule }                              from '@angular/core';
-import { HttpModule }                            from '@angular/http';
 import { SharedModule }                          from '../shared/shared.module';
 import { CoreRoutingModule }                     from './core-routing.module';
 
-import { Http, XHRBackend, RequestOptions }      from '@angular/http';
+import { HomeModule }                            from '../home/home.module';
+import { UserProfileModule }                     from '../user-profile/user-profile.module';
+import { Four0FourModule }                       from '../404/404.module';
+
+import { HttpClientModule, HttpClient, HttpInterceptor, HTTP_INTERCEPTORS }           from '@angular/common/http';
+
+import { XHRBackend, RequestOptions }            from '@angular/http';
 
 import { CoreComponent }		                     from './core.component';
 import { HeaderComponent }                       from './components/header/header.component';
@@ -15,33 +20,35 @@ import { UserActions }                           from '../../redux/actions/user/
 import { SEOActions }                            from '../../redux/actions/seo/seo.actions';
 
 import { SocketService }                         from './services/socketio/socketio.service';
-import { HttpIntercept }                         from './services/auth/auth.service';
-import { UserService }                           from './services/user/user.service';
+import { TokenInterceptor }                      from './services/auth/token-interceptor.service';
+import { AuthService }                           from './services/auth/auth.service';
 
 //Angular and 3rd party serices
 import { Cookie }                                from 'ng2-cookies/ng2-cookies';
 
-export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions) {
-  return new HttpIntercept(backend, defaultOptions);
-}
-
 @NgModule({
-  imports:      [ SharedModule, CoreRoutingModule ],
+  imports:      [ 
+		SharedModule, 
+		CoreRoutingModule,
+		HomeModule,
+    UserProfileModule,
+    Four0FourModule, ],
   declarations: [ CoreComponent, HeaderComponent, FooterComponent ],
-  exports:      [ CoreRoutingModule, HttpModule, CoreComponent, HeaderComponent, FooterComponent ],
+  exports:      [ CoreRoutingModule, HttpClientModule, CoreComponent, HeaderComponent, FooterComponent ],
   providers: 	[
   	{
-  	  provide: Http,
-  	  useFactory: httpFactory,
-  	  deps: [XHRBackend, RequestOptions]
-  	},
+  	  provide: HTTP_INTERCEPTORS,
+  	  useClass: TokenInterceptor,
+  	  multi: true
+		},
+		HttpClient,
   	ErrorHandlerActions,
   	UserActions,
   	UserFormActions,
   	SEOActions,
 
     SocketService,
-    UserService,
+    AuthService,
 
   	Cookie
   ]

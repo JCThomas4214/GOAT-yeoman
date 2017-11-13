@@ -1,67 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Http, Request, RequestOptionsArgs, Response, XHRBackend, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
-// import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import * as _ from 'lodash';
 
-// Extending the Http class so connect a OAuth token if present in the cookies
-// When the request is recieved on the server authenticated endpoints will 
-// have varification that give them the ability to execute
+import 'rxjs/Rx';
+
+//instead of HttpResponse<any> create custom response interface for extractToken
+interface tokenExtraction extends HttpResponse<any> {
+  token: string,
+  user: {
+    created: string,
+    email: string,
+    provider: string,
+    role: string,
+    username: string
+  }
+}
+
 @Injectable()
-export class HttpIntercept extends Http {
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
-        super(backend, defaultOptions);
-    }
+export class AuthService {
+  constructor(private http: HttpClient) { }
 
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, this.getRequestOptionArgs(false, options));
-    }
+  // Private variables that only this service can use
+  private authUrl = 'auth/local';
+  private userUrl = 'api/users';
 
-    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return super.get(url, this.getRequestOptionArgs(false, options));
-    }
+  private extractToken(res: tokenExtraction) {
+    Cookie.set('token', res.token);
+    return res.user;
+  }
 
-    post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-        return super.post(url, body, this.getRequestOptionArgs(true, options));
-    }
+  // This is called when there is a cookie OAuth token
+  // present in the browser so the user will automatically
+  // sign in
+  autoLogin(): Observable<any> {
+    return this.http.get(this.userUrl + '/me');
+  }
 
-    put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-        return super.put(url, body, this.getRequestOptionArgs(true, options));
-    }
+  login(email: string, password: string): Observable<any> {
+    let body = {
+      email: email,
+      password: password
+    };
 
-    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return super.delete(url, this.getRequestOptionArgs(false, options));
-    }
+    return this.http.post(this.authUrl, body)
+      .map(this.extractToken);
+  }
 
-    // appends the Bearer token to the header
-    getRequestOptionArgs(sendJSON: boolean, options?: RequestOptionsArgs): RequestOptionsArgs {
-        let token = Cookie.get('token');
-
-        if (options == null) {
-            options = new RequestOptions();
-        }
-        if (options.headers == null) {
-            options.headers = new Headers();
-        }
-
-        if (sendJSON)
-          options.headers.append('Content-Type', 'application/json');
-        if (token)
-          options.headers.append('Authorization', 'Bearer ' + token);
-
-        return options;
-    }
-
-    // intercept(observable: Observable<Response>): Observable<Response> {
-    //     return observable.catch((err, source) => {
-    //         if (err.status == 401 && !_.endsWith(err.url, 'api/auth/login')) {
-    //             this._router.navigate(['/login']);
-    //             return Observable.empty();
-    //         } else {
-    //             return Observable.throw(err);
-    //         }
-    //     });    //
-    // }
-
+  signup(username: string, email: string, password: string): Observable<any> {
+    let body = {
+      username: username,
+      email: email,
+      password: password
+    };
+    return this.http.post(this.userUrl, body)
+      .map(this.extractToken);
+  }
 }

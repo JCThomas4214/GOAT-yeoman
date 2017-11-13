@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -14,41 +14,30 @@ export class <%= servicename %>Service {
 
   /*
     Steps after creation
-    - complete the conditional body.errors error response from the server
+    - remember to do error handling inside of the subscription
     - connect the service to the appropriate actions for redux
   */
 
 	// Private variables that only this service can use
-	private <%= namelower %>Url = 'api/<%= namelower %>s';
+  private <%= namelower %>Url = 'api/<%= namelower %>s';
+  
+  // Public variables to share
+  public results: string[];
 
-	constructor(private http: Http) {}
+  // Inject HttpClient into the service.
+	constructor(private http: HttpClient) {}
 
-	private handleError(error: any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
-    const body = JSON.parse(error._body);
-    let errMsg;
-
-    if (body.errors) {
-      // Parse out the model error message from backend	
-      // e.g. errMsg = body.errors.userName ? body.errors.userName : body.errors.email;
-    } else {
-      errMsg = body ? body :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    }
-
-    return Observable.throw({
-      status: error.status,
-      statusText: error.statusText,
-      url: error.url,
-      message: errMsg.message
-    });
-  }
-
-  // example funciton
+  // example get query, import <%= servicename %>Service into another file and then subscribe to it as follows:
+  // get<%= servicename %>().subscribe(
+  //    data => {
+  //      // Read the result field from the JSON response.
+  //      this.results = data['results'];
+  //    },
+  //    (err: HandleErrorResponse) => {log however you see fit to handle your errors}
+  //  );
   get<%= servicename %>(): Observable<any> {
-    return this.http.get(this.<%= namelower %>Url + '/')
-      .map(res => res.json())
-      .catch(this.handleError);
+    return this.http.get(this.<%= namelower %>Url + '/');
+      // use dot chains to alter the observable however you wish
+      // before subscribing to it in either a component, action, or elsewhere
   }
 }

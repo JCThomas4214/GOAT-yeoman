@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { FormGroup, NgForm } from '@angular/forms';
+import {Injectable} from '@angular/core';
+import {FormGroup, NgForm} from '@angular/forms';
+import {HttpErrorResponse} from '@angular/common/http';
 
-import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../../store/index';
+import {NgRedux} from '@angular-redux/store';
+import {IAppState} from '../../store/index';
 
-import { UserService } from '../../../modules/core/services/user/user.service';
-import { ErrorHandlerActions } from '../error/errorHandler.actions';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
+import {AuthService} from '../../../modules/core/services/auth/auth.service';
+import {ErrorHandlerActions} from '../error/errorHandler.actions';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 
 //////////////////////////////////////////////////////////////////////
 /* User Actions: used to call dispatches to change the user object 
@@ -22,7 +23,7 @@ export class UserActions {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private errorHandler: ErrorHandlerActions,
-    private userService: UserService) { }
+    private authService: AuthService) { }
 
   static FETCH_USER: string = 'FETCH_USER';
   static INVALIDATE_USER: string = 'INVALIDATE_USER';
@@ -47,34 +48,43 @@ export class UserActions {
       // First change the state to fetching
       this.fetchUser();
       // subscribe to the service and wait for a response
-      this.userService.getMe().subscribe(user => {
+      this.authService.autoLogin().subscribe(user => {
         // once a response comes change the state to reflect user info
         this.ngRedux.dispatch({
           type: UserActions.LOGIN_USER,
           payload: user
         });
-      }, err => this.invalidateUser(err));
+      }, (err: HttpErrorResponse) => this.invalidateUser(err));
     }
   }
 
   // Setting lf to type FormGroup causes issues
   login(lf: any): void {
+    console.log('lf', lf.value.login_email.type);
     // only if the login form is filled
     if (lf.valid) {
       // First change the state to fetching
       this.fetchUser();
       // subscribe to the service and wait for a response
-      this.userService.login(lf.value.login_email, lf.value.login_password)
+      this.authService.login(lf.value.login_email, lf.value.login_password)
         .subscribe(user => {
           // once a response comes change the state to reflect user info
           this.ngRedux.dispatch({
             type: UserActions.LOGIN_USER,
             payload: user
           });
-        }, err => {
+        }, (err: HttpErrorResponse) => {
           this.invalidateUser(err);
-          this.errorHandler.showError(err.message);
+          this.errorHandler.showError(err.error.message);
         });
+    } else if(!lf.value.login_email || !lf.value.login_password) {
+      if(!lf.value.login_email && !lf.value.login_password) {
+        this.errorHandler.showError("Please enter an Email address and password.");
+      } else if(!lf.value.login_email) {
+        this.errorHandler.showError("Please enter an Email address.");
+      } else if(!lf.value.login_password) {
+        this.errorHandler.showError("Please enter a password.");
+      }
     }
   }
 
@@ -92,21 +102,21 @@ export class UserActions {
       // First change the state to fetching
       this.fetchUser();
       // subscribe to the service and wait for a response
-      this.userService.signup(rf.value.signup_username, rf.value.signup_email, rf.value.signup_password)
+      this.authService.signup(rf.value.signup_username, rf.value.signup_email, rf.value.signup_password)
         .subscribe(user => {
           // once a response comes change the state to reflect user info
           this.ngRedux.dispatch({
             type: UserActions.REGISTER_USER,
             payload: user
           });
-        }, err => { 
+        }, (err: HttpErrorResponse) => { 
           this.invalidateUser(err);
-          this.errorHandler.showError(err.message);
+          this.errorHandler.showError(err.error.message);
         });
     }
     else if (rf.value.signup_password !== rf.value.signup_re_password)
       // if the passwords are not the same, simply display the message 
-      this.errorHandler.showError('Inputted passwords are not the same!');
+      this.errorHandler.showError('Passwords do not match!');
   }
 
 }
