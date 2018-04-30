@@ -1,0 +1,25 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'link' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 verbose linkPkg /home/jthomas/src/GOAT-yeoman
+5 silly gentlyRm /usr/local/lib/node_modules/generator-goatstack is being purged
+6 verbose gentlyRm don't care about contents; nuking /usr/local/lib/node_modules/generator-goatstack
+7 verbose stack Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules'
+8 verbose cwd /home/jthomas/src/GOAT-yeoman
+9 error Linux 4.15.0-20-generic
+10 error argv "/usr/bin/node" "/usr/bin/npm" "link"
+11 error node v8.10.0
+12 error npm  v3.5.2
+13 error path /usr/local/lib/node_modules
+14 error code EACCES
+15 error errno -13
+16 error syscall mkdir
+17 error Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules'
+17 error  { Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules'
+17 error   errno: -13,
+17 error   code: 'EACCES',
+17 error   syscall: 'mkdir',
+17 error   path: '/usr/local/lib/node_modules' }
+18 error Please try running this command again as root/Administrator.
+19 verbose exit [ -13, true ]

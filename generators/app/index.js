@@ -248,34 +248,34 @@ module.exports = class extends Generator {
     let addPackages = [];
 
     if (this.dbs.mongo) {
-      addPackages.push('@types/mongoose');
-      addPackages.push('@types/mongodb');
-      addPackages.push('mongoose');
-      addPackages.push('mongodb');
-      addPackages.push('connect-mongo');
+      addPackages.push('@types/mongoose@^4.7.24');
+      addPackages.push('@types/mongodb@^2.2.15');
+      addPackages.push('mongoose@^4.12.5');
+      addPackages.push('mongodb@^2.2.33');
+      addPackages.push('connect-mongo@^2.0.0');
     }
     if (this.dbs.cassandra) {
-      addPackages.push('cassandra-driver');
+      addPackages.push('cassandra-driver@^3.3.0');
     }
     if (this.dbs.postgres) {
       addPackages.push('@types/sequelize');
-      addPackages.push('sequelize');
-      addPackages.push('pg');
+      addPackages.push('sequelize@4.20.1');
+      addPackages.push('pg@^7.3.0');
       addPackages.push('pg-hstore');
     }
     if (this.dbs.mysql || this.dbs.maria) {
-      addPackages.push('@types/sequelize');
-      addPackages.push('sequelize');
+      addPackages.push('@types/sequelize@^4.0.78');
+      addPackages.push('sequelize@4.20.1');
       addPackages.push('mysql');
     }
     if (this.dbs.sqlite) {
-      addPackages.push('@types/sequelize');
-      addPackages.push('sequelize');
+      addPackages.push('@types/sequelize@^4.0.78');
+      addPackages.push('sequelize@4.20.1');
       addPackages.push('sqlite3');
     }
     if (this.dbs.mssql) {
-      addPackages.push('@types/sequelize');
-      addPackages.push('sequelize');
+      addPackages.push('@types/sequelize@^4.0.78');
+      addPackages.push('sequelize@4.20.1');
       addPackages.push('tedious');
     }
 
