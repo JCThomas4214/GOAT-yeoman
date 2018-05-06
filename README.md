@@ -27,7 +27,7 @@ Cheers!
 # Quick-Start
 
 ```sh
-$ yarn global add yo generator-goatstack
+$ npm i -g yo generator-goatstack
 $ mkdir [dirName] $$ cd [dirName]
 $ yo goatstack [name?]
 ```

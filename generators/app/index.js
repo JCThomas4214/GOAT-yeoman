@@ -40,7 +40,7 @@ module.exports = class extends Generator {
   }
   
   prompting() {
-    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected the generated stack will be a dbless solution**\n\n'))
+    console.log(chalk.yellow.bold('\n\n\t**If no databases are selected the generated stack will be a dbless solution -- UPDATED**\n\n'))
 
     return this.prompt([{
       type    : 'checkbox',
@@ -243,9 +243,11 @@ module.exports = class extends Generator {
   }
 
   // Starts npm install
-  installYarn() {
+  install() {
     let hasSequl = false;
     let addPackages = [];
+
+    this.npmInstall()
 
     if (this.dbs.mongo) {
       addPackages.push('@types/mongoose@^4.7.24');
@@ -279,7 +281,7 @@ module.exports = class extends Generator {
       addPackages.push('tedious');
     }
 
-    this.yarnInstall(addPackages);
+    this.npmInstall(addPackages);
   }
 
   end() {
